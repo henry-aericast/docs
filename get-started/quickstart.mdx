@@ -5,61 +5,111 @@ description: "Build and publish your first web app in minutes with AI"
 
 ## What is OptiDev?
 
-OptiDev is an AI-powered platform that turns your ideas into fully functional web applications. Whether you're building a business dashboard, a retro arcade game, or redesigning your website — just describe what you want, and watch it come to life.
+OptiDev is an AI-powered platform that turns your ideas into fully functional web applications. Describe what you want, and watch it come to life.
 
 **No coding experience? No problem.** If you can describe it, you can build it.
 
 ---
 
-## Build Your First App
+## Step 1: Start with a Plan
 
-<Steps>
-  <Step title="Create a New Project">
-    From your dashboard, click **Create New App**.
+Go to [app.optidev.ai/dashboard](https://app.optidev.ai/dashboard) and click **Create New App**.
 
-    Tell our AI what you want to create. Be as specific as you like:
-    - "A dashboard showing Stripe subscriptions and new trial signups"
-    - "A kiosk showcasing this week's featured car for my dealership"
-    - "An 8-bit arcade game like Galaga"
-    - "Redesign my website www.mysite.com to be modern while keeping my brand content"
+Give OptiDev Agent context about who you are and what you're building:
 
-    Our AI will ask smart follow-up questions to nail down exactly what you need.
+<Tabs>
+  <Tab title="Kiosk Example">
+    > *"I'm a Marketing Coordinator for a Harley Davidson dealer in Texas. I need to create a kiosk page for our touchscreen display on the showroom floor. We're highlighting the Pan America 1250 ST model this month."*
+  </Tab>
+  <Tab title="Dashboard Example">
+    > *"I'm a Growth Analyst for a SaaS company. I need to build a Stripe Dashboard showing recent subscriptions and new trial signups."*
+  </Tab>
+</Tabs>
 
-    <Frame>
-      <img src="/images/quickstart-builder.png" alt="Builder chat interface" />
-    </Frame>
-  </Step>
+The more context you provide, the better your app will be.
 
-  <Step title="Build with the Power Editor">
-    Your project opens in the **Power Editor** — and you're in control. Choose how you want to build:
+---
 
-    | Mode | Best For |
-    |------|----------|
-    | **Agent** | Chat with Claude AI to write code for you |
-    | **Visual** | Point-and-click editing for design changes |
-    | **Code** | Write React/TypeScript directly |
+## Step 2: Attach Context
 
-    See your changes instantly with live preview as you build.
+You can attach files and links to help OptiDev Agent understand exactly what you want:
 
-    <Frame>
-      <img src="/images/quickstart-editor.png" alt="Power Editor interface" />
-    </Frame>
+| Attachment Type | How to Use |
+|-----------------|------------|
+| **Screenshots** | Paste images of websites, apps, or designs as reference |
+| **Documents** | Attach PDFs or docs with product info, brand guidelines, etc. |
+| **URLs** | Paste website links and ask the agent to use them as reference |
+| **Images** | Attach photos to include in your app, or ask the agent to generate them |
 
-    <Tip>
-      New to coding? Start with the **Agent** tab. Just describe what you want, and Claude handles the rest.
-    </Tip>
-  </Step>
+### Example with Attachments
 
-  <Step title="Publish Your App">
-    Ready to go live? Click **Publish** in the top right.
+> *"I want the kiosk to have an attract screen that slides through these 3 images. [attach images]*
+>
+> *Read this URL https://www.harley-davidson.com/us/en/motorcycles/pan-america-1250-st.html for product info and write a short description for each slide.*
+>
+> *When someone taps the screen, show a page explaining how to order with this month's special discount."*
 
-    That's it — you're live! Your app builds and deploys in seconds. Share your new public URL with the world.
+Describe your app like you're telling a friend to build it for you.
 
-    <Frame>
-      <img src="/images/quickstart-publish.png" alt="Publish button and URL" />
-    </Frame>
-  </Step>
-</Steps>
+---
+
+## Step 3: Review and Build
+
+OptiDev Agent creates a plan before building. This saves time by catching issues early.
+
+### Review the Plan
+
+- Read through what the agent proposes to build
+- Ask for changes if something isn't right
+- Approve when you're happy with the direction
+
+### First Build
+
+Click **Approve** and the agent starts building. First builds typically take **5-15 minutes** depending on complexity.
+
+You'll see live progress as the agent writes code, creates components, and sets up your app.
+
+<Note>
+Grab a coffee while your app is being built. The agent will let you know when it's ready for review.
+</Note>
+
+---
+
+## Step 4: Refine Your App
+
+Once the first build is complete, refine it until it's exactly what you want.
+
+### Give Feedback
+
+- **Take a screenshot** of what you see and paste it into the chat
+- Point out specific things: *"Make the header text larger"* or *"Change the CTA button to red"*
+- Reference components by name: *"Update the hero section..."*
+
+### Use the Visual Editor
+
+For quick design tweaks, switch to the **Visual** tab:
+
+- Click any element to select it
+- Edit text directly on the page
+- Change colors, fonts, and spacing without code
+
+<Tip>
+The Visual Editor is perfect for small changes. For bigger features, describe them to the Agent.
+</Tip>
+
+---
+
+## Step 5: Publish and Share
+
+When you're happy with your app, click **Publish** in the top right corner.
+
+Your app builds and deploys in seconds. You'll get a public URL to share immediately.
+
+### Connect Your Own Domain
+
+Want to use your own domain like `app.yourcompany.com`?
+
+See [Custom Domain](/features/custom-domain) for setup instructions.
 
 ---
 
@@ -75,7 +125,7 @@ OptiDev is an AI-powered platform that turns your ideas into fully functional we
   <Card title="Visual Editor" icon="paintbrush" href="/features/visual-editor">
     Master the point-and-click visual editing tools.
   </Card>
-  <Card title="Connect Data" icon="database" href="/optidev-cloud/database">
-    Connect your app to databases and external services.
+  <Card title="Connect Data" icon="database" href="/optidev-cloud/how-to-use">
+    Add a database, user auth, and APIs to your app.
   </Card>
 </CardGroup>
