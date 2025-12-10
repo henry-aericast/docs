@@ -1,0 +1,145 @@
+---
+title: "Custom Domain"
+description: "Use your own domain for your published app"
+---
+
+## Why Use a Custom Domain?
+
+By default, your app is available at `yourproject.dev.optidev.com`. A custom domain lets you use your own address, like:
+
+- `app.yourcompany.com`
+- `dashboard.mybusiness.com`
+- `tools.myteam.io`
+
+Custom domains look more professional and are easier for your users to remember.
+
+## Connecting Your Domain
+
+### What You'll Need
+
+- A domain you own (purchased from GoDaddy, Namecheap, Google Domains, etc.)
+- Access to your domain's DNS settings
+
+### Step-by-Step Setup
+
+1. **Open Domain Settings**
+   - Go to your project in OptiDev
+   - Click **Settings** → **Domain**
+   - Click **Add Custom Domain**
+
+2. **Enter Your Domain**
+   - Type your domain (e.g., `app.yourcompany.com`)
+   - Click **Continue**
+
+3. **Add DNS Record**
+   - OptiDev shows you a DNS record to add
+   - Go to your domain provider's website
+   - Find DNS settings (sometimes called "DNS Management" or "Name Servers")
+   - Add the record OptiDev gives you
+
+4. **Verify**
+   - Return to OptiDev
+   - Click **Verify Domain**
+   - Wait a few minutes for DNS to update (can take up to 24 hours, but usually faster)
+
+5. **Done!**
+   - Once verified, your domain is connected
+   - Your app is now accessible at your custom domain
+
+### DNS Record Types
+
+OptiDev will ask you to add one of these:
+
+| Record Type | When Used | Example |
+|-------------|-----------|---------|
+| **CNAME** | For subdomains like `app.yourcompany.com` | Points to `yourproject.dev.optidev.com` |
+| **TXT** | For verification | Proves you own the domain |
+
+<Tip>
+If you're unsure how to add DNS records, search "[your domain provider] add CNAME record" for specific instructions.
+</Tip>
+
+## SSL and Security
+
+### Automatic HTTPS
+
+Every custom domain gets a free SSL certificate automatically. This means:
+
+- Your site uses `https://` (secure connection)
+- Visitors see the padlock icon in their browser
+- Data is encrypted between your users and your app
+
+You don't need to do anything—SSL is set up when you connect your domain.
+
+### Certificate Renewal
+
+SSL certificates renew automatically. No action needed on your part.
+
+## Troubleshooting
+
+### "Domain not verified"
+
+DNS changes can take time to spread across the internet. Wait 15-30 minutes and try verifying again. In rare cases, it can take up to 24 hours.
+
+### "SSL certificate pending"
+
+After verification, SSL setup takes a few minutes. Your site may show a security warning briefly. Wait 5-10 minutes and refresh.
+
+### "Domain already in use"
+
+Each domain can only be connected to one project. If you've used this domain before, remove it from the old project first.
+
+## Removing a Custom Domain
+
+1. Go to **Settings** → **Domain**
+2. Find the domain you want to remove
+3. Click **Remove**
+4. Your app returns to using the default `*.dev.optidev.com` URL
+
+---
+
+## For Developers
+
+### DNS Configuration
+
+| Subdomain | Record Type | Value |
+|-----------|-------------|-------|
+| `app.example.com` | CNAME | `{project-slug}.dev.optidev.com` |
+| `example.com` (apex) | A | Not currently supported (use www subdomain) |
+
+### SSL Provisioning
+
+- Certificates issued via CloudFlare
+- Automatic renewal before expiration
+- TLS 1.2 and 1.3 supported
+- HTTP/2 enabled by default
+
+### Verification Process
+
+1. User adds domain in UI
+2. Backend generates TXT verification record
+3. DNS polling checks for record (every 30 seconds)
+4. On verification, CNAME routing is configured
+5. CloudFlare issues SSL certificate
+
+### API Reference
+
+```
+POST /api/domains/add
+{
+  "projectId": "uuid",
+  "domain": "app.example.com"
+}
+
+POST /api/domains/verify
+{
+  "domainId": "uuid"
+}
+
+DELETE /api/domains/:domainId
+```
+
+### Limitations
+
+- Apex domains (bare domains like `example.com`) require A records, which are not currently supported
+- Use a subdomain like `www.example.com` or `app.example.com` instead

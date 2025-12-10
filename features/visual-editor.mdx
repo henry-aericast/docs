@@ -1,0 +1,125 @@
+---
+title: "Visual Editor"
+description: "Point-and-click editing for your app's design"
+---
+
+## What is Visual Editor?
+
+Visual Editor lets you edit your app's appearance by clicking on elements directly—no coding required. Want to change a headline? Click it and type. Need a different color? Select the element and pick from the color palette.
+
+It's like editing a document, but for your app.
+
+## Selecting and Editing Elements
+
+### How to Select
+
+1. Open your project in OptiDev
+2. Click the **Visual Editor** tab above your app preview
+3. Click any element on your page (text, buttons, images, etc.)
+4. A blue outline appears showing what's selected
+
+### What You Can Edit
+
+Once you select an element, the sidebar shows options you can change:
+
+- **Text content** — Click and type to change words
+- **Colors** — Background, text color, borders
+- **Size** — Width, height, padding, margins
+- **Position** — Move elements around the page
+- **Visibility** — Show or hide elements
+
+## Common Tasks
+
+### Change Text
+
+1. Click on any text element
+2. The text becomes editable
+3. Type your new content
+4. Click outside to save
+
+### Change Colors
+
+1. Select an element
+2. In the sidebar, find **Background** or **Text Color**
+3. Click the color swatch
+4. Pick a new color or enter a hex code
+
+### Adjust Spacing
+
+1. Select an element
+2. Look for **Padding** (space inside) or **Margin** (space outside)
+3. Drag the sliders or enter specific values
+
+### Rearrange Elements
+
+1. Select an element
+2. Drag it to a new position
+3. Drop it where you want
+
+## Working with Agent Mode
+
+Visual Editor and Agent Mode work together. If you can't find an option in Visual Editor, just ask the agent:
+
+- "Move this section above the header"
+- "Make all buttons rounded"
+- "Add a shadow to this card"
+
+The agent makes the code changes, and you see the results in Visual Editor.
+
+## Limitations
+
+Some changes are easier to make through Agent Mode:
+
+- Adding new sections or components
+- Complex layouts with multiple columns
+- Interactive features (forms, popups, animations)
+- Changes that affect multiple pages at once
+
+When in doubt, describe what you want to the agent—it'll figure out the best approach.
+
+---
+
+## For Developers
+
+### Architecture
+
+Visual Editor uses a 3-layer architecture:
+
+1. **Utils Layer** — DOM queries, element identification
+2. **Coordinators** — Selection state, layers, undo/redo history
+3. **Communication** — postMessage bridge between editor and iframe
+
+### How Edits Work
+
+Visual edits trigger TypeScript AST transformations via the Claude Agent:
+
+1. User makes visual change
+2. Change sent via postMessage to parent
+3. Batch API collects changes
+4. Agent performs AST transformation on JSX/TSX files
+5. Hot Module Reload (HMR) updates preview
+
+### Iframe Isolation
+
+The preview runs in an isolated iframe with:
+- Separate DOM context
+- postMessage communication only
+- No direct parent access
+
+### Batch API
+
+Multiple visual changes are batched to reduce agent calls:
+
+```
+POST /api/visual-editor/batch
+{
+  "changes": [
+    { "selector": ".header", "property": "backgroundColor", "value": "#fff" },
+    { "selector": ".title", "property": "textContent", "value": "New Title" }
+  ]
+}
+```
+
+### Auto-Commit
+
+Visual changes trigger auto-commit with AI-generated commit messages when the editing session completes.

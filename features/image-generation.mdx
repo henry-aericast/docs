@@ -1,0 +1,124 @@
+---
+title: "Image Generation"
+description: "Create images with AI for your app"
+---
+
+## Generating Images with AI
+
+Need an image for your app? Just ask the agent to create one. Describe what you want, and AI generates it for you.
+
+**Example requests:**
+
+- "Create a hero image of a modern office with plants"
+- "Generate an icon of a shopping cart, flat design, blue"
+- "Make a background pattern with geometric shapes"
+
+## How to Generate an Image
+
+1. Open your project and go to Agent Mode
+2. Describe the image you want
+3. Optionally specify the size (see below)
+4. Wait a few seconds for generation
+5. The image appears in your project's `public/` folder
+
+**Example conversation:**
+
+> **You:** Create a banner image for a coffee shop website, warm colors, cozy atmosphere
+>
+> **Agent:** I'll generate that image for you. What size would you like? The default is 16:9 (widescreen).
+>
+> **You:** Square is fine
+>
+> **Agent:** Done! I've created the image and saved it to `/public/coffee-banner.png`. Want me to add it to your homepage?
+
+## Choosing Size and Style
+
+### Available Sizes
+
+| Aspect Ratio | Best For |
+|--------------|----------|
+| 1:1 (Square) | Profile pictures, icons, thumbnails |
+| 16:9 | Hero banners, video thumbnails |
+| 4:3 | Standard photos, cards |
+| 3:2 | Landscape photos |
+| 9:16 | Mobile screens, stories |
+| 2:3 | Portrait photos |
+| 21:9 | Ultra-wide banners |
+| 3:1 | Website headers |
+| 1:3 | Vertical banners |
+| 4:5 | Social media posts |
+
+### Style Tips
+
+Be specific about style in your prompt:
+
+- **"Flat design"** — Simple, minimal, modern
+- **"Realistic photo"** — Photographic quality
+- **"Illustration"** — Hand-drawn or artistic style
+- **"Minimalist"** — Clean with lots of white space
+- **"3D render"** — Three-dimensional objects
+
+## Where Images Are Saved
+
+Generated images automatically save to your project's `public/` folder. The filename is based on your prompt, with automatic numbering if a similar file exists.
+
+**Example:** `coffee-banner.png`, `coffee-banner-2.png`
+
+You can find your images in:
+- Code Editor → `public/` folder
+- Or ask the agent: "Show me the images in my project"
+
+## Using Generated Images
+
+After generation, ask the agent to add the image to your app:
+
+- "Add this image as the hero banner on the homepage"
+- "Use this as the background for the contact section"
+- "Replace the current logo with this image"
+
+---
+
+## For Developers
+
+### Generation Engine
+
+Images are generated using Gemini 2.5 Flash via MCP tool integration.
+
+### Processing Pipeline
+
+1. Request received via Claude Agent MCP tool
+2. Job queued in BullMQ
+3. Worker processes with Gemini 2.5 Flash
+4. Image uploaded to R2 storage
+5. PAR (Pre-Authenticated Request) URL generated (15min TTL)
+6. File copied to project's `/public` folder
+
+### File Naming
+
+- Collision detection with auto-increment
+- Filename derived from prompt (slugified)
+- Format: `{slug}-{increment}.png`
+
+### API Reference
+
+Image generation is triggered through the Claude Agent's MCP toolset. Direct API access:
+
+```
+POST /api/image-generation/generate
+{
+  "prompt": "description of image",
+  "aspectRatio": "16:9",
+  "projectId": "uuid"
+}
+```
+
+### Storage
+
+- Temporary: R2 bucket with PAR URLs
+- Permanent: Project's PVC at `/public/{filename}`
+
+### Rate Limits
+
+- 3 retries on failure
+- Queued processing via BullMQ
+- Concurrent limit based on plan tier

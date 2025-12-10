@@ -1,0 +1,158 @@
+---
+title: "Publish to OptiSigns Screens"
+description: "Display your app on digital signage screens"
+---
+
+## What is OptiSigns Integration?
+
+OptiSigns is a digital signage platform that powers screens in offices, stores, restaurants, and public spaces. With OptiDev's integration, you can build an app and display it directly on any OptiSigns-connected screen.
+
+**Perfect for:**
+
+- Office dashboards showing KPIs and metrics
+- Retail displays with promotions and product info
+- Restaurant menus that update in real-time
+- Lobby directories and wayfinding
+- Kiosk applications for self-service
+
+## Sending Your App to Screens
+
+### Prerequisites
+
+- An OptiSigns account with screens set up
+- A published OptiDev app (see [Publish Your App](/features/publish-your-app))
+
+### Step-by-Step
+
+1. **Publish Your App First**
+   - Make sure your app is published and working at its URL
+   - Test it in a browser to confirm everything looks right
+
+2. **Open OptiSigns Integration**
+   - In your project, click **Settings** → **OptiSigns**
+   - Click **Connect to OptiSigns**
+
+3. **Sign In to OptiSigns**
+   - Log in with your OptiSigns account
+   - Authorize OptiDev to access your screens
+
+4. **Select Screens**
+   - Choose which screens should display your app
+   - You can select individual screens or screen groups
+
+5. **Push to Screens**
+   - Click **Publish to Screens**
+   - Your app appears on the selected screens within seconds
+
+## Managing Screen Content
+
+### Updating Your App
+
+When you make changes and republish your app:
+
+1. The screens automatically get the update
+2. No need to push again—it happens automatically
+3. Changes appear within a few minutes
+
+### Removing from Screens
+
+1. Go to **Settings** → **OptiSigns**
+2. Find the screen(s) you want to update
+3. Click **Remove** to stop displaying your app
+
+### Scheduling (via OptiSigns)
+
+For scheduling when your app appears:
+
+1. Go to your OptiSigns dashboard
+2. Create a playlist that includes your OptiDev app
+3. Set the schedule in OptiSigns
+
+## Design Tips for Screens
+
+### Consider the Viewing Distance
+
+- Use large fonts (minimum 24px for body text)
+- High contrast colors
+- Simple, uncluttered layouts
+
+### Optimize for the Screen Size
+
+- Digital signage is typically 1920x1080 (landscape) or 1080x1920 (portrait)
+- Design with this resolution in mind
+- Test how your app looks at different sizes
+
+### Auto-Refresh Data
+
+If your app shows live data (like dashboards):
+
+- Set up automatic data refresh
+- Ask the agent: "Make this dashboard refresh every 5 minutes"
+
+### Avoid User Input
+
+Most digital signage screens don't have keyboards or touch:
+
+- Design for view-only content
+- For kiosks with touch, design large tap targets
+
+---
+
+## For Developers
+
+### Integration Architecture
+
+```
+OptiDev App → Published URL → OptiSigns Playlist → Screen Display
+```
+
+OptiSigns loads your app URL in a managed browser on the display device.
+
+### OptiSigns Picker SDK
+
+Integration uses the OptiSigns Picker SDK:
+
+1. OAuth authorization flow
+2. Screen/group selection UI
+3. Asset creation in OptiSigns account
+4. Automatic URL updates on republish
+
+### Screen Specifications
+
+| Orientation | Resolution | Aspect Ratio |
+|-------------|------------|--------------|
+| Landscape | 1920x1080 | 16:9 |
+| Portrait | 1080x1920 | 9:16 |
+| Ultra-wide | 3840x1080 | 32:9 |
+
+### Update Propagation
+
+- App republish triggers webhook to OptiSigns
+- OptiSigns refreshes the URL on all linked screens
+- Typical propagation time: 1-5 minutes
+
+### API Reference
+
+```
+POST /api/integrations/optisigns/connect
+{
+  "projectId": "uuid",
+  "authCode": "oauth-code"
+}
+
+POST /api/integrations/optisigns/publish
+{
+  "projectId": "uuid",
+  "screenIds": ["screen-1", "screen-2"]
+}
+
+DELETE /api/integrations/optisigns/screens/:screenId
+```
+
+### Kiosk Mode Considerations
+
+For touch-enabled kiosks:
+
+- Ensure buttons are minimum 44x44px
+- Implement timeout/reset after inactivity
+- Consider network fallback for offline scenarios

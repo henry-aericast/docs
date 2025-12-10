@@ -1,0 +1,151 @@
+---
+title: "Publish Your App"
+description: "Make your app live for anyone to visit"
+---
+
+## How Publishing Works
+
+When you publish your app, OptiDev:
+
+1. Builds your project (compiles all the code)
+2. Uploads it to our global network
+3. Gives you a live URL anyone can visit
+
+Your app gets a free URL like `yourproject.dev.optidev.com`. You can also [use your own domain](/features/custom-domain).
+
+## Publishing Your App
+
+### From the Dashboard
+
+1. Open your project in OptiDev
+2. Click the **Publish** button in the top-right corner
+3. Wait for the build to complete (usually 1-2 minutes)
+4. Your live URL appears when ready
+
+### Using Agent Mode
+
+Just ask the agent:
+
+> "Publish my app"
+
+The agent handles the build and deploy process for you.
+
+## What Happens During Publishing
+
+### Build Phase
+
+OptiDev compiles your code into optimized files:
+
+- Bundles JavaScript for faster loading
+- Optimizes images
+- Minifies code (makes files smaller)
+
+You'll see a progress indicator. If there are errors, they'll appear with instructions to fix them.
+
+### Deploy Phase
+
+After a successful build:
+
+- Files upload to CloudFlare's global network
+- Your app becomes available worldwide
+- SSL certificate ensures secure connections (https)
+
+## Checking Deploy Status
+
+### View Recent Deploys
+
+1. Open your project
+2. Click **Settings** → **Deploys**
+3. See a list of all deployments with status and date
+
+### Deploy Statuses
+
+| Status | Meaning |
+|--------|---------|
+| **Building** | Code is being compiled |
+| **Deploying** | Files are being uploaded |
+| **Live** | Your app is published and accessible |
+| **Failed** | Something went wrong (see error message) |
+
+## Fixing Build Errors
+
+If publishing fails, you'll see an error message. Common issues:
+
+**"Build failed"**
+- Ask the agent: "The build failed, can you fix it?"
+- The agent reviews the error and makes corrections
+
+**"Missing dependencies"**
+- Usually means a package wasn't installed correctly
+- Ask the agent: "Install missing dependencies and try again"
+
+## Rollback to Previous Version
+
+Made a mistake? You can go back to an earlier version:
+
+1. Go to **Settings** → **Deploys**
+2. Find the version you want to restore
+3. Click **Rollback**
+4. Confirm the rollback
+
+Your app immediately reverts to that version.
+
+## Preview Before Publishing
+
+Want to test before going live? Your project has a live preview while you're editing. The preview URL is only accessible to you.
+
+Once you're happy with the preview, publish to make it public.
+
+---
+
+## For Developers
+
+### Build System
+
+Builds run as Kubernetes Jobs with:
+- Auto-detection of package manager (npm, yarn, pnpm)
+- Node.js 22 environment
+- 2 CPU, 4GB RAM allocation
+- 15-minute timeout
+- Presigned URLs for artifact upload
+
+### Build Process
+
+```
+1. Clone project files
+2. Install dependencies (npm/yarn/pnpm install)
+3. Run build command (npm run build)
+4. Upload artifacts to OCI Object Storage
+5. Trigger deploy job
+```
+
+### Deploy System
+
+- Static files uploaded to CloudFlare R2
+- Environment variables injected via `window.__ENV__`
+- CloudFlare Workers serve content from R2
+- Automatic SSL via CloudFlare
+
+### API Reference
+
+```
+POST /api/builds/publish
+{
+  "projectId": "uuid",
+  "environment": "production"
+}
+
+GET /api/builds/:buildId/status
+GET /api/builds/:buildId/logs
+
+POST /api/deploys/rollback
+{
+  "deployId": "uuid"
+}
+```
+
+### Build Logs
+
+Build logs are always uploaded, even on failure. Access via:
+- Dashboard: **Settings** → **Deploys** → Click deploy → **View Logs**
+- API: `GET /api/builds/:buildId/logs`

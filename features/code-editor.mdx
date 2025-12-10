@@ -1,0 +1,120 @@
+---
+title: "Code Editor"
+description: "Full VS Code experience in your browser"
+---
+
+## What is Code Editor?
+
+Code Editor gives you access to VS Code directly in your browser. It's the same editor professional developers use, but you don't need to install anything.
+
+Most users let the agent write code for them, but Code Editor is there when you want to:
+
+- See exactly what files exist in your project
+- Make small text changes yourself
+- Review what the agent has done
+- Explore and learn how your app works
+
+## Navigating Files
+
+### File Explorer
+
+The left sidebar shows all your project files and folders:
+
+- Click a folder to expand it
+- Click a file to open it
+- Right-click for options (rename, delete, new file)
+
+### Common Folders
+
+| Folder | What's Inside |
+|--------|---------------|
+| `src/` | Your app's main code |
+| `public/` | Images, icons, and static files |
+| `components/` | Reusable pieces of your app |
+
+### Opening Multiple Files
+
+- Click a file to open it
+- Files appear as tabs at the top
+- Click tabs to switch between files
+
+## When to Use Code Editor vs Agent
+
+### Use Agent Mode When...
+
+- You want to add features or make changes
+- Something is broken and needs fixing
+- You're not sure how to do something
+- You want to change multiple files at once
+
+### Use Code Editor When...
+
+- You want to fix a typo or small text error
+- You're curious about how something works
+- You want to review recent changes
+- You need to copy text from your code
+
+## Making Quick Edits
+
+1. Find and open the file you want to edit
+2. Click where you want to make a change
+3. Type your edit
+4. The file saves automatically
+
+<Tip>
+If you're unsure about a change, ask the agent instead. It's easy to accidentally break something by editing the wrong spot.
+</Tip>
+
+## Search and Find
+
+- **Find in file**: `Cmd/Ctrl + F`
+- **Find in all files**: `Cmd/Ctrl + Shift + F`
+- **Go to file**: `Cmd/Ctrl + P`, then type the filename
+
+## Terminal
+
+At the bottom of Code Editor, you'll see a Terminal panel. This is for running commands—useful for developers but not needed for most tasks.
+
+If you need something done in the terminal, just ask the agent. It can run commands for you.
+
+---
+
+## For Developers
+
+### VS Code Server
+
+Code Editor runs VS Code Server in a containerized environment:
+
+- Port 8080 for the IDE
+- Full extension support
+- Persistent workspace storage via PVC
+
+### Dev Container Specs
+
+| Resource | Allocation |
+|----------|------------|
+| CPU | 2 cores |
+| Memory | 4GB RAM |
+| Storage | 100GB-500GB PVC |
+| Timeout | 1 hour idle (auto-pause) |
+
+### Terminal Access
+
+Full terminal access with:
+- Node.js 22 (LTS)
+- npm, yarn, pnpm
+- Git
+- Common build tools
+
+### File Sync
+
+Files are stored on persistent volume claims (PVC) in Kubernetes. Changes sync in real-time between VS Code and the preview.
+
+### Keyboard Shortcuts
+
+All standard VS Code shortcuts work:
+- `Cmd/Ctrl + S` — Save (auto-save is on by default)
+- `Cmd/Ctrl + Z` — Undo
+- `Cmd/Ctrl + Shift + Z` — Redo
+- `Cmd/Ctrl + /` — Toggle comment
+- `Cmd/Ctrl + D` — Select next occurrence

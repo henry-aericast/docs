@@ -1,0 +1,107 @@
+---
+title: "Agent Mode"
+description: "Your AI assistant that builds, fixes, and explains your app"
+---
+
+## What is Agent Mode?
+
+Agent Mode is your AI-powered assistant inside OptiDev. Instead of writing code yourself, you describe what you want in plain English, and the agent builds it for you.
+
+Think of it as having a developer on your team who's always available. You can ask it to:
+
+- Build new features ("Add a contact form with email validation")
+- Fix problems ("The button isn't working, can you fix it?")
+- Explain how things work ("How does the login flow work?")
+- Make changes ("Change the header color to blue")
+
+## Working with the Agent
+
+The agent has five modes, but you don't need to worry about switching between them—it picks the right one automatically based on your request.
+
+### Plan Mode
+When you ask for something complex, the agent first creates a plan. It shows you what it intends to do before making changes. Review the plan and approve it to continue.
+
+### Execute Mode
+The agent writes code and makes changes to your project. You'll see files being created or modified in real-time.
+
+### Debug Mode
+When something isn't working, describe the problem. The agent investigates your code, finds the issue, and fixes it.
+
+### Build Mode
+Ask the agent to prepare your app for publishing. It runs the build process and reports any issues.
+
+### Chat Mode
+Just want to talk? Ask questions about your project, get explanations, or brainstorm ideas without making changes.
+
+## How to Use Agent Mode
+
+1. Open your project in OptiDev
+2. Look for the **Agent** panel on the right side
+3. Type your request in plain English
+4. Watch the agent work and respond to any questions it asks
+5. Review the changes in your project
+
+## Tips for Better Results
+
+**Be specific about what you want**
+- Good: "Add a signup form with name, email, and password fields"
+- Vague: "Add a form"
+
+**Describe the outcome you need**
+- Good: "When users click Submit, save their data and show a success message"
+- Vague: "Make the form work"
+
+**Ask follow-up questions**
+The agent remembers your conversation. If something isn't right, just say "Make the button bigger" or "Change the color to red" without repeating the whole context.
+
+**Let the agent handle errors**
+If you see an error message, copy and paste it to the agent. It can usually diagnose and fix the problem.
+
+## Auto-Save and History
+
+Your conversation with the agent is saved automatically. If you close the browser and come back, you can pick up where you left off.
+
+The agent also auto-commits your changes to version history, so you can always roll back if needed.
+
+---
+
+## For Developers
+
+### Agent Modes (Technical)
+
+| Mode | Access Level | Use Case |
+|------|--------------|----------|
+| `plan` | Read-only | Architecture planning, code review |
+| `execute` | Full write access | Feature implementation |
+| `debug` | Full write access | Error investigation and fixes |
+| `build` | Build system access | Compilation, bundling |
+| `chat` | Read-only | Q&A, explanations |
+
+### Session Persistence
+
+Agent sessions are persisted server-side, reducing token costs by 50-70% for returning conversations. Sessions include full conversation history and project context.
+
+### MCP Tools Available
+
+The agent has access to Model Context Protocol (MCP) tools including:
+- File system operations
+- Terminal commands
+- Database queries (OptiDev Cloud)
+- Image generation (Gemini 2.5 Flash)
+- Environment variable management
+
+### WebSocket Events
+
+Agent communication uses WebSocket streaming. Events include:
+- `agent:message` - Agent response chunks
+- `agent:tool_use` - Tool execution notifications
+- `agent:complete` - Stream completion
+- `agent:error` - Error handling
+
+### API Reference
+
+```
+POST /api/claude-agent/message
+WebSocket: /api/claude-agent/stream
+GET /api/claude-agent/session/:id
+```
