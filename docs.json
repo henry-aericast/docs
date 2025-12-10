@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "optidev.ai",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#7C3AED",
+    "light": "#9035F4",
+    "dark": "#2A3B74"
   },
   "favicon": "/favicon.svg",
   "navigation": {
