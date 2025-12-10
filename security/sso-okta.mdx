@@ -1,0 +1,239 @@
+---
+title: "SSO Setup: Okta"
+description: "Configure Okta SAML for OptiDev single sign-on"
+---
+
+This guide walks you through setting up Okta as your identity provider for OptiDev SSO.
+
+**Time required:** 15-20 minutes
+
+---
+
+## Overview
+
+You'll complete these steps:
+
+1. Get your OptiDev SSO settings
+2. Create a SAML app in Okta
+3. Configure the SAML settings
+4. Download the Okta certificate
+5. Enter Okta details in OptiDev
+6. Test the connection
+
+---
+
+## Step 1: Get Your OptiDev SSO Settings
+
+Before creating the Okta app, you need two values from OptiDev.
+
+<Steps>
+  <Step title="Open SSO Settings">
+    In OptiDev, go to **Workspace Settings → Security → Single Sign-On**.
+  </Step>
+  <Step title="Copy Your Values">
+    You'll see two important values. Keep this page open — you'll need these shortly.
+
+    | Setting | Example |
+    |---------|---------|
+    | **SP Entity ID** | `https://auth.optiprime.com/saml/abc123` |
+    | **ACS URL** | `https://auth.optiprime.com/saml/abc123/acs` |
+  </Step>
+</Steps>
+
+---
+
+## Step 2: Create a SAML App in Okta
+
+<Steps>
+  <Step title="Open Okta Admin Console">
+    Log in to your Okta admin console at `https://your-domain-admin.okta.com`.
+  </Step>
+  <Step title="Go to Applications">
+    In the sidebar, click **Applications → Applications**.
+  </Step>
+  <Step title="Create New App">
+    Click **Create App Integration**.
+  </Step>
+  <Step title="Select SAML 2.0">
+    Choose **SAML 2.0** and click **Next**.
+  </Step>
+  <Step title="Name Your App">
+    Enter **OptiDev** as the app name. Optionally upload the OptiDev logo. Click **Next**.
+  </Step>
+</Steps>
+
+---
+
+## Step 3: Configure SAML Settings
+
+On the "Configure SAML" screen, enter these values:
+
+### General Settings
+
+| Field | Value |
+|-------|-------|
+| **Single sign-on URL** | Paste your **ACS URL** from Step 1 |
+| **Audience URI (SP Entity ID)** | Paste your **SP Entity ID** from Step 1 |
+| **Name ID format** | `EmailAddress` |
+| **Application username** | `Email` |
+
+### Attribute Statements
+
+Add these three attribute mappings:
+
+| Name | Value |
+|------|-------|
+| `email` | `user.email` |
+| `firstName` | `user.firstName` |
+| `lastName` | `user.lastName` |
+
+<Warning>
+  Attribute names are case-sensitive. Use lowercase exactly as shown.
+</Warning>
+
+Click **Next** when done.
+
+---
+
+## Step 4: Complete App Setup
+
+On the feedback screen:
+
+1. Select **I'm an Okta customer adding an internal app**
+2. Click **Finish**
+
+---
+
+## Step 5: Get Okta Details for OptiDev
+
+Now you need to copy values from Okta back to OptiDev.
+
+<Steps>
+  <Step title="Open SAML Setup Instructions">
+    On your new app's page, click the **Sign On** tab, then click **View SAML setup instructions**.
+  </Step>
+  <Step title="Copy These Values">
+    You'll need three pieces of information:
+
+    | From Okta | What It's Called |
+    |-----------|------------------|
+    | Identity Provider Single Sign-On URL | **SSO URL** |
+    | Identity Provider Issuer | **Entity ID** |
+    | X.509 Certificate | **Certificate** |
+  </Step>
+  <Step title="Download the Certificate">
+    Click to download the certificate. Open it in a text editor — you'll paste the contents into OptiDev.
+  </Step>
+</Steps>
+
+---
+
+## Step 6: Enter Okta Details in OptiDev
+
+<Steps>
+  <Step title="Return to OptiDev SSO Settings">
+    Go back to **Workspace Settings → Security → Single Sign-On**.
+  </Step>
+  <Step title="Enter IdP Configuration">
+    Fill in the fields:
+
+    | Field | Value |
+    |-------|-------|
+    | **Display Name** | `Okta` (or your company name) |
+    | **Entity ID** | Paste the Identity Provider Issuer from Okta |
+    | **SSO URL** | Paste the Single Sign-On URL from Okta |
+    | **Certificate** | Paste the entire certificate content (including `-----BEGIN CERTIFICATE-----`) |
+  </Step>
+  <Step title="Add Your Email Domain">
+    Enter your company's email domain (e.g., `yourcompany.com`).
+
+    All users with this email domain will be directed to Okta for login.
+  </Step>
+  <Step title="Save Configuration">
+    Click **Save** to enable SSO.
+  </Step>
+</Steps>
+
+---
+
+## Step 7: Assign Users in Okta
+
+Before users can log in, you need to give them access to the app in Okta.
+
+<Steps>
+  <Step title="Go to Assignments">
+    In Okta, open your OptiDev app and click the **Assignments** tab.
+  </Step>
+  <Step title="Assign Users or Groups">
+    Click **Assign** and choose:
+    - **Assign to People** — for individual users
+    - **Assign to Groups** — for entire teams or departments
+  </Step>
+</Steps>
+
+<Tip>
+  Assigning a group is easier to manage. Create an "OptiDev Users" group and add employees who need access.
+</Tip>
+
+---
+
+## Step 8: Test Your Setup
+
+<Steps>
+  <Step title="Open an Incognito Window">
+    Use a private/incognito browser window to avoid cached sessions.
+  </Step>
+  <Step title="Go to OptiDev">
+    Visit `https://app.optidev.ai` and click **Sign in with SSO**.
+  </Step>
+  <Step title="Enter Your Email">
+    Enter your company email address. You should be redirected to Okta.
+  </Step>
+  <Step title="Log In">
+    Sign in with your Okta credentials. You should land in OptiDev.
+  </Step>
+</Steps>
+
+<Check>
+  If you see your OptiDev dashboard, SSO is working. Your team can now log in with their Okta credentials.
+</Check>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Error: 'SAML assertion invalid'">
+    - Double-check the **ACS URL** in Okta matches exactly what OptiDev shows
+    - Verify the certificate was copied completely (including BEGIN/END lines)
+    - Check that attribute names are lowercase (`email`, not `Email`)
+  </Accordion>
+
+  <Accordion title="Error: 'User not assigned'">
+    - Go to your Okta app's **Assignments** tab
+    - Make sure the user (or their group) is assigned to the OptiDev app
+  </Accordion>
+
+  <Accordion title="User redirected to wrong IdP">
+    - Verify the email domain is correctly configured in OptiDev
+    - Check that only one SSO configuration exists for this domain
+  </Accordion>
+
+  <Accordion title="Login works but user has no access">
+    - The user account was created, but they need to be added to a workspace
+    - Go to **Workspace Settings → Members** and invite them
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Managing Users" icon="users" href="/security/single-sign-on#managing-users">
+    Learn how to add and remove user access.
+  </Card>
+  <Card title="Troubleshooting" icon="wrench" href="/security/single-sign-on#troubleshooting">
+    Common issues and solutions.
+  </Card>
+</CardGroup>

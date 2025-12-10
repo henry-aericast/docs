@@ -1,0 +1,190 @@
+---
+title: "Securing Your App"
+description: "Control who can access your app and keep your data safe"
+---
+
+## Public vs Private Apps
+
+Every app you build has a visibility setting that controls who can access it.
+
+| Visibility | Who Can Access | Best For |
+|------------|----------------|----------|
+| **Public** | Anyone with the link | Marketing sites, portfolios, public tools |
+| **Private** | Only workspace members + OptiSigns displays | Internal dashboards, sensitive data, company tools |
+
+### Changing Visibility
+
+<Steps>
+  <Step title="Open Project Settings">
+    In the Power Editor, click the **gear icon** next to your project name, or go to **Settings** tab.
+  </Step>
+  <Step title="Find Content Visibility">
+    Scroll to **Project Information** and look for **Content Visibility**.
+  </Step>
+  <Step title="Select Your Setting">
+    Choose **Public** or **Private**. Your choice takes effect after your next publish.
+  </Step>
+</Steps>
+
+<Warning>
+  Changing from public to private doesn't revoke access immediately. Publish again to apply the new setting.
+</Warning>
+
+---
+
+## Securely Display on OptiSigns Screens
+
+If you're using OptiSigns digital signage, your private apps can display on screens without exposing them to the public internet.
+
+### How It Works
+
+1. **Private apps stay private** — they're only accessible through authenticated OptiSigns hardware
+2. **No public URLs** — viewers can't bookmark or share a direct link to your content
+3. **Workspace-level control** — manage which screens can display your apps
+
+### Setting Up OptiSigns Display
+
+<Steps>
+  <Step title="Generate Your API Key">
+    Go to **Workspace Settings → API Keys** and click **Generate Key**.
+
+    You'll see a Key ID and Secret. **Save the secret now** — you won't see it again.
+  </Step>
+  <Step title="Connect in OptiSigns">
+    In your OptiSigns account, add the API key to link your workspace.
+  </Step>
+  <Step title="Add Your App to a Screen">
+    Browse your OptiDev apps from within OptiSigns and add them to your playlist.
+  </Step>
+</Steps>
+
+<Tip>
+  Your API key works for all apps in your workspace. You only need to set this up once.
+</Tip>
+
+---
+
+## Adding Auth to Your App
+
+Want users to log in before accessing your app? OptiDev Cloud includes built-in authentication — no coding required.
+
+### What You Get
+
+- **Email/password login** — users create accounts with their email
+- **Social login** — let users sign in with Google (more providers coming soon)
+- **User management** — see who signed up, disable accounts, reset passwords
+
+### Enabling Authentication
+
+<Steps>
+  <Step title="Activate OptiDev Cloud">
+    In your project, go to **Settings → OptiDev Cloud** and click **Activate**.
+
+    This takes about 2-3 minutes the first time (instant after that).
+  </Step>
+  <Step title="Configure Auth Providers">
+    Once active, click the **Auth** tab. Toggle on the login methods you want:
+    - **Email** — users sign up with email and password
+    - **Phone** — users sign up with phone number (SMS verification)
+    - **Google** — one-click Google sign-in
+  </Step>
+  <Step title="Control Signups">
+    Toggle **Disable Signup** if you want to manually add users instead of allowing self-registration.
+  </Step>
+</Steps>
+
+<Info>
+  After enabling auth, your app needs login UI. Ask the Agent: *"Add a login page using OptiDev Cloud Auth"* — it handles the rest.
+</Info>
+
+### Managing Users
+
+Once auth is enabled, the **Users** tab shows everyone who signed up. From here you can:
+
+- See when users last signed in
+- Disable or delete accounts
+- View user metadata
+
+---
+
+## Run Security Review on Your App
+
+Before publishing, it's good practice to review your app for common security issues.
+
+### Pre-Publish Checklist
+
+<AccordionGroup>
+  <Accordion title="Check your visibility setting">
+    Is your app **Public** when it should be **Private**? Double-check in Project Settings before publishing.
+  </Accordion>
+
+  <Accordion title="Review environment variables">
+    Go to **Settings → Secrets** and verify:
+    - API keys are marked as **Sensitive** (hidden from logs)
+    - No test credentials left in production
+    - Database passwords aren't visible to collaborators who shouldn't see them
+  </Accordion>
+
+  <Accordion title="Test your auth flow">
+    If your app has login:
+    - Try accessing protected pages without signing in
+    - Verify logout actually logs users out
+    - Test password reset if enabled
+  </Accordion>
+
+  <Accordion title="Check external connections">
+    Review **Settings → Connections** for any services your app uses. Make sure:
+    - Test/sandbox connections aren't used in production
+    - Unused connections are removed
+  </Accordion>
+</AccordionGroup>
+
+### Ask the Agent for Help
+
+Not sure if something is secure? Ask Claude directly:
+
+> *"Review my app for security issues before I publish"*
+
+The Agent will scan your code for common problems like exposed credentials, missing auth checks, or insecure API calls.
+
+---
+
+## For Developers
+
+<Accordion title="Technical reference">
+
+### Visibility Implementation
+- Visibility stored in `projects.visibility` column (`PUBLIC` | `PRIVATE`)
+- Private projects require workspace membership or valid OptiSigns hardware token
+- Setting change requires republish — cached CDN content isn't invalidated automatically
+
+### OptiSigns Integration
+- API keys are workspace-scoped, stored with AES-256-GCM encryption
+- Key pair: `keyId` (public identifier) + `secret` (one-time display)
+- Hardware authentication uses HMAC signature validation
+
+### OptiDev Cloud Auth
+- Built on Supabase Auth with session pooler (port 5432)
+- Environment variables injected: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`
+- Supports JWT verification, row-level security policies
+- Auth state managed client-side via `@supabase/supabase-js`
+
+### Secrets Security
+- All secrets encrypted at rest with AES-256-GCM
+- Three visibility levels: Visible, Masked (first/last 4 chars), Sensitive (hidden)
+- 64KB total budget per project for environment variables
+
+</Accordion>
+
+---
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Single Sign-On" icon="key" href="/security/single-sign-on">
+    Set up enterprise SSO with your company's identity provider.
+  </Card>
+  <Card title="OptiDev Cloud" icon="cloud" href="/optidev-cloud/how-to-use">
+    Learn more about database, auth, and backend features.
+  </Card>
+</CardGroup>

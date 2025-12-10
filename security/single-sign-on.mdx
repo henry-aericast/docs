@@ -1,0 +1,148 @@
+---
+title: "Single Sign-On (SSO)"
+description: "Let your team log in with company credentials"
+---
+
+## What is SSO?
+
+Single Sign-On lets your team access OptiDev using their existing company login — the same one they use for email, Slack, or other work apps.
+
+**Benefits:**
+- **One password** — no separate OptiDev account to remember
+- **IT control** — manage access through your identity provider
+- **Instant offboarding** — when someone leaves, access is revoked automatically
+
+---
+
+## How It Works
+
+```
+┌──────────────┐      ┌──────────────┐      ┌──────────────┐
+│    User      │ ───► │  Your IdP    │ ───► │   OptiDev    │
+│  clicks      │      │ (Okta/Azure) │      │   account    │
+│  "Sign In"   │      │  verifies    │      │   created    │
+└──────────────┘      └──────────────┘      └──────────────┘
+```
+
+1. User visits OptiDev and clicks **Sign in with SSO**
+2. They're redirected to your company's login page (Okta, Azure AD, etc.)
+3. After entering their company credentials, they're sent back to OptiDev
+4. OptiDev creates their account automatically on first login
+
+---
+
+## Before You Start
+
+You'll need:
+
+<CardGroup cols={2}>
+  <Card title="Admin access to your IdP" icon="user-shield">
+    You need to create a new SAML application in Okta, Azure AD, or your identity provider.
+  </Card>
+  <Card title="Your company email domain" icon="at">
+    The domain you want to enable SSO for (e.g., `yourcompany.com`).
+  </Card>
+</CardGroup>
+
+---
+
+## Setup Guides
+
+Choose your identity provider:
+
+<CardGroup cols={2}>
+  <Card title="Okta" icon="key" href="/security/sso-okta">
+    Step-by-step guide for Okta administrators.
+  </Card>
+  <Card title="Microsoft Azure AD" icon="microsoft" href="/security/sso-azure-ad">
+    Step-by-step guide for Azure AD administrators.
+  </Card>
+</CardGroup>
+
+<Info>
+  Using a different identity provider? Contact support — we support any SAML 2.0 compliant IdP.
+</Info>
+
+---
+
+## What Happens After Setup
+
+### For Your Team
+- Employees visit OptiDev and click **Sign in with SSO**
+- They enter their company email and are redirected to your IdP
+- After authentication, they land in OptiDev — account created automatically
+
+### For IT Admins
+- New employees get OptiDev access through your IdP (no manual invites)
+- Terminated employees lose access immediately when disabled in your IdP
+- You control which groups/teams can access OptiDev
+
+---
+
+## Managing Users
+
+Once SSO is enabled, user management happens in your identity provider:
+
+| Task | Where to Do It |
+|------|----------------|
+| Add a new user | Your IdP (Okta/Azure AD) |
+| Remove a user | Your IdP — disable or remove from the app |
+| Reset password | Your IdP — OptiDev doesn't store passwords |
+| Change user's role | OptiDev workspace settings (after they've logged in) |
+
+<Tip>
+  Users must log in at least once before you can assign them to workspaces or change their role in OptiDev.
+</Tip>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="User can't log in with SSO">
+    - Verify the user is assigned to the OptiDev app in your IdP
+    - Check their email domain matches your SSO-enabled domain
+    - Confirm SSO is fully configured and tested
+  </Accordion>
+
+  <Accordion title="User sees 'SSO not configured' error">
+    - The email domain may not be linked to your SSO setup
+    - Contact your IT admin to verify domain configuration
+  </Accordion>
+
+  <Accordion title="User is logged in but can't access workspaces">
+    - New SSO users need to be added to a workspace after first login
+    - Ask your workspace admin to invite them
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## For Developers
+
+<Accordion title="Technical reference">
+
+### SAML Configuration
+- **Protocol**: SAML 2.0
+- **SP Entity ID**: `https://auth.optiprime.com/saml/{organization_id}`
+- **ACS URL**: `https://auth.optiprime.com/saml/{organization_id}/acs`
+- **SP Metadata**: `GET https://auth.optiprime.com/saml/{organization_id}/metadata`
+
+### Supported IdPs
+- Okta
+- Microsoft Azure AD (Entra ID)
+- Google Workspace
+- Any SAML 2.0 compliant provider
+
+### User Provisioning
+- JIT (Just-In-Time) provisioning on first login
+- Attributes synced: `email`, `firstName`, `lastName`, `displayName`
+- Group memberships passed as raw SAML attributes
+- Workspace/role mapping configured per-product
+
+### Security
+- IdP certificates encrypted at rest (AES-256-GCM)
+- SAML assertions validated server-side
+- All authentication attempts logged for audit
+
+</Accordion>

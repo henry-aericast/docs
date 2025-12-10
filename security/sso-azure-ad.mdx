@@ -1,0 +1,278 @@
+---
+title: "SSO Setup: Microsoft Azure AD"
+description: "Configure Azure AD (Entra ID) SAML for OptiDev single sign-on"
+---
+
+This guide walks you through setting up Microsoft Azure AD (now called Microsoft Entra ID) as your identity provider for OptiDev SSO.
+
+**Time required:** 15-20 minutes
+
+---
+
+## Overview
+
+You'll complete these steps:
+
+1. Get your OptiDev SSO settings
+2. Create an Enterprise Application in Azure
+3. Configure SAML settings
+4. Set up attribute mappings
+5. Download the Azure certificate
+6. Enter Azure details in OptiDev
+7. Assign users and test
+
+---
+
+## Step 1: Get Your OptiDev SSO Settings
+
+Before creating the Azure app, you need two values from OptiDev.
+
+<Steps>
+  <Step title="Open SSO Settings">
+    In OptiDev, go to **Workspace Settings → Security → Single Sign-On**.
+  </Step>
+  <Step title="Copy Your Values">
+    You'll see two important values. Keep this page open — you'll need these shortly.
+
+    | Setting | Example |
+    |---------|---------|
+    | **SP Entity ID** | `https://auth.optiprime.com/saml/abc123` |
+    | **ACS URL** | `https://auth.optiprime.com/saml/abc123/acs` |
+  </Step>
+</Steps>
+
+---
+
+## Step 2: Create an Enterprise Application
+
+<Steps>
+  <Step title="Open Azure Portal">
+    Go to [portal.azure.com](https://portal.azure.com) and sign in with your admin account.
+  </Step>
+  <Step title="Go to Enterprise Applications">
+    Search for **Enterprise Applications** in the top search bar, or navigate to **Azure Active Directory → Enterprise Applications**.
+  </Step>
+  <Step title="Create New Application">
+    Click **+ New application**.
+  </Step>
+  <Step title="Create Your Own">
+    Click **+ Create your own application**.
+  </Step>
+  <Step title="Name and Create">
+    - Enter **OptiDev** as the name
+    - Select **Integrate any other application you don't find in the gallery (Non-gallery)**
+    - Click **Create**
+  </Step>
+</Steps>
+
+---
+
+## Step 3: Set Up SAML
+
+<Steps>
+  <Step title="Open Single Sign-On">
+    In your new OptiDev app, click **Single sign-on** in the left sidebar.
+  </Step>
+  <Step title="Select SAML">
+    Click **SAML** as the sign-on method.
+  </Step>
+  <Step title="Edit Basic SAML Configuration">
+    Click **Edit** on the **Basic SAML Configuration** card.
+  </Step>
+  <Step title="Enter OptiDev Settings">
+    Fill in these fields:
+
+    | Field | Value |
+    |-------|-------|
+    | **Identifier (Entity ID)** | Paste your **SP Entity ID** from Step 1 |
+    | **Reply URL (ACS URL)** | Paste your **ACS URL** from Step 1 |
+    | **Sign on URL** | `https://app.optidev.ai` |
+
+    Click **Save**.
+  </Step>
+</Steps>
+
+---
+
+## Step 4: Configure Attribute Mappings
+
+Azure sends user information to OptiDev through SAML attributes. You need to configure what gets sent.
+
+<Steps>
+  <Step title="Edit Attributes & Claims">
+    Click **Edit** on the **Attributes & Claims** card.
+  </Step>
+  <Step title="Verify Required Claims">
+    Make sure these claims exist (add them if missing):
+
+    | Claim name | Source attribute |
+    |------------|------------------|
+    | `emailaddress` | `user.mail` |
+    | `givenname` | `user.givenname` |
+    | `surname` | `user.surname` |
+
+    <Info>
+      The default Azure claims usually work. Only edit if you have custom attribute requirements.
+    </Info>
+  </Step>
+  <Step title="Check Unique User Identifier">
+    The **Unique User Identifier (Name ID)** should be set to `user.userprincipalname` or `user.mail`.
+  </Step>
+</Steps>
+
+---
+
+## Step 5: Download the Certificate
+
+<Steps>
+  <Step title="Find SAML Certificates">
+    Scroll to the **SAML Certificates** section.
+  </Step>
+  <Step title="Download Certificate">
+    Next to **Certificate (Base64)**, click **Download**.
+
+    Save the file — you'll upload or paste its contents into OptiDev.
+  </Step>
+  <Step title="Copy Login URL and Identifier">
+    In the **Set up OptiDev** section, copy:
+
+    | Field in Azure | What You'll Call It |
+    |----------------|---------------------|
+    | Login URL | **SSO URL** |
+    | Azure AD Identifier | **Entity ID** |
+  </Step>
+</Steps>
+
+---
+
+## Step 6: Enter Azure Details in OptiDev
+
+<Steps>
+  <Step title="Return to OptiDev SSO Settings">
+    Go back to **Workspace Settings → Security → Single Sign-On**.
+  </Step>
+  <Step title="Enter IdP Configuration">
+    Fill in the fields:
+
+    | Field | Value |
+    |-------|-------|
+    | **Display Name** | `Microsoft` or `Azure AD` (shown on login button) |
+    | **Entity ID** | Paste the **Azure AD Identifier** |
+    | **SSO URL** | Paste the **Login URL** |
+    | **Certificate** | Open the downloaded certificate file in a text editor and paste the entire contents |
+  </Step>
+  <Step title="Add Your Email Domain">
+    Enter your company's email domain (e.g., `yourcompany.com`).
+
+    All users with this email domain will be directed to Azure for login.
+  </Step>
+  <Step title="Save Configuration">
+    Click **Save** to enable SSO.
+  </Step>
+</Steps>
+
+---
+
+## Step 7: Assign Users in Azure
+
+Before users can log in, you need to give them access to the app in Azure.
+
+<Steps>
+  <Step title="Go to Users and Groups">
+    In your Azure OptiDev app, click **Users and groups** in the sidebar.
+  </Step>
+  <Step title="Add Users">
+    Click **+ Add user/group**.
+  </Step>
+  <Step title="Select Users or Groups">
+    - Click **Users** to select individual people
+    - Or click **Groups** to assign entire teams
+
+    Click **Select**, then **Assign**.
+  </Step>
+</Steps>
+
+<Tip>
+  Create a security group called "OptiDev Users" in Azure AD. Add this group to the app, then manage access by adding/removing people from the group.
+</Tip>
+
+---
+
+## Step 8: Test Your Setup
+
+<Steps>
+  <Step title="Open an Incognito Window">
+    Use a private/incognito browser window to avoid cached sessions.
+  </Step>
+  <Step title="Go to OptiDev">
+    Visit `https://app.optidev.ai` and click **Sign in with SSO**.
+  </Step>
+  <Step title="Enter Your Email">
+    Enter your company email address. You should be redirected to Microsoft login.
+  </Step>
+  <Step title="Log In">
+    Sign in with your Microsoft credentials. You should land in OptiDev.
+  </Step>
+</Steps>
+
+<Check>
+  If you see your OptiDev dashboard, SSO is working. Your team can now log in with their Microsoft accounts.
+</Check>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Error: 'AADSTS50105 - User not assigned'">
+    The user trying to log in hasn't been assigned to the OptiDev app in Azure.
+    - Go to **Users and groups** in your Azure app
+    - Add the user or add them to an assigned group
+  </Accordion>
+
+  <Accordion title="Error: 'AADSTS700016 - Application not found'">
+    The Entity ID in OptiDev doesn't match Azure.
+    - In Azure, go to **Single sign-on → Basic SAML Configuration**
+    - Verify the **Identifier (Entity ID)** matches exactly what OptiDev shows
+  </Accordion>
+
+  <Accordion title="Error: 'Invalid SAML response'">
+    - Check that the certificate was copied completely (including `-----BEGIN CERTIFICATE-----` and `-----END CERTIFICATE-----`)
+    - Verify the Reply URL (ACS URL) matches exactly
+    - Make sure there are no extra spaces in the URLs
+  </Accordion>
+
+  <Accordion title="Login works but user has no access">
+    - The user account was created, but they need to be added to a workspace
+    - Go to **Workspace Settings → Members** in OptiDev and invite them
+  </Accordion>
+
+  <Accordion title="Users from multiple domains">
+    If your organization uses multiple email domains (e.g., `company.com` and `company.co.uk`):
+    - Add each domain in OptiDev SSO settings
+    - All domains will use the same Azure AD configuration
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Optional: Automatic User Provisioning
+
+Want users to appear in OptiDev before they log in? Azure supports SCIM provisioning.
+
+<Info>
+  Contact OptiDev support to enable SCIM provisioning for your workspace.
+</Info>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Managing Users" icon="users" href="/security/single-sign-on#managing-users">
+    Learn how to add and remove user access.
+  </Card>
+  <Card title="Troubleshooting" icon="wrench" href="/security/single-sign-on#troubleshooting">
+    Common issues and solutions.
+  </Card>
+</CardGroup>
