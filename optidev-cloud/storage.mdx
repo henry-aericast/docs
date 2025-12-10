@@ -1,0 +1,267 @@
+---
+title: "Storage"
+description: "Store and serve files like images, documents, and videos"
+---
+
+## What is Storage
+
+Storage is where your app keeps files - profile pictures, uploaded documents, product images, videos, and any other files your users need.
+
+OptiDev Cloud Storage gives you:
+
+- **Fast global delivery** - Files are served through a CDN, so they load quickly worldwide
+- **Flexible access control** - Make files public for everyone or private for specific users
+- **Organized structure** - Group files into "buckets" for different purposes
+
+---
+
+## Setting Up Storage with OptiDev Agent
+
+The easiest way to add file storage to your app is to describe what you need.
+
+### Example: Profile Pictures
+
+> *"Add profile picture upload to my user settings page. Store the images and display them next to usernames"*
+
+OptiDev Agent will:
+1. Create a storage bucket for avatars
+2. Add an upload component to your settings page
+3. Save the image URL to the user's profile
+4. Display the picture throughout your app
+
+### Example: Document Uploads
+
+> *"Let users upload PDF documents to their account. Show a list of their uploaded files"*
+
+OptiDev Agent will:
+1. Set up secure storage for documents
+2. Create an upload interface
+3. Build a file list showing each user's documents
+4. Handle download links
+
+### Example: Product Images
+
+> *"Add image upload for products in my admin panel. Support multiple images per product"*
+
+OptiDev Agent will:
+1. Create storage for product images
+2. Add multi-image upload to your product editor
+3. Display image galleries on product pages
+
+---
+
+## Understanding Buckets
+
+Files are organized into **buckets** - think of them like folders for different types of content.
+
+### Common Bucket Examples
+
+| Bucket Name | Purpose | Access |
+|-------------|---------|--------|
+| `avatars` | User profile pictures | Public |
+| `documents` | User-uploaded files | Private |
+| `products` | Product images | Public |
+| `invoices` | Generated invoices | Private |
+
+### Public vs Private Buckets
+
+**Public buckets:**
+- Anyone with the URL can view the files
+- Good for: profile pictures, product images, public assets
+- Files have permanent, shareable URLs
+
+**Private buckets:**
+- Only authorized users can access files
+- Good for: personal documents, invoices, sensitive data
+- Files require special "signed URLs" with expiration times
+
+---
+
+## Uploading Files with OptiDev Agent
+
+### Adding Upload to Your App
+
+Describe the upload experience you want:
+
+> *"Add a drag-and-drop image uploader to the product form"*
+
+> *"Let users select multiple files from their computer to upload"*
+
+> *"Add a camera button that lets mobile users take a photo to upload"*
+
+OptiDev Agent will create the appropriate upload interface.
+
+### Handling Different File Types
+
+OptiDev Agent can set up validation for specific file types:
+
+> *"Only allow PDF and Word documents for the resume upload"*
+
+> *"Accept images only (JPG, PNG, GIF) for the gallery, max 5MB each"*
+
+---
+
+## Viewing Files in the Dashboard
+
+### Browsing Buckets
+
+1. Go to the **Storage** section (if available in your dashboard)
+2. See a list of your buckets
+3. Click a bucket to view its contents
+
+### File Information
+
+For each file, you can see:
+
+- **File name** - The original or assigned name
+- **Size** - How large the file is
+- **Upload date** - When it was added
+- **URL** - The web address to access the file
+
+---
+
+## Working with File URLs
+
+### Public File URLs
+
+Public files have permanent URLs that anyone can access:
+
+```
+https://your-project.supabase.co/storage/v1/object/public/avatars/user-123.jpg
+```
+
+Use these directly in your app to display images or link to downloads.
+
+### Private File URLs
+
+Private files need **signed URLs** - temporary links that expire:
+
+> *"When a user clicks download, generate a link to their invoice that expires in 1 hour"*
+
+OptiDev Agent will set up secure, time-limited access to private files.
+
+---
+
+## Common Storage Tasks
+
+### Displaying User Uploads
+
+> *"Show each user's profile picture next to their comments"*
+
+### Building a Gallery
+
+> *"Create an image gallery from all photos in the 'products' bucket"*
+
+### Handling File Downloads
+
+> *"Add a download button for each document in the user's file list"*
+
+### Deleting Files
+
+> *"Let users delete their own uploaded files"*
+
+### Organizing Files
+
+> *"Put each user's files in their own folder within the documents bucket"*
+
+---
+
+## File Upload Best Practices
+
+### Set File Size Limits
+
+Prevent huge uploads that slow down your app:
+
+> *"Limit uploads to 10MB per file"*
+
+### Accept Specific File Types
+
+Only allow the files you actually need:
+
+> *"Only accept images for the avatar upload"*
+
+### Use Meaningful File Names
+
+OptiDev Agent can rename files automatically:
+
+> *"Name uploaded files with the user ID and timestamp"*
+
+### Compress Images
+
+For better performance:
+
+> *"Resize uploaded images to max 1200px wide"*
+
+---
+
+## Storage Limits and Quotas
+
+OptiDev Cloud includes storage with your plan:
+
+- Files are stored securely with automatic backups
+- Large files are handled efficiently
+- No per-file charges for standard usage
+
+Check your plan details for specific storage limits.
+
+---
+
+## For Developers
+
+<Accordion title="Technical Reference">
+
+### Supabase Storage Client
+
+Upload files using the Supabase JavaScript client:
+
+```typescript
+const { data, error } = await supabase.storage
+  .from('avatars')
+  .upload('user-123.jpg', file)
+```
+
+### Getting Public URLs
+
+```typescript
+const { data } = supabase.storage
+  .from('avatars')
+  .getPublicUrl('user-123.jpg')
+
+// data.publicUrl contains the URL
+```
+
+### Creating Signed URLs
+
+For private files with expiration:
+
+```typescript
+const { data, error } = await supabase.storage
+  .from('documents')
+  .createSignedUrl('invoice.pdf', 3600) // expires in 1 hour
+
+// data.signedUrl contains the temporary URL
+```
+
+### Listing Files
+
+```typescript
+const { data, error } = await supabase.storage
+  .from('documents')
+  .list('user-123/') // list files in a folder
+```
+
+### Deleting Files
+
+```typescript
+const { error } = await supabase.storage
+  .from('avatars')
+  .remove(['user-123.jpg'])
+```
+
+### Storage Policies
+
+Control access with Row Level Security policies on the `storage.objects` table. Ask OptiDev Agent:
+
+> *"Only let users access their own files in the documents bucket"*
+
+</Accordion>

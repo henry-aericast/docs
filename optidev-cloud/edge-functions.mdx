@@ -1,0 +1,303 @@
+---
+title: "Edge Functions"
+description: "Run server-side code for APIs, integrations, and background tasks"
+---
+
+## What are Edge Functions
+
+Edge Functions are small pieces of code that run on the server instead of in the browser. They're useful for things you can't (or shouldn't) do in the browser:
+
+- **Payment processing** - Connect to Stripe, PayPal, or other payment providers
+- **Sending emails** - Send confirmation emails, notifications, or newsletters
+- **API integrations** - Connect to external services like HubSpot, Zendesk, or custom APIs
+- **Protected operations** - Tasks that need secret API keys you don't want exposed
+
+Edge Functions run globally, close to your users, which means they're fast no matter where your users are located.
+
+---
+
+## Creating Functions with OptiDev Agent
+
+The easiest way to create Edge Functions is to describe what you need to OptiDev Agent.
+
+### Example: Stripe Payment
+
+> *"Create an API endpoint that accepts credit card payments with Stripe. It should take the amount and save the order to the database"*
+
+OptiDev Agent will:
+1. Create the Edge Function with Stripe integration
+2. Handle the payment processing securely
+3. Save order details to your database
+4. Deploy it to OptiDev Cloud
+
+### Example: Email Notifications
+
+> *"Create a function that sends a welcome email when a new user signs up"*
+
+OptiDev Agent will:
+1. Set up email sending (using a service like Resend or SendGrid)
+2. Create a nicely formatted welcome email template
+3. Connect it to your user registration flow
+
+### Example: External API Integration
+
+> *"Create an endpoint that fetches customer data from our HubSpot account when given a customer email"*
+
+OptiDev Agent will:
+1. Create the function with HubSpot API integration
+2. Handle authentication with your HubSpot API key
+3. Return the customer data in a clean format
+
+---
+
+## Viewing Functions in the Dashboard
+
+### The Edge Functions Tab
+
+Go to the **Edge Functions** tab in OptiDev Cloud to see:
+
+- **Overview card** - Shows how many functions are in your workspace and how many are deployed
+- **Workspace Functions** - Functions in your project files, ready to deploy
+- **Deployed Functions** - Functions currently running on OptiDev Cloud
+
+### Function Status Indicators
+
+Each function shows its current status:
+
+| Indicator | Meaning |
+|-----------|---------|
+| Green checkmark with "Deployed" | Running on OptiDev Cloud |
+| Orange warning with "Not deployed" | In your workspace but not yet deployed |
+| "Needs deployment" count | Functions that have changed since last deploy |
+
+---
+
+## Deploying Functions
+
+### From the Dashboard
+
+1. Go to the **Edge Functions** tab
+2. Find your function under **Workspace Functions**
+3. Click **Deploy** (or **Redeploy** if updating)
+
+Deployment usually takes a few seconds. You'll see a success message when complete.
+
+### With OptiDev Agent
+
+Just ask OptiDev Agent to deploy:
+
+> *"Deploy my payment function"*
+
+Or deploy all functions at once:
+
+> *"Deploy all my Edge Functions"*
+
+### Automatic Deployment
+
+When you ask OptiDev Agent to create a function, it typically deploys automatically after creating the code.
+
+---
+
+## Testing Functions
+
+Before connecting a function to your app, test it directly from the dashboard.
+
+### Opening the Test Panel
+
+1. Find your function under **Deployed Functions**
+2. Click the **Test** button
+
+### Making a Test Request
+
+The test panel lets you configure:
+
+- **HTTP Method** - GET, POST, PUT, DELETE, or PATCH
+- **Request Body** - JSON data to send (for POST/PUT requests)
+- **Headers** - Any custom headers your function expects
+- **Query Parameters** - URL parameters like `?name=John`
+
+### Running the Test
+
+1. Configure your request
+2. Click **Send Request**
+3. See the response including:
+   - Status code (200 = success, 400/500 = error)
+   - Response data
+   - Response time
+
+### Example Test
+
+For a payment function, you might test with:
+
+- **Method:** POST
+- **Body:** `{ "amount": 2500, "currency": "usd" }`
+
+The response will show whether the payment would succeed.
+
+---
+
+## Viewing Function Details
+
+Click **View Details** on any deployed function to see:
+
+### Function URL
+
+The web address for calling your function. This is what your app uses to communicate with the function.
+
+Click **Copy URL** to copy it to your clipboard.
+
+### Execution Information
+
+- **Version** - The current deployed version number
+- **Last updated** - When the function was last deployed
+- **Status** - Whether the function is active
+
+---
+
+## Managing Functions
+
+### Updating a Function
+
+When you modify a function's code:
+
+1. The function appears with a "needs deployment" indicator
+2. Click **Redeploy** to push the changes
+3. The new version goes live immediately
+
+### Deleting a Function
+
+1. Click the **trash icon** next to the deployed function
+2. Confirm the deletion
+
+<Warning>
+Deleting a deployed function removes it immediately. Any apps calling that function will get errors. Make sure nothing is using the function before deleting.
+</Warning>
+
+### Getting the Function URL
+
+Every deployed function has a unique URL. To use it in your app:
+
+1. Find the function under **Deployed Functions**
+2. Click **Copy URL**
+3. Use this URL in your app to call the function
+
+---
+
+## Creating Your First Function
+
+If you don't have any functions yet, the dashboard shows a helpful empty state.
+
+### Quick Start with Sample Function
+
+Click **Create Sample Function** to generate a simple "hello world" function. This gives you:
+
+- A working function you can deploy immediately
+- Example code structure to learn from
+- A starting point to modify for your needs
+
+### With OptiDev Agent
+
+Describe what you need:
+
+> *"Create a simple API endpoint that returns the current date and time"*
+
+OptiDev Agent will create the function, explain the code, and deploy it for you.
+
+---
+
+## Common Use Cases
+
+### Webhook Handlers
+
+> *"Create a function that receives webhooks from Stripe and updates order status in the database"*
+
+### Form Submissions
+
+> *"Create an endpoint that receives contact form submissions and sends them to my email"*
+
+### Data Processing
+
+> *"Create a function that takes a CSV file and imports the data into my products table"*
+
+### Scheduled Tasks
+
+> *"Create a function that runs daily to send reminder emails for upcoming appointments"*
+
+### Third-Party Integrations
+
+> *"Create a function that syncs new customers to my Mailchimp mailing list"*
+
+---
+
+## Secrets and API Keys
+
+Many integrations require API keys (like your Stripe secret key). These should never be in your frontend code.
+
+### Managing Secrets
+
+Go to the **Secrets** tab in OptiDev Cloud:
+
+1. Click **Add Secret**
+2. Enter a name (like `STRIPE_SECRET_KEY`)
+3. Enter the value (your actual API key)
+4. Click **Save**
+
+### Using Secrets in Functions
+
+Ask OptiDev Agent to use your secrets:
+
+> *"Create a Stripe payment function using my STRIPE_SECRET_KEY secret"*
+
+OptiDev Agent will write code that securely accesses your secret.
+
+<Note>
+Secrets are write-only for security. You can create and delete them, but you can't view the values after saving.
+</Note>
+
+---
+
+## For Developers
+
+<Accordion title="Technical Reference">
+
+### Function Structure
+
+Edge Functions are TypeScript/JavaScript files that run on Deno. Each function lives in:
+
+```
+supabase/functions/function-name/index.ts
+```
+
+### Accessing Secrets
+
+In your function code, access secrets with:
+
+```typescript
+const stripeKey = Deno.env.get('STRIPE_SECRET_KEY')
+```
+
+### CORS Handling
+
+Functions need to handle CORS for browser requests. The sample function includes proper CORS headers.
+
+### Function URL Format
+
+```
+https://your-project.supabase.co/functions/v1/function-name
+```
+
+### Invoking from Your App
+
+The Supabase client can call functions directly:
+
+```typescript
+const { data, error } = await supabase.functions.invoke('function-name', {
+  body: { amount: 2500 }
+})
+```
+
+### Logging
+
+Use `console.log()` in your functions. Logs are viewable in the function details panel.
+
+</Accordion>

@@ -1,0 +1,287 @@
+---
+title: "Database"
+description: "Store and manage your app's data with a managed PostgreSQL database"
+---
+
+## What is the Database
+
+The database is where your app stores all its information - user profiles, products, orders, messages, settings, and more. Think of it like a collection of spreadsheets, where each "table" holds a specific type of data.
+
+OptiDev Cloud gives you a fully managed PostgreSQL database. This means:
+
+- **No setup required** - Your database is ready as soon as you activate OptiDev Cloud
+- **Automatic backups** - Your data is safely backed up
+- **Fast and reliable** - Hosted on global infrastructure with high availability
+
+---
+
+## Creating Tables with OptiDev Agent
+
+The easiest way to create tables is to describe what you need to OptiDev Agent.
+
+### Example: Product Catalog
+
+> *"Create a products table with name, description, price, category, and whether it's in stock"*
+
+OptiDev Agent will create a table with the right columns and data types automatically.
+
+### Example: Customer Orders
+
+> *"I need to track orders. Each order has a customer email, list of items, total amount, shipping address, and order status"*
+
+OptiDev Agent will:
+1. Create the orders table
+2. Set up appropriate column types (text for email, number for total, etc.)
+3. Add a timestamp for when orders are created
+
+### Example: Blog Posts
+
+> *"Create tables for a blog with posts and comments. Posts have a title, content, author, and publish date. Comments belong to a post and have the commenter name and message"*
+
+OptiDev Agent understands relationships between tables and will set them up correctly.
+
+---
+
+## Browsing Tables in the Dashboard
+
+### Viewing Your Tables
+
+1. Go to the **Database** tab in OptiDev Cloud
+2. The left sidebar shows all your tables
+3. Click any table name to see its data
+
+### Understanding the Table View
+
+When you click a table, you'll see:
+
+- **Columns** - The header row shows all fields in your table
+- **Rows** - Each row is one record (one product, one order, one user, etc.)
+- **Row count** - Shows how many total records exist
+
+### Navigating Large Tables
+
+Use the pagination controls at the bottom:
+
+- **Rows per page** - Choose to show 10, 25, 50, or 100 rows at a time
+- **Page navigation** - Click arrows or page numbers to browse through data
+- **Row counter** - Shows which rows you're viewing (e.g., "Showing 1-50 of 1,234")
+
+---
+
+## Editing Data
+
+### Editing a Single Cell
+
+1. **Double-click** any cell you want to edit
+2. Type the new value
+3. Press **Enter** to save, or **Escape** to cancel
+
+The change is saved immediately to your database.
+
+### Adding a New Row
+
+1. Click the **Add Row** button above the results
+2. Fill in the values for each column
+3. Click **Add Row** to save
+
+### Selecting Multiple Rows
+
+- Click the checkbox next to any row to select it
+- Use the checkbox in the header to select all visible rows
+- Selected rows can be exported or copied together
+
+---
+
+## Running SQL Queries
+
+For more advanced data access, you can write SQL queries directly.
+
+### The SQL Editor
+
+Above the results table, you'll see a code editor. This is where you write SQL queries.
+
+### Basic Queries
+
+**View all data from a table:**
+```sql
+SELECT * FROM products
+```
+
+**Find specific records:**
+```sql
+SELECT * FROM orders WHERE status = 'pending'
+```
+
+**Search by date:**
+```sql
+SELECT * FROM users WHERE created_at > '2024-01-01'
+```
+
+**Count records:**
+```sql
+SELECT COUNT(*) FROM orders WHERE total > 100
+```
+
+### Running a Query
+
+1. Type your SQL in the editor
+2. Click **Execute Query** (or the play button)
+3. Results appear in the table below
+
+### Quick Table Selection
+
+Click any table name in the sidebar, and the editor automatically fills in:
+```sql
+SELECT * FROM table_name LIMIT 10;
+```
+
+This is a quick way to preview any table's data.
+
+---
+
+## Exporting Data
+
+### Export Options
+
+Click the **menu icon** (three dots) above the results to see export options:
+
+- **Export to JSON** - For use in other applications or backups
+- **Export to CSV** - Opens in Excel, Google Sheets, or any spreadsheet app
+- **Export to Excel** - Direct Excel-compatible format
+- **Copy as SQL** - Get INSERT statements to recreate the data elsewhere
+
+### Exporting Selected Rows
+
+1. Select rows using the checkboxes
+2. Click the menu icon
+3. Choose "Export selected to..." for your preferred format
+
+This is useful when you only need a subset of your data.
+
+---
+
+## Managing Tables with OptiDev Agent
+
+### Adding Columns
+
+> *"Add a 'discount_percent' column to the products table"*
+
+### Modifying Data
+
+> *"Update all orders from last month to have status 'archived'"*
+
+### Creating Sample Data
+
+> *"Add 10 sample products to the products table with realistic names and prices"*
+
+### Analyzing Data
+
+> *"Show me the top 10 customers by total order value"*
+
+OptiDev Agent can write and run complex queries for you, then explain the results.
+
+---
+
+## Common Tasks
+
+### Finding Records
+
+**By exact match:**
+```sql
+SELECT * FROM users WHERE email = 'john@example.com'
+```
+
+**By partial match:**
+```sql
+SELECT * FROM products WHERE name LIKE '%shirt%'
+```
+
+**By multiple conditions:**
+```sql
+SELECT * FROM orders WHERE status = 'shipped' AND total > 50
+```
+
+### Sorting Results
+
+**Newest first:**
+```sql
+SELECT * FROM orders ORDER BY created_at DESC
+```
+
+**Alphabetically:**
+```sql
+SELECT * FROM products ORDER BY name ASC
+```
+
+### Limiting Results
+
+**First 10 records:**
+```sql
+SELECT * FROM products LIMIT 10
+```
+
+**Skip and limit (for pagination):**
+```sql
+SELECT * FROM products LIMIT 10 OFFSET 20
+```
+
+---
+
+## Tips and Best Practices
+
+### Let OptiDev Agent Help
+
+If you're not sure how to write a query, just ask:
+
+> *"Show me all orders from the last 7 days sorted by total amount"*
+
+OptiDev Agent will write the SQL and run it for you.
+
+### Use the Table Browser
+
+For quick data checks, just click table names in the sidebar. You don't need to write SQL for basic browsing.
+
+### Export Before Major Changes
+
+Before making big changes to your data, export a backup:
+
+1. Run `SELECT * FROM table_name`
+2. Export to JSON or CSV
+3. Keep the file as a backup
+
+---
+
+## For Developers
+
+<Accordion title="Technical Reference">
+
+### PostgreSQL Compatibility
+
+OptiDev Cloud runs PostgreSQL, giving you access to:
+
+- All standard SQL features
+- JSON/JSONB columns for flexible data
+- Full-text search
+- Indexes for performance
+
+### Connection String
+
+Click **Connect** in the Connection Info tab to get your database connection string. Use it with:
+
+- Database clients (TablePlus, DBeaver, pgAdmin)
+- ORMs (Prisma, TypeORM, Drizzle)
+- Direct PostgreSQL connections
+
+The connection uses session pooler (port 5432) for full compatibility.
+
+### Schema
+
+Tables are created in the `public` schema by default. Use `information_schema` queries for metadata about your tables.
+
+### Row Level Security
+
+OptiDev Cloud supports Row Level Security (RLS) policies. Ask OptiDev Agent to set up policies like:
+
+> *"Only let users see their own orders"*
+
+</Accordion>

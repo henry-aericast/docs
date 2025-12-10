@@ -1,0 +1,236 @@
+---
+title: "How to Use"
+description: "Getting started with OptiDev Cloud"
+---
+
+## What is OptiDev Cloud
+
+OptiDev Cloud is a ready-to-use backend for your app. It gives you everything you need to build real applications:
+
+- **Database** - Store and organize your app's data (user profiles, orders, messages, etc.)
+- **Authentication** - Let users create accounts and log in securely
+- **Edge Functions** - Run server-side code for things like payment processing or sending emails
+- **Storage** - Store files like images, documents, and videos
+
+The best part? You don't need to set up servers or manage infrastructure. Just activate OptiDev Cloud and start building.
+
+### Works with OptiDev Agent
+
+OptiDev Agent understands OptiDev Cloud automatically. You can simply describe what you need:
+
+- *"Create a table to store customer orders with name, email, and order total"*
+- *"Add user login to my app"*
+- *"Create an API endpoint that connects to Stripe for payments"*
+
+OptiDev Agent will create the tables, set up authentication, write the functions, and deploy everything for you.
+
+---
+
+## Activating OptiDev Cloud
+
+### Step 1: Open OptiDev Cloud
+
+In your project, click the **OptiDev Cloud** tab in the left sidebar (cloud icon).
+
+### Step 2: Choose a Region
+
+Select a region closest to where your users are located:
+
+| Region | Best for |
+|--------|----------|
+| US East (Ohio) | North America |
+| EU Central (Frankfurt) | Europe |
+| AP Southeast (Singapore) | Asia |
+| AP Southeast (Sydney) | Australia/Oceania |
+
+Choosing a closer region means faster response times for your users.
+
+### Step 3: Activate
+
+Click the **Activate OptiDev Cloud** button. You'll see a progress bar while your backend is being set up.
+
+This usually takes 1-2 minutes. When complete, you'll see a green **Active** badge and the dashboard will load.
+
+<Note>
+Once activated, OptiDev Cloud is ready to use immediately. OptiDev Agent can start creating tables and functions right away.
+</Note>
+
+---
+
+## The OptiDev Cloud Dashboard
+
+After activation, you'll see several tabs for managing your backend:
+
+### Connection Info
+
+Shows your API credentials:
+
+- **API URL** - The web address for your backend
+- **Publishable Key** - Safe to use in your app's frontend code
+- **Database Connection** - Click "Connect" to see connection details for database tools
+
+Click the copy icon next to any value to copy it to your clipboard.
+
+### Database
+
+Browse and query your data:
+
+- See all your tables in the left sidebar
+- Click a table to view its data
+- Run SQL queries in the editor
+- Export data as CSV, JSON, or Excel
+
+### Auth
+
+Manage user authentication:
+
+- Enable/disable sign-in methods (Email, Phone, Google)
+- View registered users
+- Configure signup settings
+
+### Edge Functions
+
+Manage your server-side code:
+
+- See deployed functions
+- View execution logs
+- Test functions directly
+
+---
+
+## Using OptiDev Agent with OptiDev Cloud
+
+The easiest way to work with OptiDev Cloud is through OptiDev Agent. Just describe what you need in plain language.
+
+### Creating Tables
+
+Tell OptiDev Agent what data you want to store:
+
+> *"Create a products table with name, description, price, and image URL"*
+
+OptiDev Agent will:
+1. Create the table with the right column types
+2. Set up the database schema
+3. Show you the table in your dashboard
+
+### Adding Authentication
+
+Ask OptiDev Agent to add login:
+
+> *"Add user authentication to my app with email and Google sign-in"*
+
+OptiDev Agent will:
+1. Enable the auth providers
+2. Add sign-in forms to your app
+3. Connect everything together
+
+### Creating API Endpoints
+
+Describe the functionality you need:
+
+> *"Create an API endpoint that accepts payment with Stripe and saves the order to the database"*
+
+OptiDev Agent will:
+1. Create an Edge Function with the Stripe integration
+2. Deploy it to OptiDev Cloud
+3. Connect it to your frontend
+
+---
+
+## Checking Your Data
+
+### Viewing Tables
+
+1. Go to the **Database** tab
+2. Click any table name in the left sidebar
+3. Browse rows using the pagination controls at the bottom
+
+### Editing Data
+
+- **Double-click** any cell to edit it
+- Press **Enter** to save or **Escape** to cancel
+- Click **Add Row** to create a new entry
+
+### Running Queries
+
+Type SQL in the editor to search or analyze your data:
+
+```sql
+SELECT * FROM orders WHERE total > 100
+```
+
+Click **Execute Query** to see results.
+
+---
+
+## Viewing Users
+
+1. Go to the **Auth** tab
+2. You'll see the sign-in methods configuration
+3. Registered users appear in the users list
+
+From here you can see:
+- Email addresses
+- When users signed up
+- Last sign-in time
+- Auth provider used (email, phone, or Google)
+
+---
+
+## Monitoring Edge Functions
+
+### Viewing Deployed Functions
+
+1. Go to the **Edge Functions** tab
+2. **Deployed Functions** shows all functions running on OptiDev Cloud
+3. Each function shows its name, version, and last update time
+
+### Function Details
+
+Click **View Details** on any function to see:
+
+- Function URL (for calling from your app)
+- Execution history
+- Recent invocations
+
+### Testing Functions
+
+1. Click **Test** next to any deployed function
+2. Choose the HTTP method (GET, POST, etc.)
+3. Add any data your function expects
+4. Click **Send Request** to see the response
+
+This is useful for debugging before connecting to your app.
+
+---
+
+## For Developers
+
+<Accordion title="Technical Reference">
+
+### Environment Variables
+
+When you activate OptiDev Cloud, these environment variables are automatically added to your project's `.env.local`:
+
+- `VITE_SUPABASE_URL` - Your API endpoint
+- `VITE_SUPABASE_PUBLISHABLE_KEY` - Your public API key
+
+### Supabase Client
+
+OptiDev Cloud is built on Supabase. You can use the Supabase JavaScript client directly:
+
+```bash
+npm install @supabase/supabase-js
+```
+
+A pre-configured client is created at `src/lib/supabaseClient.ts` when you activate OptiDev Cloud.
+
+### Database Connection
+
+The connection string uses session pooler (port 5432) for full PostgreSQL compatibility. Use it with any PostgreSQL client or ORM.
+
+### Edge Functions Runtime
+
+Functions run on Deno with TypeScript support. Access secrets via `Deno.env.get('SECRET_NAME')`.
+
+</Accordion>

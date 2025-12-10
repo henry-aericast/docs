@@ -1,0 +1,353 @@
+---
+title: "Auth"
+description: "Add user accounts and login to your app"
+---
+
+## What is Auth
+
+Auth (authentication) lets users create accounts and log into your app. OptiDev Cloud handles all the complex parts:
+
+- **Account creation** - Users can sign up with email, phone, or Google
+- **Secure login** - Password hashing, session management, all handled for you
+- **Password reset** - Automatic "forgot password" emails
+- **User management** - See all your users and their account details
+
+You don't need to build any of this from scratch - just tell OptiDev Agent what you need.
+
+---
+
+## Adding Login with OptiDev Agent
+
+### Example: Basic Email Login
+
+> *"Add user login to my app with email and password"*
+
+OptiDev Agent will:
+1. Enable email authentication
+2. Create sign-up and login forms
+3. Add logout functionality
+4. Show different content for logged-in vs logged-out users
+
+### Example: Google Sign-In
+
+> *"Let users sign in with their Google account"*
+
+OptiDev Agent will:
+1. Set up Google OAuth
+2. Add a "Sign in with Google" button
+3. Handle the authentication flow
+
+### Example: Phone Login
+
+> *"Add phone number login with SMS verification codes"*
+
+OptiDev Agent will:
+1. Enable phone authentication
+2. Create a phone number input form
+3. Handle SMS code verification
+
+---
+
+## Sign-In Methods
+
+OptiDev Cloud supports three ways for users to sign in:
+
+### Email & Password
+
+The most common option. Users enter their email and create a password.
+
+**Best for:** Most apps where you want users to have full accounts
+
+**Features:**
+- Email confirmation (optional)
+- Password reset via email
+- Remember me / stay logged in
+
+### Phone (SMS)
+
+Users enter their phone number and receive a one-time code via text message.
+
+**Best for:** Apps where users prefer not to remember passwords, mobile-first apps
+
+**Features:**
+- No password to remember
+- Quick sign-in with SMS codes
+- Works on any phone
+
+### Google
+
+Users click "Sign in with Google" and use their existing Google account.
+
+**Best for:** Quick onboarding, users who prefer not to create new accounts
+
+**Features:**
+- One-click sign-in
+- No new password needed
+- Access to user's name and profile picture
+
+---
+
+## Configuring Sign-In Methods
+
+### In the Dashboard
+
+1. Go to the **Auth** tab in OptiDev Cloud
+2. You'll see the three sign-in methods: Email, Phone, Google
+3. Click any method to see its settings and status
+
+Each method shows:
+- **Enabled** badge - Currently active
+- **Disabled** badge - Not available to users
+- Click to configure settings
+
+### With OptiDev Agent
+
+Ask OptiDev Agent to configure authentication:
+
+> *"Enable Google sign-in for my app"*
+
+> *"Turn off phone login, only use email"*
+
+> *"Enable all three sign-in options"*
+
+---
+
+## Email Settings
+
+Click on **Email** in the Auth tab to configure:
+
+### Enable/Disable
+
+Toggle email authentication on or off for your app.
+
+### Email Confirmation
+
+- **On (recommended):** Users must click a link in their email before accessing your app
+- **Off:** Users can log in immediately after signing up
+
+Email confirmation helps verify real email addresses and reduces spam accounts.
+
+---
+
+## Phone Settings
+
+Click on **Phone** in the Auth tab to configure:
+
+### Enable/Disable
+
+Toggle phone authentication on or off.
+
+### SMS Provider
+
+Phone authentication requires an SMS provider to send verification codes. OptiDev Agent can help set this up:
+
+> *"Set up phone authentication with Twilio"*
+
+---
+
+## Google Settings
+
+Click on **Google** in the Auth tab to configure:
+
+### Enable/Disable
+
+Toggle Google sign-in on or off.
+
+### Setting Up Google OAuth
+
+To enable Google sign-in, you'll need Google OAuth credentials. OptiDev Agent can guide you:
+
+> *"Help me set up Google sign-in"*
+
+This involves:
+1. Creating a project in Google Cloud Console
+2. Setting up OAuth consent screen
+3. Getting your Client ID and Client Secret
+4. Adding them to OptiDev Cloud
+
+---
+
+## User Signup Settings
+
+Control how new users can join your app:
+
+### Allow New Users to Sign Up
+
+- **On:** Anyone can create an account
+- **Off:** Only existing users can log in (good for invite-only apps)
+
+### Enable Anonymous Users
+
+- **On:** Users can use your app without creating an account
+- **Off:** Users must sign up to access your app
+
+Anonymous users can later convert to full accounts by adding an email or phone.
+
+---
+
+## Viewing Your Users
+
+### User List
+
+The Auth tab shows all registered users with:
+
+- **Email/Phone** - How they signed up
+- **Created** - When they joined
+- **Last Sign In** - Their most recent login
+- **Provider** - How they log in (email, phone, or Google)
+
+### Finding Specific Users
+
+Use the search to find users by email or phone number.
+
+---
+
+## Common Authentication Tasks
+
+### Adding Login to Pages
+
+> *"Make the dashboard only accessible to logged-in users"*
+
+### Creating a Login Page
+
+> *"Create a nice login page with email and Google options"*
+
+### Adding Logout
+
+> *"Add a logout button to the navigation menu"*
+
+### Protecting Content
+
+> *"Only show the admin panel to users with an @mycompany.com email"*
+
+### User Profiles
+
+> *"Let users view and edit their profile information"*
+
+### Password Reset
+
+> *"Add a 'forgot password' link to the login page"*
+
+---
+
+## Advanced Settings
+
+Click **Advanced** in the Auth tab to configure:
+
+### Site URL
+
+The main URL of your app. Used in email templates for links back to your app.
+
+### Allowed URLs
+
+A list of URLs where users can be redirected after logging in. Important for security - only add URLs you control.
+
+Click **Add** to add new URLs. Each URL should start with `https://`.
+
+---
+
+## Security Best Practices
+
+### Use Email Confirmation
+
+Require users to verify their email addresses. This:
+- Ensures you can contact users
+- Reduces fake accounts
+- Helps with password recovery
+
+### Keep Sign-In Options Simple
+
+Don't overwhelm users with too many options. Pick 1-2 methods that make sense for your audience:
+- Business apps: Email + Google
+- Mobile apps: Phone + Google
+- General apps: Email only is often enough
+
+### Protect Sensitive Pages
+
+Always check if users are logged in before showing private content:
+
+> *"Make sure users can only see their own orders"*
+
+OptiDev Agent will set up proper access controls.
+
+---
+
+## For Developers
+
+<Accordion title="Technical Reference">
+
+### Supabase Auth Client
+
+Check authentication state:
+
+```typescript
+const { data: { user } } = await supabase.auth.getUser()
+
+if (user) {
+  console.log('Logged in as:', user.email)
+} else {
+  console.log('Not logged in')
+}
+```
+
+### Sign Up
+
+```typescript
+const { data, error } = await supabase.auth.signUp({
+  email: 'user@example.com',
+  password: 'secure-password'
+})
+```
+
+### Sign In
+
+```typescript
+const { data, error } = await supabase.auth.signInWithPassword({
+  email: 'user@example.com',
+  password: 'secure-password'
+})
+```
+
+### Sign In with Google
+
+```typescript
+const { data, error } = await supabase.auth.signInWithOAuth({
+  provider: 'google'
+})
+```
+
+### Sign Out
+
+```typescript
+const { error } = await supabase.auth.signOut()
+```
+
+### Auth State Listener
+
+React to login/logout events:
+
+```typescript
+supabase.auth.onAuthStateChange((event, session) => {
+  if (event === 'SIGNED_IN') {
+    console.log('User signed in:', session.user)
+  } else if (event === 'SIGNED_OUT') {
+    console.log('User signed out')
+  }
+})
+```
+
+### Row Level Security
+
+Protect database rows by user:
+
+```sql
+-- Users can only see their own orders
+CREATE POLICY "Users see own orders" ON orders
+  FOR SELECT USING (auth.uid() = user_id);
+```
+
+Ask OptiDev Agent to set up RLS policies:
+
+> *"Make sure users can only access their own data in the orders table"*
+
+</Accordion>
