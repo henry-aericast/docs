@@ -1,0 +1,6 @@
+{
+  "name": "optidev-docs",
+  "scripts": {
+    "dev": "mint dev --port 3009"
+  }
+}
