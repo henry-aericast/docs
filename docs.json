@@ -18,8 +18,7 @@
             "group": "Get Started",
             "pages": [
               "get-started/quickstart",
-              "get-started/prompt-guide",
-              "get-started/prompt-library"
+              "get-started/prompt-guide"
             ]
           },
           {
