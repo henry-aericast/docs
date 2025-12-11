@@ -1,6 +1,284 @@
 ---
 title: "Prompt Guide"
-description: "Learn how to write effective prompts for the AI agent"
+description: "Best practices for working with OptiDev Agent to build better apps"
 ---
 
-Content coming soon.
+## Make a Plan
+
+5-10 minutes of planning saves hours of work and produces better results.
+
+### Give Context About Yourself
+
+Include who you are, your organization, and your end goal:
+
+> *"I'm a Growth Analyst for a SaaS company. I need to build a Stripe Dashboard showing recent subscriptions and new trial signups."*
+
+This helps the agent understand your perspective and make better decisions.
+
+### Use Modifiers to Shape Output
+
+Instead of basic instructions, add modifiers that encourage quality:
+
+<Tabs>
+  <Tab title="Basic">
+    > *"Create an analytics dashboard"*
+  </Tab>
+  <Tab title="Better">
+    > *"Create an analytics dashboard. Include as many relevant features and interactions as possible. Go beyond the basics to create a fully-featured implementation."*
+  </Tab>
+</Tabs>
+
+### Describe Business Outcomes
+
+Focus on what you want to achieve, not technical details:
+
+> *"For the kiosk app:*
+> - *If idle for 60 seconds, return to the attract screen*
+> - *Users can swipe left/right to view different slides*
+> - *Tap anywhere to go to product details"*
+
+### Review the Plan
+
+The agent creates a plan before building. Take time to review it and request changes before approving.
+
+---
+
+## Building Frontend
+
+### A Picture is Worth a Thousand Words
+
+Attach visual references to help the agent understand what you want:
+
+- **Screenshots** of websites or apps you like
+- **Figma designs** copied as images
+- **URLs** to reference sites
+
+> *"Scan this website and document the brand guidelines - colors, fonts, spacing. Use these throughout the app."*
+
+### Use the Visual Editor
+
+For quick design tweaks, the Visual Editor is often faster than prompting:
+
+- Click elements to edit text directly
+- Change colors and fonts without code
+- Adjust spacing and layout visually
+
+<Tip>
+Use the Visual Editor for small changes. For bigger features, describe them to the Agent.
+</Tip>
+
+### Request Features Explicitly
+
+Animations and interactive elements won't appear unless you ask:
+
+> *"Add a smooth fade-in animation when the page loads. Make the buttons scale up slightly on hover."*
+
+### Reference Component Libraries
+
+Your project includes [shadcn/ui components](https://ui.shadcn.com/docs/components). Reference them by name:
+
+> *"Use the Card component to display product info with image, title, and price."*
+
+> *"Add a Dialog for the confirmation popup."*
+
+---
+
+## Working with Files
+
+### Attach Reference Files
+
+Upload PDFs, images, or documents for the agent to read and understand:
+
+> *"Read the attached brand guidelines PDF and follow these standards."*
+
+### Use Images in Your App
+
+Attach images and tell the agent where to use them:
+
+> *"Use this image as the hero background on the homepage."*
+
+### Add Downloadable Files
+
+For files users can download:
+
+1. Activate **OptiDev Cloud**
+2. Go to **Storage** and upload your files
+3. Tell the agent:
+
+> *"Add a Download section. When users click the button, download `my_document.pdf` from OptiDev Cloud Storage."*
+
+---
+
+## OptiDev Cloud & Backend
+
+If you need database access, API integrations, or user authentication:
+
+1. **Activate OptiDev Cloud first** before asking the agent to build backend features
+2. **Add API keys to Secrets** in your project's OptiDev Cloud settings
+3. **Tell the agent** which secrets are available
+
+> *"My Stripe API key is stored in OptiDev Cloud Secrets as `STRIPE_SECRET_KEY`. Use it to fetch subscription data."*
+
+---
+
+## Working with API Keys
+
+### Be Explicit About Available Keys
+
+AI agents are cautious around credentials by design. Always tell the agent explicitly:
+
+> *"The Stripe API key is available in OptiDev Cloud Secrets. You can use it safely."*
+
+### Start with Least Privilege
+
+Always use the most restricted keys possible:
+
+- Read-only keys for dashboards and data displays
+- Limited-scope keys for specific operations
+- Never use admin or full-access keys unless absolutely necessary
+
+### Provide Documentation
+
+Help the agent find the right API patterns:
+
+> *"Search for the latest Stripe API documentation for listing subscriptions."*
+
+Or paste direct links:
+
+> *"Use this API reference: https://stripe.com/docs/api/subscriptions/list"*
+
+<Note>
+Many APIs like Stripe and Shopify offer "Copy as Markdown" or `llms.txt` files. These are excellent for giving the agent accurate context.
+</Note>
+
+### Give Example Data
+
+You know your business better than the agent. Provide examples:
+
+> *"Here's a sample API response from our system. Notice we only want to display subscriptions where `status` is 'active' and `product_id` starts with 'prod_premium'."*
+
+You can even attach CSV or JSON files with sample data for analysis.
+
+---
+
+## Session Management
+
+### Starting New Sessions
+
+As your project grows, starting fresh sessions can help:
+
+> *"Read through the project to understand the current state. I want to add a new feature for user notifications."*
+
+This gives the agent context without carrying over confusion from previous work.
+
+### Context Windows
+
+Long sessions can lose focus. If the agent seems confused or repetitive, start a new session with clear instructions about where you left off.
+
+---
+
+## Self Documentation
+
+Good documentation becomes more valuable than the code over time.
+
+### Keep a Changelog
+
+After significant changes:
+
+> *"Update CHANGELOG.md with the features we just added."*
+
+### Maintain Project Notes
+
+Ask the agent to document architecture decisions:
+
+> *"Update CLAUDE.md with notes about the authentication flow we implemented."*
+
+**Guidelines for CLAUDE.md:**
+- Keep under 250 lines (ideally 150 or less)
+- 2-3 sentence high-level intro focused on business purpose
+- ASCII diagrams for critical architecture
+- File/folder structure with one-line explanations
+- No future plans or philosophy - just current state
+
+---
+
+## Models
+
+Choose the right model for your task:
+
+| Model | Best For | Speed |
+|-------|----------|-------|
+| **Fast** (Haiku 4.5) | Quick prototypes, simple changes, POCs | Fastest |
+| **Quality** (Sonnet 4.5) | Most tasks, recommended default | Balanced |
+| **Best** (Opus 4.5) | Complex architecture, difficult problems | Slowest |
+
+<Tip>
+A good workflow: Use Quality mode to create a plan, then switch to Fast mode to build it quickly.
+</Tip>
+
+---
+
+## Debugging
+
+### Attach Screenshots
+
+When something isn't working, show the agent what you see:
+
+> *"Here's a screenshot of the error. The button click isn't working."*
+
+### Start Simple
+
+For easy issues, just ask the agent to fix it. For complex problems:
+
+> *"Analyze this issue deeper. Look at the related files and come up with a plan to fix it. Don't make changes yet."*
+
+### Verify Before Fixing
+
+If the agent's first attempts don't work:
+
+> *"Before making more changes, confirm this is the real fix and not a workaround. Show me evidence from the code."*
+
+This forces deeper analysis and better solutions.
+
+---
+
+## Stopping and Starting Over
+
+### Don't Be Afraid to Stop
+
+Click **Stop** anytime - even mid-task - to:
+
+- Give clarification
+- Change direction
+- Ask questions about what it's doing
+
+### When to Start Fresh
+
+**Build a new app** when:
+- You're only a few steps in and things aren't going well
+- Your original prompt was unclear
+- A few word changes could produce better results
+
+**Start a new session** when:
+- The agent isn't making progress on a bug
+- Responses seem confused or repetitive
+- You want to approach a problem differently
+
+---
+
+## Final Words
+
+Consider this parable:
+
+> A man riding a horse. Someone asks: "Where are you going?"
+>
+> The man replies: "I don't know, ask the horse."
+
+The agent is the horse. You are the rider. **Stay in control.**
+
+- Review plans before approving
+- Stop and redirect when needed
+- Provide clear context and goals
+- Trust your judgment about your business
+
+The best apps come from clear direction and thoughtful collaboration.
