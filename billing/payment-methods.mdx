@@ -1,6 +1,96 @@
 ---
 title: "Payment Methods"
-description: "Manage your payment options"
+description: "How payments work in OptiDev"
 ---
 
-Content coming soon.
+## Secure Payments with Stripe
+
+OptiDev uses [Stripe](https://stripe.com) to process all payments. Your payment information is handled securely by Stripe — we never store your card details on our servers.
+
+---
+
+## Accepted Payment Methods
+
+When you subscribe or purchase credits, Stripe Checkout accepts:
+
+- **Credit cards** — Visa, Mastercard, American Express, Discover
+- **Debit cards** — Most major debit cards
+
+<Info>
+Available payment methods may vary by region. Stripe automatically shows the options available in your location.
+</Info>
+
+---
+
+## Adding a Payment Method
+
+1. Go to **Settings** → **Billing**
+2. Click **Upgrade** to start a subscription
+3. Enter your payment details in Stripe Checkout
+4. Your payment method is saved for future renewals
+
+---
+
+## Updating Your Payment Method
+
+1. Go to **Settings** → **Billing**
+2. Click **Manage Billing**
+3. You'll be redirected to the Stripe billing portal
+4. Click **Payment methods** → **Add payment method**
+5. Enter your new card details
+6. Set it as your default payment method
+
+---
+
+## Removing a Payment Method
+
+1. Go to **Settings** → **Billing**
+2. Click **Manage Billing**
+3. In the billing portal, go to **Payment methods**
+4. Click the card you want to remove
+5. Select **Remove**
+
+<Warning>
+You must have at least one valid payment method if you have an active subscription.
+</Warning>
+
+---
+
+## Invoices and Receipts
+
+After each payment, you'll receive an email receipt from Stripe. You can also access all invoices:
+
+1. Go to **Settings** → **Billing**
+2. Click **Manage Billing**
+3. View your **Invoice history**
+4. Download invoices as PDF
+
+---
+
+## Payment Security
+
+- **PCI compliant** — Stripe is certified to PCI Service Provider Level 1
+- **Encrypted** — All payment data is encrypted in transit and at rest
+- **No card storage** — OptiDev never sees or stores your full card number
+
+---
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Why was my card declined?">
+    Common reasons include insufficient funds, incorrect card details, or your bank blocking the transaction. Try a different card or contact your bank.
+  </Accordion>
+
+  <Accordion title="When am I charged?">
+    You're charged immediately when you subscribe or purchase credits. Subscriptions renew automatically at the start of each billing cycle.
+  </Accordion>
+
+  <Accordion title="Can I get a refund?">
+    Contact support at support@optidev.ai for refund requests. Refunds are evaluated on a case-by-case basis.
+  </Accordion>
+
+  <Accordion title="Do you support PayPal?">
+    Currently, we only accept credit and debit cards through Stripe.
+  </Accordion>
+</AccordionGroup>

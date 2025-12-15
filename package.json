@@ -2,5 +2,8 @@
   "name": "optidev-docs",
   "scripts": {
     "dev": "mint dev --port 3009"
+  },
+  "dependencies": {
+    "gh": "^2.8.9"
   }
 }

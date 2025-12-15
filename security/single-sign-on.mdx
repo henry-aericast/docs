@@ -16,16 +16,10 @@ Single Sign-On lets your team access OptiDev using their existing company login 
 
 ## How It Works
 
-```
-┌──────────────┐      ┌──────────────┐      ┌──────────────┐
-│    User      │ ───► │  Your IdP    │ ───► │   OptiDev    │
-│  clicks      │      │ (Okta/Azure) │      │   account    │
-│  "Sign In"   │      │  verifies    │      │   created    │
-└──────────────┘      └──────────────┘      └──────────────┘
-```
+**User** → **Your Identity Provider** → **OptiDev**
 
 1. User visits OptiDev and clicks **Sign in with SSO**
-2. They're redirected to your company's login page (Okta, Azure AD, etc.)
+2. They're redirected to your company's login page
 3. After entering their company credentials, they're sent back to OptiDev
 4. OptiDev creates their account automatically on first login
 
@@ -37,30 +31,15 @@ You'll need:
 
 <CardGroup cols={2}>
   <Card title="Admin access to your IdP" icon="user-shield">
-    You need to create a new SAML application in Okta, Azure AD, or your identity provider.
+    You need to create a new SAML application in your identity provider.
   </Card>
   <Card title="Your company email domain" icon="at">
     The domain you want to enable SSO for (e.g., `yourcompany.com`).
   </Card>
 </CardGroup>
 
----
-
-## Setup Guides
-
-Choose your identity provider:
-
-<CardGroup cols={2}>
-  <Card title="Okta" icon="key" href="/security/sso-okta">
-    Step-by-step guide for Okta administrators.
-  </Card>
-  <Card title="Microsoft Azure AD" icon="microsoft" href="/security/sso-azure-ad">
-    Step-by-step guide for Azure AD administrators.
-  </Card>
-</CardGroup>
-
 <Info>
-  Using a different identity provider? Contact support — we support any SAML 2.0 compliant IdP.
+  Contact support to set up SSO for your organization — we support any SAML 2.0 compliant identity provider.
 </Info>
 
 ---
@@ -85,7 +64,7 @@ Once SSO is enabled, user management happens in your identity provider:
 
 | Task | Where to Do It |
 |------|----------------|
-| Add a new user | Your IdP (Okta/Azure AD) |
+| Add a new user | Your identity provider |
 | Remove a user | Your IdP — disable or remove from the app |
 | Reset password | Your IdP — OptiDev doesn't store passwords |
 | Change user's role | OptiDev workspace settings (after they've logged in) |
@@ -129,9 +108,6 @@ Once SSO is enabled, user management happens in your identity provider:
 - **SP Metadata**: `GET https://auth.optiprime.com/saml/{organization_id}/metadata`
 
 ### Supported IdPs
-- Okta
-- Microsoft Azure AD (Entra ID)
-- Google Workspace
 - Any SAML 2.0 compliant provider
 
 ### User Provisioning
