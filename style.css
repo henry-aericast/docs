@@ -1,0 +1,6 @@
+/* Custom styles for OptiDev docs */
+
+/* Blockquote with brand color */
+blockquote {
+  border-left-color: #A78BFA !important;
+}

@@ -96,27 +96,6 @@ Most digital signage screens don't have keyboards or touch:
 - Design for view-only content
 - For kiosks with touch, design large tap targets
 
----
-
-## For Developers
-
-### Integration Architecture
-
-```
-OptiDev App → Published URL → OptiSigns Playlist → Screen Display
-```
-
-OptiSigns loads your app URL in a managed browser on the display device.
-
-### OptiSigns Picker SDK
-
-Integration uses the OptiSigns Picker SDK:
-
-1. OAuth authorization flow
-2. Screen/group selection UI
-3. Asset creation in OptiSigns account
-4. Automatic URL updates on republish
-
 ### Screen Specifications
 
 | Orientation | Resolution | Aspect Ratio |
@@ -124,30 +103,6 @@ Integration uses the OptiSigns Picker SDK:
 | Landscape | 1920x1080 | 16:9 |
 | Portrait | 1080x1920 | 9:16 |
 | Ultra-wide | 3840x1080 | 32:9 |
-
-### Update Propagation
-
-- App republish triggers webhook to OptiSigns
-- OptiSigns refreshes the URL on all linked screens
-- Typical propagation time: 1-5 minutes
-
-### API Reference
-
-```
-POST /api/integrations/optisigns/connect
-{
-  "projectId": "uuid",
-  "authCode": "oauth-code"
-}
-
-POST /api/integrations/optisigns/publish
-{
-  "projectId": "uuid",
-  "screenIds": ["screen-1", "screen-2"]
-}
-
-DELETE /api/integrations/optisigns/screens/:screenId
-```
 
 ### Kiosk Mode Considerations
 
