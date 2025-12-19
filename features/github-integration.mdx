@@ -1,0 +1,160 @@
+---
+title: "GitHub Integration"
+description: "Connect your projects to GitHub for version control and collaboration"
+---
+
+## Why Connect to GitHub?
+
+GitHub integration lets you:
+
+- **Back up your code** - Your project is safely stored on GitHub
+- **Collaborate with your team** - Others can view and contribute to your code
+- **Track changes** - See the history of every update
+- **Import existing projects** - Bring your GitHub repos into OptiDev
+
+## Connecting Your GitHub Account
+
+Before linking projects, you need to connect your GitHub account to OptiDev.
+
+### Step-by-Step
+
+1. Go to **Settings** (bottom of the sidebar)
+2. Select the **GitHub** tab
+3. Click **Connect GitHub Account**
+4. GitHub opens in a new window
+5. Review the permissions and click **Authorize**
+6. You're redirected back to OptiDev
+
+Your GitHub account now appears in the Connections list.
+
+<Tip>
+You can connect multiple GitHub accounts if you use different accounts for personal and work projects.
+</Tip>
+
+## Push Your Project to GitHub (starting with OptiDev)
+
+Have an OptiDev project you want to back up or share? Push it to GitHub.
+
+### Create a New Repository
+
+1. Open your project in OptiDev
+2. Click the **GitHub** button in the toolbar
+3. Select your GitHub account
+4. Choose **Create new repository**
+5. Enter a repository name
+6. Select the owner (your account or an organization)
+7. Choose public or private
+8. Click **Transfer**
+
+Your project code is now on GitHub.
+
+### Connect to an Existing Repository
+
+1. Open your project in OptiDev
+2. Click the **GitHub** button
+3. Select your GitHub account
+4. Choose **Use existing repository**
+5. Select the repository from the list
+6. Click **Connect**
+
+## Import from GitHub (starting with a repo)
+
+Already have a project on GitHub? Import it directly into OptiDev.
+
+1. From the dashboard, click **New Project**
+2. Select **Import from GitHub**
+3. Choose your GitHub account
+4. Browse or search for the repository
+5. Select the branch to import
+6. Click **Import**
+
+OptiDev clones the repository and sets up your development environment automatically.
+
+### Deployment Compatibility
+
+OptiDev can deploy **Vite-based projects** (React, Vue, etc.). Other project types like Next.js, Python, or Node.js backends can be developed in OptiDev but need external hosting for deployment.
+
+| Project Type | Development | Deployment |
+|--------------|-------------|------------|
+| Vite (React, Vue) | Yes | Yes |
+| Next.js | Yes | External hosting |
+| Python | Yes | External hosting |
+| Node.js backend | Yes | External hosting |
+
+## Syncing Changes
+
+Once your project is connected to GitHub (either by pushing or importing), syncing is automatic.
+
+### Automatic Push
+
+OptiDev automatically pushes your changes to GitHub every time you save (commit). You don't need to do anything—every change appears on GitHub within seconds.
+
+### Pulling Updates
+
+If there are new changes to your GitHub repository, you can pull them into OptiDev.
+
+1. Open your project
+2. Click the **GitHub** button
+3. Click **Pull**
+4. Changes from GitHub are merged into your project
+
+<Warning>
+If you have unsaved changes in OptiDev, commit them first to avoid conflicts.
+</Warning>
+
+### Viewing Your Commits
+
+- On **GitHub**: Go to your repository and click "Commits"
+- In **OptiDev**: Open your project and click on the <Icon icon="clock" /> icon (Version History)
+
+## Organization Access
+
+For organization repositories, you may need to grant OptiDev access:
+
+1. Go to **Settings** → **GitHub**
+2. Click **Install App on Org** next to your connection
+3. Select your organization on GitHub
+4. Choose which repositories OptiDev can access
+5. Click **Install**
+
+This gives OptiDev access to organization repos, even if team members change.
+
+## Disconnecting
+
+### Unlink a Project
+
+1. Open your project
+2. Click the **GitHub** button
+3. Click **Disconnect**
+
+Your project stays in OptiDev, but changes no longer sync to GitHub.
+
+### Remove GitHub Account
+
+1. Go to **Settings** → **GitHub**
+2. Find the account to remove
+3. Click the trash icon
+4. Confirm removal
+
+All projects linked to that account are unlinked automatically.
+
+## Troubleshooting
+
+### "Permission denied" when pushing
+
+Your GitHub token may have expired. Go to Settings → GitHub, remove the connection, and reconnect.
+
+### Changes not appearing on GitHub
+
+Check that GitHub sync is enabled:
+1. Open your project
+2. Click the **GitHub** button
+3. Ensure the toggle is on
+
+### Can't see organization repositories
+
+You need to install the OptiDev app on your organization. Click **Install App on Org** in Settings → GitHub.
+
+### Import shows errors but project works
+
+Some warnings during import are normal (like missing optional configs). If your project runs correctly, you can ignore them.
