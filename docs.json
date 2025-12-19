@@ -34,6 +34,7 @@
               "features/visual-editor",
               "features/code-editor",
               "features/image-generation",
+              "features/github-integration",
               "features/publish-your-app",
               "features/custom-domain",
               "features/publish-to-optisigns"
