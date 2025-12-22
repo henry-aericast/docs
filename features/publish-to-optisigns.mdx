@@ -3,6 +3,10 @@ title: "Publish to OptiSigns Screens"
 description: "Display your app on digital signage screens"
 ---
 
+<Note>
+You'll need an Admin role in your workspace to publish to OptiSigns. If you're a member of an invited workspace, ask your workspace admin to grant you admin access.
+</Note>
+
 ## What is OptiSigns Integration?
 
 OptiSigns is a digital signage platform that powers screens in offices, stores, restaurants, and public spaces. With OptiDev's integration, you can build an app and display it directly on any OptiSigns-connected screen.
@@ -15,99 +19,84 @@ OptiSigns is a digital signage platform that powers screens in offices, stores, 
 - Lobby directories and wayfinding
 - Kiosk applications for self-service
 
-## Sending Your App to Screens
+## How to Publish
 
 ### Prerequisites
 
 - An OptiSigns account with screens set up
-- A published OptiDev app (see [Publish Your App](/features/publish-your-app))
+- A published OptiDev app (the system will prompt you to publish if needed)
 
 ### Step-by-Step
 
-1. **Publish Your App First**
-   - Make sure your app is published and working at its URL
-   - Test it in a browser to confirm everything looks right
+<Steps>
+  <Step title="Open the Publish Menu">
+    In your project editor, click the **Published** button in the top toolbar, then select **Publish to OptiSigns** from the dropdown.
 
-2. **Open OptiSigns Integration**
-   - In your project, click **Settings** → **OptiSigns**
-   - Click **Connect to OptiSigns**
+    <img
+      src="/images/publish-to-optisigns/publish-dropdown.png"
+      alt="Publish dropdown showing Publish to OptiSigns option"
+      style={{maxWidth: "260px"}}
+    />
 
-3. **Sign In to OptiSigns**
-   - Log in with your OptiSigns account
-   - Authorize OptiDev to access your screens
+    <Note>
+    If your app isn't published yet, you'll be prompted to publish first. Choose your visibility setting and click **Publish**. The OptiSigns flow continues automatically once deployment completes.
+    </Note>
+  </Step>
 
-4. **Select Screens**
-   - Choose which screens should display your app
-   - You can select individual screens or screen groups
+  <Step title="Generate API Key (first time only)">
+    On first use, you'll need to generate a workspace API key. Click **Generate Key** to create your secure key.
 
-5. **Push to Screens**
-   - Click **Publish to Screens**
-   - Your app appears on the selected screens within seconds
+    <img
+      src="/images/publish-to-optisigns/api-key-required.png"
+      alt="API Key Required modal with Generate Key button"
+      style={{maxWidth: "320px"}}
+    />
 
-## Managing Screen Content
+    Once generated, the key is displayed. You can copy it if needed for other integrations. Click **Continue to OptiSigns** to proceed.
 
-### Updating Your App
+    <img
+      src="/images/publish-to-optisigns/api-key-generated.png"
+      alt="API key generated successfully modal"
+      style={{maxWidth: "320px"}}
+    />
 
-When you make changes and republish your app:
+    <Tip>
+    You only need to generate this key once per workspace. Future publishes will skip this step.
+    </Tip>
+  </Step>
 
-1. The screens automatically get the update
-2. No need to push again—it happens automatically
-3. Changes appear within a few minutes
+  <Step title="Select Folder">
+    The OptiSigns picker opens with three steps: **Select**, **Build**, and **Assign**.
 
-### Removing from Screens
+    - Choose your team from the dropdown
+    - Select a folder to save your app as an asset
+    - Click **Continue** to proceed
 
-1. Go to **Settings** → **OptiSigns**
-2. Find the screen(s) you want to update
-3. Click **Remove** to stop displaying your app
+    ![OptiSigns picker - Select](/images/publish-to-optisigns/optisigns-picker.png)
+  </Step>
 
-### Scheduling (via OptiSigns)
+  <Step title="Configure Your App">
+    In the **Build** step, configure how your app appears in OptiSigns:
 
-For scheduling when your app appears:
+    - **Name** - Give your app a recognizable name
+    - **Preview** - See how your app looks in landscape or portrait mode
+    - Click **Assign to Screens** to continue, or **Save** to assign later
 
-1. Go to your OptiSigns dashboard
-2. Create a playlist that includes your OptiDev app
-3. Set the schedule in OptiSigns
+    ![OptiSigns picker - Build](/images/publish-to-optisigns/picker-build.png)
+  </Step>
 
-## Design Tips for Screens
+  <Step title="Assign to Screens">
+    In the **Assign** step, select which screens display your app:
 
-### Consider the Viewing Distance
+    - **Target** - Choose to assign to screens or screen groups
+    - **Screens** - Select the specific screens
+    - Click **Assign** to push your app to screens, or **Assign Later** to do this from the OptiSigns dashboard
 
-- Use large fonts (minimum 24px for body text)
-- High contrast colors
-- Simple, uncluttered layouts
+    ![OptiSigns picker - Assign](/images/publish-to-optisigns/picker-assign.png)
+  </Step>
 
-### Optimize for the Screen Size
+  <Step title="Done!">
+    Your app is now saved as an asset in OptiSigns and assigned to your selected screens. The app will appear on the screens within seconds.
+  </Step>
+</Steps>
 
-- Digital signage is typically 1920x1080 (landscape) or 1080x1920 (portrait)
-- Design with this resolution in mind
-- Test how your app looks at different sizes
-
-### Auto-Refresh Data
-
-If your app shows live data (like dashboards):
-
-- Set up automatic data refresh
-- Ask the agent: "Make this dashboard refresh every 5 minutes"
-
-### Avoid User Input
-
-Most digital signage screens don't have keyboards or touch:
-
-- Design for view-only content
-- For kiosks with touch, design large tap targets
-
-### Screen Specifications
-
-| Orientation | Resolution | Aspect Ratio |
-|-------------|------------|--------------|
-| Landscape | 1920x1080 | 16:9 |
-| Portrait | 1080x1920 | 9:16 |
-| Ultra-wide | 3840x1080 | 32:9 |
-
-### Kiosk Mode Considerations
-
-For touch-enabled kiosks:
-
-- Ensure buttons are minimum 44x44px
-- Implement timeout/reset after inactivity
-- Consider network fallback for offline scenarios
