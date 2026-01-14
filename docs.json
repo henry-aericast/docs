@@ -44,10 +44,14 @@
             "group": "OptiDev Cloud",
             "pages": [
               "optidev-cloud/how-to-use",
+              "optidev-cloud/connection-info",
               "optidev-cloud/database",
+              "optidev-cloud/auth",
+              "optidev-cloud/users",
               "optidev-cloud/edge-functions",
+              "optidev-cloud/secrets",
               "optidev-cloud/storage",
-              "optidev-cloud/auth"
+              "optidev-cloud/advisors"
             ]
           },
           {

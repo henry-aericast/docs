@@ -10,9 +10,11 @@ OptiDev Cloud is a ready-to-use backend for your app. It gives you everything yo
 - **Database** - Store and organize your app's data (user profiles, orders, messages, etc.)
 - **Authentication** - Let users create accounts and log in securely
 - **Edge Functions** - Run server-side code for things like payment processing or sending emails
+- **Secrets** - Securely manage environment variables and API keys
 - **Storage** - Store files like images, documents, and videos
+- **Advisors** - Get security and performance recommendations
 
-The best part? You don't need to set up servers or manage infrastructure. Just activate OptiDev Cloud and start building.
+The best part? You don't need to set up servers or manage infrastructure. OptiDev Cloud is powered by Supabase, giving you production-grade PostgreSQL and infrastructure without any setup. Just activate OptiDev Cloud and start building.
 
 ### Works with OptiDev Agent
 
@@ -21,6 +23,7 @@ OptiDev Agent understands OptiDev Cloud automatically. You can simply describe w
 - *"Create a table to store customer orders with name, email, and order total"*
 - *"Add user login to my app"*
 - *"Create an API endpoint that connects to Stripe for payments"*
+- *"Set up file upload for profile pictures"*
 
 OptiDev Agent will create the tables, set up authentication, write the functions, and deploy everything for you.
 
@@ -31,6 +34,12 @@ OptiDev Agent will create the tables, set up authentication, write the functions
 ### Step 1: Open OptiDev Cloud
 
 In your project, click the **OptiDev Cloud** tab in the left sidebar (cloud icon).
+
+<img
+  src="/images/optidev-cloud/how-to-use/cloud_activation.png"
+  alt="OptiDev Cloud tab in sidebar"
+  style={{maxWidth: "600px"}}
+/>
 
 ### Step 2: Choose a Region
 
@@ -49,52 +58,118 @@ Choosing a closer region means faster response times for your users.
 
 Click the **Activate OptiDev Cloud** button. You'll see a progress bar while your backend is being set up.
 
-This usually takes 1-2 minutes. When complete, you'll see a green **Active** badge and the dashboard will load.
+**Instant Activation:** OptiDev Cloud uses a warm pool system that pre-provisions resources, so activation typically completes in under a second (compared to 2-3 minutes for traditional backends). The progress bar shows elapsed time and updates every few seconds.
+
+When complete, you'll see a green **Active** badge and the dashboard will load with all tabs ready to use.
 
 <Note>
-Once activated, OptiDev Cloud is ready to use immediately. OptiDev Agent can start creating tables and functions right away.
+Once activated, OptiDev Cloud is ready to use immediately. OptiDev Agent can start creating tables, functions, and storage buckets right away.
 </Note>
 
 ---
 
 ## The OptiDev Cloud Dashboard
 
-After activation, you'll see several tabs for managing your backend:
+After activation, you'll see **8 tabs** for managing your backend:
 
 ### Connection Info
 
-Shows your API credentials:
+Access your API credentials and database connection details:
 
-- **API URL** - The web address for your backend
-- **Publishable Key** - Safe to use in your app's frontend code
-- **Database Connection** - Click "Connect" to see connection details for database tools
+- **API URL** - Your backend endpoint
+- **Publishable Key** - Public API key for frontend code
+- **Database Connection** - PostgreSQL connection strings in 9 formats
+- **Reset Password** - Generate a new database password
 
-Click the copy icon next to any value to copy it to your clipboard.
+Click the copy icon to copy any value to your clipboard.
+
+[Learn more about Connection Info →](/optidev-cloud/connection-info)
 
 ### Database
 
-Browse and query your data:
+Browse and query your data with a full-featured SQL editor:
 
-- See all your tables in the left sidebar
-- Click a table to view its data
-- Run SQL queries in the editor
-- Export data as CSV, JSON, or Excel
+- **Table List** - See all your tables in the left sidebar (only public schema tables are shown)
+- **SQL Editor** - Monaco-powered editor with syntax highlighting
+- **Click to Query** - Click any table name to automatically populate `SELECT * FROM table_name`
+- **Query Results** - View results in a table with row count display
+- **Schema Inspection** - See column types, nullable status, and default values
+- **Export Data** - Download results as CSV, JSON, or Excel
+
+The SQL editor supports multi-line queries and shows null values, objects, and strings with proper formatting.
+
+[Learn more about Database →](/optidev-cloud/database)
 
 ### Auth
 
-Manage user authentication:
+Manage user authentication with multiple sign-in methods. Email/Password is enabled by default.
 
-- Enable/disable sign-in methods (Email, Phone, Google)
-- View registered users
-- Configure signup settings
+Key features:
+- **Sign-in Providers** - Enable Email, Phone (SMS), or Google authentication
+- **Auth Settings** - Configure Site URL, allowed redirect URLs, and signup options
+- **User Signup Controls** - Allow/disable new signups, enable anonymous users
+
+[Learn more about Auth →](/optidev-cloud/auth)
+
+### Users
+
+View and manage registered users in your app.
+
+Key features:
+- **User List** - Search and browse all users with pagination
+- **Create Users** - Manually create user accounts
+- **Invite Users** - Send email invitations for self-registration
+- **Delete Users** - Remove user accounts
+
+[Learn more about Users →](/optidev-cloud/users)
 
 ### Edge Functions
 
-Manage your server-side code:
+Run server-side code for APIs, integrations, and background tasks.
 
-- See deployed functions
-- View execution logs
-- Test functions directly
+Key features:
+- **Workspace Functions** - Functions in your code, ready to deploy
+- **Deployed Functions** - Functions running on OptiDev Cloud
+- **One-click Deploy** - Deploy functions directly from the dashboard
+- **Testing Tools** - Test functions with custom requests before connecting to your app
+
+[Learn more about Edge Functions →](/optidev-cloud/edge-functions)
+
+### Secrets
+
+Securely store API keys and environment variables for your Edge Functions.
+
+Key features:
+- **Write-Only Security** - Secret values can never be retrieved after saving
+- **Bulk Operations** - Add multiple secrets at once before saving
+- **Instant Access** - Secrets are immediately available in Edge Functions via `Deno.env.get()`
+
+[Learn more about Secrets →](/optidev-cloud/secrets)
+
+### Storage
+
+Manage file storage with buckets for images, documents, and videos. The Storage tab shows all your buckets with public/private badges.
+
+Key features:
+- Create buckets with file size limits and MIME type restrictions
+- Browse files with folder navigation
+- Upload files directly from your computer
+- View and manage Row Level Security (RLS) policies
+
+[Learn more about Storage →](/optidev-cloud/storage)
+
+### Advisors
+
+Automatically scan your database for security vulnerabilities and performance issues:
+
+- **Security checks** - Missing Row Level Security, exposed data, weak access policies
+- **Performance checks** - Missing indexes, slow queries, inefficient configurations
+- **Severity filtering** - View by ERROR (critical), WARN (important), or INFO (suggestions)
+- **One-click remediation** - Copy SQL fixes directly from issue details
+
+Click any issue to see full details including affected tables and remediation SQL. OptiDev Agent can also fix many issues automatically.
+
+[Learn more about Advisors →](/optidev-cloud/advisors)
 
 ---
 
@@ -135,6 +210,64 @@ OptiDev Agent will:
 2. Deploy it to OptiDev Cloud
 3. Connect it to your frontend
 
+### Working with Storage
+
+Ask OptiDev Agent to set up file storage:
+
+> *"Add profile picture upload to user settings and display them next to usernames"*
+
+[Learn more about Storage →](/optidev-cloud/storage)
+
+### Managing Secrets
+
+Request secure environment variable storage:
+
+> *"Store my Stripe API key securely so I can use it in Edge Functions"*
+
+OptiDev Agent will:
+1. Create a secret with your API key
+2. Update your Edge Function code to use `Deno.env.get('STRIPE_API_KEY')`
+3. Ensure the secret is never exposed in your frontend
+
+### What OptiDev Agent Can Do
+
+OptiDev Agent has access to **20 specialized tools** for OptiDev Cloud:
+
+**Database (2 tools)**
+- Query database via PostgREST API
+- Execute DDL SQL for schema changes and RLS policies
+
+**Authentication (1 tool)**
+- List and manage authenticated users
+
+**Edge Functions (3 tools)**
+- List deployed functions
+- Deploy functions from workspace
+- Get function source code
+
+**Storage (7 tools)**
+- List, create, update, and delete buckets
+- Upload files with presigned URLs
+- List and delete files
+- Browse folders with prefix filtering
+
+**Secrets (3 tools)**
+- List secrets (names and digests only)
+- Create write-only secrets
+- Delete secrets in bulk
+
+**Debugging (2 tools)**
+- Fetch service logs (api, postgres, edge-function, auth, storage, realtime)
+- Get security and performance advisor recommendations
+
+**Project (1 tool)**
+- Get project info and activation status
+
+**HITL Activation (1 tool)**
+- Request OptiDev Cloud activation with inline button in chat
+
+These tools enable OptiDev Agent to autonomously manage your backend, from initial setup to ongoing maintenance and optimization.
+
 ---
 
 ## Checking Your Data
@@ -159,21 +292,21 @@ Type SQL in the editor to search or analyze your data:
 SELECT * FROM orders WHERE total > 100
 ```
 
-Click **Execute Query** to see results.
+Click **Execute Query** to see results. The result table shows the row count and handles null values, objects, and strings with proper formatting.
 
 ---
 
 ## Viewing Users
 
-1. Go to the **Auth** tab
-2. You'll see the sign-in methods configuration
-3. Registered users appear in the users list
+1. Go to the **Users** tab
+2. You'll see a paginated list of all registered users
+3. Each user shows:
+   - Email address
+   - When they signed up
+   - Last sign-in time
+   - Auth provider used (email, phone, or Google)
 
-From here you can see:
-- Email addresses
-- When users signed up
-- Last sign-in time
-- Auth provider used (email, phone, or Google)
+Use the pagination controls at the bottom to navigate through large user lists.
 
 ---
 
@@ -185,6 +318,8 @@ From here you can see:
 2. **Deployed Functions** shows all functions running on OptiDev Cloud
 3. Each function shows its name, version, and last update time
 
+If you see a **"Needs Sync"** badge, it means the workspace version is different from the deployed version.
+
 ### Function Details
 
 Click **View Details** on any function to see:
@@ -192,13 +327,18 @@ Click **View Details** on any function to see:
 - Function URL (for calling from your app)
 - Execution history
 - Recent invocations
+- Version number
 
 ### Testing Functions
 
 1. Click **Test** next to any deployed function
-2. Choose the HTTP method (GET, POST, etc.)
-3. Add any data your function expects
+2. Choose the HTTP method (GET, POST, PUT, PATCH, DELETE)
+3. Add headers, query parameters, or request body data
 4. Click **Send Request** to see the response
+
+The response shows:
+- Status code with color-coded badge
+- Response body (formatted JSON)
 
 This is useful for debugging before connecting to your app.
 
@@ -229,8 +369,39 @@ A pre-configured client is created at `src/lib/supabaseClient.ts` when you activ
 
 The connection string uses session pooler (port 5432) for full PostgreSQL compatibility. Use it with any PostgreSQL client or ORM.
 
+The pooler provides dynamic host resolution via Supabase's pooler config API for optimal connection management.
+
 ### Edge Functions Runtime
 
 Functions run on Deno with TypeScript support. Access secrets via `Deno.env.get('SECRET_NAME')`.
+
+**Auto-injected environment variables:**
+- `SUPABASE_URL` - Your project URL
+- `SUPABASE_ANON_KEY` - Public (publishable) key
+- `SUPABASE_SERVICE_ROLE_KEY` - Admin key with full access
+- `SUPABASE_DB_URL` - Direct database connection string
+
+### Storage Integration
+
+Upload files using presigned URLs for efficient binary transfer (33% more efficient than base64):
+
+```typescript
+// OptiDev Agent handles this automatically
+const { data, error } = await supabase.storage
+  .from('avatars')
+  .upload('user-123.jpg', file)
+```
+
+### Encryption and Security
+
+All OptiDev Cloud configurations (API keys, connection strings, secrets) are encrypted using AES-256-GCM with your workspace encryption key. Data is automatically encrypted before storage and decrypted on retrieval.
+
+### Multi-Tenant Isolation
+
+All queries are automatically scoped to your workspace ID, ensuring complete isolation between different projects and users.
+
+### Warm Pool System
+
+OptiDev Cloud uses a warm pool of pre-provisioned Supabase projects for instant activation (under 100ms vs 2-3 minutes). The system automatically replenishes the pool in the background and falls back to direct provisioning if the pool is empty.
 
 </Accordion>

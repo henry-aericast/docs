@@ -1,0 +1,386 @@
+---
+title: "Users"
+description: "Manage authenticated users in your OptiDev Cloud project"
+---
+
+## What is the Users Tab
+
+The Users tab shows all authenticated users in your OptiDev Cloud project. You can view user details, create new users, send invitations, and manage your application's user base.
+
+---
+
+## Viewing Users
+
+### User List
+
+The Users tab displays all registered users in a table with the following information:
+
+**User Column**
+- Email address, phone number, or "Anonymous User"
+- User ID (first 8 characters shown)
+- Avatar icon indicating user type
+
+**Provider Column**
+- Shows how the user signed up
+- Supported providers: Email, Google, Phone number
+
+**Status Column**
+- **Verified** (green with shield icon) - Email or phone confirmed
+- **Unverified** (gray) - Awaiting confirmation
+
+**Created Column**
+- Date and time the user registered
+- Format: "Jan 8, 2026, 11:04 AM"
+
+**Last Sign In Column**
+- Date of most recent login
+- Shows "Never" if user hasn't signed in yet
+
+**Actions Column**
+- Send Magic Link button (email icon) - Send a passwordless login link to the user
+- Delete button (trash icon) - Remove user from authentication system
+
+### Total Count
+
+The top section shows your total user count:
+> "5 users registered"
+
+Use the **Refresh** button to reload the list after making changes.
+
+<img
+  src="/images/optidev-cloud/user/user_register.png"
+  alt="Users tab showing registered users"
+  style={{maxWidth: "600px"}}
+/>
+
+---
+
+## Viewing User Details
+
+Click any row in the user table to see complete user information:
+
+### User Information
+- **User**: Full email, phone, or "Anonymous"
+- **User UID**: Complete UUID
+- **Created at**: Registration timestamp
+- **Updated at**: Last profile update
+- **Invited at**: When invitation was sent (if applicable)
+- **Confirmation sent at**: When verification email was sent
+- **Confirmed at**: When user verified their email/phone
+- **Last signed in**: Most recent login or "Never"
+- **SSO**: Shows if user signed up via OAuth (Google, etc.)
+
+### Login Methods
+Shows which authentication methods are enabled for this user:
+
+**Email**
+- Enabled/Disabled badge
+- Shows "Auto-confirmed" if email was verified without user action
+
+**Phone**
+- Enabled/Disabled badge
+- Shows confirmation status
+
+**OAuth Providers**
+- Lists active providers (Google, GitHub, etc.)
+- Shows enabled status
+
+---
+
+## Searching Users
+
+Use the search bar at the top of the user list to find specific users:
+
+- Search by **email address**
+- Search by **user ID** (full or partial)
+- Search by **phone number**
+
+The search is case-insensitive and updates results in real-time as you type.
+
+---
+
+## Creating a New User
+
+To manually create a user account:
+
+### Step 1: Open Create User Dialog
+
+Click the **Create User** button at the top of the Users tab.
+
+### Step 2: Fill in User Details
+
+**Required Fields:**
+- **Email** - User's email address
+- **Password** - Minimum 6 characters
+
+**Optional Fields:**
+- **Phone** - Phone number (format: +1234567890)
+- **Auto-confirm email** - Check to skip email verification (checked by default)
+
+### Step 3: Create the User
+
+Click **Create User** to add the account.
+
+The new user will appear in your user list immediately. If "Auto-confirm email" was checked, the user can sign in right away without verifying their email.
+
+<Note>
+Created users receive the password you set. Make sure to communicate it securely to the user, or send them an invitation instead (see below).
+</Note>
+
+---
+
+## Inviting Users
+
+Instead of creating users manually, you can send email invitations that let users set their own password.
+
+### Step 1: Open Invite User Dialog
+
+Click the **Invite User** button at the top of the Users tab.
+
+### Step 2: Enter Invitation Details
+
+**Required Field:**
+- **Email** - Email address to send the invitation to
+
+### Step 3: Send the Invitation
+
+Click **Send Invitation**.
+
+The user receives an email with a signup link. When they click it, they can:
+1. Set their own password
+2. Be redirected to your specified URL
+
+---
+
+## Deleting Users
+
+To permanently remove a user account:
+
+### Step 1: Click Delete Icon
+
+In the Actions column of the user table, click the trash icon for the user you want to delete.
+
+### Step 2: Confirm Deletion
+
+A confirmation dialog appears showing:
+- User's email, phone, or "Anonymous User"
+- Full user ID
+- Warning: "This action cannot be undone"
+
+### Step 3: Delete the User
+
+Click the red **Delete User** button to permanently remove the account.
+
+<Warning>
+Deleting a user removes their authentication account but does NOT automatically delete their data from your database tables. If you need to remove user data, you must do that separately via the Database tab or your application code.
+</Warning>
+
+---
+
+## Common Use Cases
+
+### Manually Creating Test Users
+
+For development and testing:
+
+1. Click **Create User**
+2. Use test email (e.g., `test@example.com`)
+3. Set simple password (e.g., `test123`)
+4. Check **Auto-confirm email**
+5. Click **Create User**
+
+The test user is immediately available for login testing.
+
+### Inviting Team Members
+
+For production applications:
+
+1. Click **Invite User**
+2. Enter team member's email
+3. Click **Send Invitation**
+
+They receive a professional onboarding email and set their own secure password.
+
+---
+
+## User Authentication Flow
+
+Understanding how users appear in this tab:
+
+### Email/Password Signup
+1. User registers via your app's signup form
+2. User appears in Users tab as "Unverified"
+3. User receives confirmation email
+4. User clicks link to verify
+5. Status changes to "Verified"
+
+### OAuth Signup (Google, GitHub, etc.)
+1. User clicks "Sign in with Google" in your app
+2. User authenticates with Google
+3. User appears in Users tab immediately as "Verified"
+4. Provider shows as "Google" (or other OAuth provider)
+
+### Invitation Flow
+1. Admin sends invitation via Users tab
+2. User receives email with signup link
+3. User clicks link and sets password
+4. User appears in Users tab as "Verified"
+
+---
+
+## Integration with Auth Settings
+
+The Users tab works together with the Auth tab settings:
+
+**When you enable Email provider:**
+- New users can sign up with email/password
+- They appear in Users tab with provider "Email"
+
+**When you enable Google provider:**
+- New users can sign up with Google
+- They appear in Users tab with provider "Google"
+
+**When you disable signup:**
+- Existing users remain in the Users tab
+- No new users can register
+- You can still manually create users or send invitations
+
+[Learn more about Auth →](/optidev-cloud/auth)
+
+---
+
+## For Developers
+
+<Accordion title="Technical Reference">
+
+### API Endpoints
+
+**List Users**
+```http
+GET /api/supabase/projects/:projectId/auth/users?page=1&perPage=50
+Authorization: Bearer <firebase-token>
+```
+
+**Create User**
+```http
+POST /api/supabase/projects/:projectId/auth/users
+Authorization: Bearer <firebase-token>
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "password123",
+  "phone": "+1234567890",
+  "email_confirm": true,
+  "user_metadata": {},
+  "app_metadata": {}
+}
+```
+
+**Invite User**
+```http
+POST /api/supabase/projects/:projectId/auth/users/invite
+Authorization: Bearer <firebase-token>
+Content-Type: application/json
+
+{
+  "email": "newuser@example.com",
+  "redirect_to": "https://myapp.com/welcome"
+}
+```
+
+**Delete User**
+```http
+DELETE /api/supabase/projects/:projectId/auth/users/:userId
+Authorization: Bearer <firebase-token>
+```
+
+### User Object Structure
+
+```typescript
+interface User {
+  id: string;                    // UUID
+  email?: string;                // Email address
+  phone?: string;                // Phone number
+  created_at: string;            // ISO 8601 timestamp
+  updated_at: string;            // ISO 8601 timestamp
+  last_sign_in_at?: string;      // ISO 8601 timestamp
+  email_confirmed_at?: string;   // ISO 8601 timestamp
+  phone_confirmed_at?: string;   // ISO 8601 timestamp
+  invited_at?: string;           // ISO 8601 timestamp
+  confirmation_sent_at?: string; // ISO 8601 timestamp
+  app_metadata: {
+    provider: string;            // "email" | "google" | "github" etc.
+  };
+  user_metadata: Record<string, any>; // Custom user data
+}
+```
+
+### User Metadata
+
+**app_metadata**
+- System-level metadata
+- Contains provider information
+- Set automatically by OptiDev Cloud
+- Read-only in most cases
+
+**user_metadata**
+- Custom user data for your application
+- Can be set during user creation
+- Editable via API
+- Examples: profile picture URL, preferences, onboarding status
+
+### Supabase SDK Usage
+
+OptiDev Cloud uses the official Supabase JavaScript SDK for user management:
+
+```typescript
+// List users
+const { data, error } = await supabase.auth.admin.listUsers({
+  page: 1,
+  perPage: 50
+})
+
+// Create user
+const { data, error } = await supabase.auth.admin.createUser({
+  email: 'user@example.com',
+  password: 'password123',
+  email_confirm: true
+})
+
+// Delete user
+const { data, error } = await supabase.auth.admin.deleteUser(userId)
+
+// Invite user
+const { data, error } = await supabase.auth.admin.inviteUserByEmail(
+  'user@example.com',
+  { redirectTo: 'https://myapp.com/welcome' }
+)
+```
+
+### Security Considerations
+
+**Authentication**
+- All API calls require valid Firebase authentication token
+- User management requires admin privileges
+
+**Password Requirements**
+- Minimum 6 characters
+- Should enforce stronger requirements in production
+- Consider using password strength validation in your app
+
+**Data Privacy**
+- User passwords are never returned by the API
+- Sensitive data should be stored encrypted in user_metadata
+- Follow GDPR/privacy regulations for user data
+
+### Rate Limits
+
+Be aware of potential rate limits:
+- User creation: ~60 requests per minute
+- User listing: ~100 requests per minute
+- User deletion: ~60 requests per minute
+
+For bulk operations, consider batching and adding delays between requests.
+
+</Accordion>

@@ -48,15 +48,16 @@ OptiDev Agent understands relationships between tables and will set them up corr
 
 1. Go to the **Database** tab in OptiDev Cloud
 2. The left sidebar shows all your tables
-3. Click any table name to see its data
+3. Click any table name to populate the SQL editor with a query
+4. Click **Execute Query** to see the data
 
 ### Understanding the Table View
 
-When you click a table, you'll see:
+After executing a query, you'll see the result:
 
+- **Row count** - Shows how many total records exist
 - **Columns** - The header row shows all fields in your table
 - **Rows** - Each row is one record (one product, one order, one user, etc.)
-- **Row count** - Shows how many total records exist
 
 ### Navigating Large Tables
 
@@ -77,6 +78,10 @@ Use the pagination controls at the bottom:
 3. Press **Enter** to save, or **Escape** to cancel
 
 The change is saved immediately to your database.
+
+<Note>
+Cell editing requires your table to have an `id` column. Tables without an `id` column cannot be edited directly in the dashboard - use SQL queries instead.
+</Note>
 
 ### Adding a New Row
 
@@ -127,15 +132,6 @@ SELECT COUNT(*) FROM orders WHERE total > 100
 1. Type your SQL in the editor
 2. Click **Execute Query** (or the play button)
 3. Results appear in the table below
-
-### Quick Table Selection
-
-Click any table name in the sidebar, and the editor automatically fills in:
-```sql
-SELECT * FROM table_name LIMIT 10;
-```
-
-This is a quick way to preview any table's data.
 
 ---
 

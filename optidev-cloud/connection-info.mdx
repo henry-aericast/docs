@@ -1,0 +1,253 @@
+---
+title: "Connection Info"
+description: "Access your API credentials and database connection strings"
+---
+
+## What is Connection Info
+
+The Connection Info tab shows your OptiDev Cloud API credentials and database connection details. These values are used to connect your app to your backend services.
+
+---
+
+## API Credentials
+
+### API URL
+
+The web address for your OptiDev Cloud backend. This is used to make API calls to your database, authentication, storage, and edge functions.
+
+**Example:** `https://abcdefghijklmnop.supabase.co`
+
+### Publishable Key
+
+Your public API key that's safe to use in your app's frontend code. This key has limited permissions and can be exposed in client-side code.
+
+**Example:** `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`
+
+### Copying Credentials
+
+Click the copy icon next to any value to copy it to your clipboard. These values are automatically added to your project's `.env.local` file when you activate OptiDev Cloud.
+
+---
+
+## Database Connection
+
+Click the **Database Connection** button to access your PostgreSQL connection details for use with database clients, ORMs, and other tools.
+
+### Connection String Formats
+
+When you click **Database Connection**, you'll see a modal with connection strings in 9 different formats:
+
+**1. URI**
+Standard PostgreSQL connection string format:
+```
+postgresql://postgres:[password]@[host]:5432/postgres
+```
+
+**2. PSQL**
+Command-line psql format:
+```bash
+psql -h [host] -p 5432 -d postgres -U postgres
+```
+
+**3. Golang**
+Go database/sql format:
+```go
+host=[host] port=5432 user=postgres password=[password] dbname=postgres
+```
+
+**4. JDBC**
+Java JDBC format:
+```
+jdbc:postgresql://[host]:5432/postgres?user=postgres&password=[password]
+```
+
+**5. .NET**
+C# Npgsql format:
+```
+Host=[host];Port=5432;Database=postgres;Username=postgres;Password=[password]
+```
+
+**6. Node.js**
+JavaScript pg client format:
+```javascript
+{
+  host: '[host]',
+  port: 5432,
+  database: 'postgres',
+  user: 'postgres',
+  password: '[password]'
+}
+```
+
+**7. PHP**
+PHP PDO format:
+```php
+$dsn = "pgsql:host=[host];port=5432;dbname=postgres";
+$username = "postgres";
+$password = "[password]";
+```
+
+**8. Python**
+Python psycopg2 format:
+```python
+import psycopg2
+conn = psycopg2.connect(
+    host="[host]",
+    port=5432,
+    database="postgres",
+    user="postgres",
+    password="[password]"
+)
+```
+
+**9. SQLAlchemy**
+Python ORM format:
+```python
+postgresql://postgres:[password]@[host]:5432/postgres
+```
+
+### Security Note
+
+The password is masked in the display (shown as `••••••••`) but copies correctly when you click the copy button. Select the format that matches your development tools.
+
+### Session Pooler
+
+OptiDev Cloud uses a session pooler on port 5432 for full PostgreSQL compatibility. This provides:
+- Better connection management for high-traffic applications
+- Support for all PostgreSQL features and extensions
+- Compatibility with any PostgreSQL client or ORM
+
+---
+
+## Reset Database Password
+
+If you need to reset your database password (for security reasons or if it was compromised):
+
+1. Go to the **Connection Info** tab
+2. Click the **Reset Password** button
+3. A new 32-character password is generated automatically
+4. All connection strings are updated immediately
+5. Your app will need to use the new password
+
+<Warning>
+Resetting your password will immediately invalidate the old password. Update your `.env.local` file and redeploy any applications using the old credentials.
+</Warning>
+
+---
+
+## Environment Variables
+
+When you activate OptiDev Cloud, these environment variables are automatically added to your project:
+
+### Frontend Variables
+
+```bash
+VITE_SUPABASE_URL=https://[project-id].supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+These are safe to use in your frontend code and are included in your client-side bundle.
+
+### Backend Variables (Edge Functions)
+
+Edge Functions automatically have access to these additional variables:
+
+```bash
+SUPABASE_URL=https://[project-id].supabase.co
+SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+SUPABASE_DB_URL=postgresql://postgres:[password]@[host]:5432/postgres
+```
+
+The `SUPABASE_SERVICE_ROLE_KEY` has full admin access and should never be exposed in frontend code.
+
+---
+
+## Using Connection Info in Your App
+
+### Frontend (React/Vue/etc)
+
+```typescript
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
+)
+```
+
+### Edge Functions (Deno)
+
+```typescript
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
+const supabase = createClient(
+  Deno.env.get('SUPABASE_URL')!,
+  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+)
+```
+
+### Direct Database Access (Node.js)
+
+```javascript
+import { Pool } from 'pg'
+
+const pool = new Pool({
+  connectionString: process.env.SUPABASE_DB_URL
+})
+```
+
+---
+
+## For Developers
+
+<Accordion title="Technical Reference">
+
+### API Key Types
+
+**Publishable Key (anon key)**
+- Limited to Row Level Security (RLS) policies
+- Can be safely exposed in client-side code
+- Used for frontend applications
+- Rate-limited to prevent abuse
+
+**Service Role Key**
+- Bypasses Row Level Security (RLS) policies
+- Has full admin access to your database
+- Should only be used in secure backend environments
+- Never expose in frontend code or public repositories
+
+### Connection Pooling
+
+OptiDev Cloud provides two connection modes:
+
+**Session Pooler (Port 5432)**
+- Full PostgreSQL compatibility
+- Supports all PostgreSQL features
+- Used for complex queries and transactions
+- Recommended for most use cases
+
+**Transaction Pooler (Port 6543)**
+- Optimized for high-concurrency scenarios
+- Limited to single-transaction queries
+- Not suitable for prepared statements or session variables
+
+### Connection Limits
+
+Each OptiDev Cloud project has connection limits based on your plan:
+- **Free tier:** 60 concurrent connections
+- **Pro tier:** 200 concurrent connections
+- **Enterprise:** Custom connection limits
+
+Connection pooling helps maximize these limits by efficiently managing connections across your application.
+
+### Security Best Practices
+
+1. **Never commit credentials** to version control
+2. **Use environment variables** for all sensitive data
+3. **Rotate passwords regularly** for production databases
+4. **Use service role key only in backend** code
+5. **Enable Row Level Security** on all tables
+6. **Monitor connection usage** to prevent exhaustion
+
+</Accordion>
