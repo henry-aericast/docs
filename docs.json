@@ -37,7 +37,8 @@
               "features/github-integration",
               "features/publish-your-app",
               "features/custom-domain",
-              "features/publish-to-optisigns"
+              "features/publish-to-optisigns",
+              "features/bring-your-own-claude"
             ]
           },
           {
