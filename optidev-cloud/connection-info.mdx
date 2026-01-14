@@ -31,11 +31,11 @@ Click the copy icon next to any value to copy it to your clipboard. These values
 
 ## Database Connection
 
-Click the **Database Connection** button to access your PostgreSQL connection details for use with database clients, ORMs, and other tools.
+Click the **Connect** button to access your PostgreSQL connection details for use with database clients, ORMs, and other tools.
 
 ### Connection String Formats
 
-When you click **Database Connection**, you'll see a modal with connection strings in 9 different formats:
+When you click **Connect**, you'll see a modal with connection strings in 9 different formats:
 
 **1. URI**
 Standard PostgreSQL connection string format:
@@ -119,22 +119,6 @@ OptiDev Cloud uses a session pooler on port 5432 for full PostgreSQL compatibili
 
 ---
 
-## Reset Database Password
-
-If you need to reset your database password (for security reasons or if it was compromised):
-
-1. Go to the **Connection Info** tab
-2. Click the **Reset Password** button
-3. A new 32-character password is generated automatically
-4. All connection strings are updated immediately
-5. Your app will need to use the new password
-
-<Warning>
-Resetting your password will immediately invalidate the old password. Update your `.env.local` file and redeploy any applications using the old credentials.
-</Warning>
-
----
-
 ## Environment Variables
 
 When you activate OptiDev Cloud, these environment variables are automatically added to your project:
@@ -147,19 +131,6 @@ VITE_SUPABASE_PUBLISHABLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
 These are safe to use in your frontend code and are included in your client-side bundle.
-
-### Backend Variables (Edge Functions)
-
-Edge Functions automatically have access to these additional variables:
-
-```bash
-SUPABASE_URL=https://[project-id].supabase.co
-SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-SUPABASE_DB_URL=postgresql://postgres:[password]@[host]:5432/postgres
-```
-
-The `SUPABASE_SERVICE_ROLE_KEY` has full admin access and should never be exposed in frontend code.
 
 ---
 
