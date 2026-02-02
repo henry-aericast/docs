@@ -76,7 +76,7 @@ After activation, you'll see **8 tabs** for managing your backend:
 
 Access your API credentials and database connection details:
 
-- **API URL** - Your backend endpoint
+- **API URL** - Your secure gateway endpoint for API calls
 - **Publishable Key** - Public API key for frontend code
 - **Database Connection** - PostgreSQL connection strings in 9 formats
 - **Reset Password** - Generate a new database password
@@ -91,10 +91,9 @@ Browse and query your data with a full-featured SQL editor:
 
 - **Table List** - See all your tables in the left sidebar (only public schema tables are shown)
 - **SQL Editor** - Monaco-powered editor with syntax highlighting
-- **Click to Query** - Click any table name to automatically populate `SELECT * FROM table_name`
+- **Click to Query** - Click any table name to instantly view its data (first 10 rows)
 - **Query Results** - View results in a table with row count display
-- **Schema Inspection** - See column types, nullable status, and default values
-- **Export Data** - Download results as CSV, JSON, or Excel
+- **Export Data** - Download results as CSV, JSON, or XLSX
 
 The SQL editor supports multi-line queries and shows null values, objects, and strings with proper formatting.
 
@@ -352,7 +351,8 @@ This is useful for debugging before connecting to your app.
 
 When you activate OptiDev Cloud, these environment variables are automatically added to your project's `.env.local`:
 
-- `VITE_SUPABASE_URL` - Your API endpoint
+- `VITE_SUPABASE_URL` - Your secure gateway URL (routes requests through OptiDev's gateway with automatic session management)
+- `VITE_SUPABASE_GATEWAY_URL` - Same as above, provided for compatibility
 - `VITE_SUPABASE_PUBLISHABLE_KEY` - Your public API key
 
 ### Supabase Client

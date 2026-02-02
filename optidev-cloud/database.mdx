@@ -48,14 +48,15 @@ OptiDev Agent understands relationships between tables and will set them up corr
 
 1. Go to the **Database** tab in OptiDev Cloud
 2. The left sidebar shows all your tables
-3. Click any table name to populate the SQL editor with a query
-4. Click **Execute Query** to see the data
+3. Click any table name to instantly view its data (shows first 10 rows by default)
+
+The SQL editor automatically populates with the query, so you can modify it and run again if needed.
 
 ### Understanding the Table View
 
 After executing a query, you'll see the result:
 
-- **Row count** - Shows how many total records exist
+- **Row count** - Shows how many rows were returned by your query
 - **Columns** - The header row shows all fields in your table
 - **Rows** - Each row is one record (one product, one order, one user, etc.)
 
@@ -143,7 +144,7 @@ Click the **menu icon** (three dots) above the results to see export options:
 
 - **Export to JSON** - For use in other applications or backups
 - **Export to CSV** - Opens in Excel, Google Sheets, or any spreadsheet app
-- **Export to Excel** - Direct Excel-compatible format
+- **Export to XLSX** - Tab-separated format that opens in Excel
 - **Copy as SQL** - Get INSERT statements to recreate the data elsewhere
 
 ### Exporting Selected Rows
