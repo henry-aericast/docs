@@ -1,0 +1,167 @@
+---
+title: "GitLab Integration"
+description: "Connect your projects to GitLab for version control and collaboration"
+---
+
+## Why Connect to GitLab?
+
+GitLab integration lets you:
+
+- **Back up your code** - Your project is safely stored on GitLab
+- **Collaborate with your team** - Others can view and contribute to your code
+- **Track changes** - See the history of every update
+- **Import existing projects** - Bring your GitLab repos into OptiDev
+
+## Connecting Your GitLab Account
+
+Before linking projects, you need to connect your GitLab account to OptiDev.
+
+### Step-by-Step
+
+1. Go to **Settings** (bottom of the sidebar)
+2. Select the **GitLab** tab
+3. Click **Connect GitLab Account**
+4. GitLab opens in a new window
+5. Review the permissions and click **Authorize**
+6. You're redirected back to OptiDev
+
+Your GitLab account now appears in the Connections list.
+
+<Tip>
+You can connect multiple GitLab accounts if you use different accounts for personal and work projects.
+</Tip>
+
+## Push Your Project to GitLab (starting with OptiDev)
+
+Have an OptiDev project you want to back up or share? Push it to GitLab.
+
+### Create a New Repository
+
+1. Open your project in OptiDev
+2. Click the **GitLab** button in the toolbar
+3. Select your GitLab account
+4. Choose **Create new repository**
+5. Enter a repository name
+6. Select the owner (your account or a group)
+7. Choose private, internal, or public visibility
+8. Click **Transfer**
+
+Your project code is now on GitLab.
+
+### Connect to an Existing Repository
+
+1. Open your project in OptiDev
+2. Click the **GitLab** button
+3. Select your GitLab account
+4. Choose **Use existing repository**
+5. Select the repository from the list
+6. Click **Connect**
+
+## Import from GitLab (starting with a repo)
+
+Already have a project on GitLab? Import it directly into OptiDev.
+
+1. From the dashboard, click **New Project**
+2. Select **Import from GitLab**
+3. Choose your GitLab account
+4. Browse or search for the repository
+5. Select the branch to import
+6. Click **Import**
+
+OptiDev clones the repository and sets up your development environment automatically.
+
+### Deployment Compatibility
+
+OptiDev can deploy **Vite-based projects** (React, Vue, etc.). Other project types like Next.js, Python, or Node.js backends can be developed in OptiDev but need external hosting for deployment.
+
+| Project Type | Development | Deployment |
+|--------------|-------------|------------|
+| Vite (React, Vue) | Yes | Yes |
+| Next.js | Yes | External hosting |
+| Python | Yes | External hosting |
+| Node.js backend | Yes | External hosting |
+
+## Syncing Changes
+
+Once your project is connected to GitLab (either by pushing or importing), syncing is automatic.
+
+### Automatic Push
+
+OptiDev automatically pushes your changes to GitLab every time you save (commit). You don't need to do anything -- every change appears on GitLab within seconds.
+
+### Pulling Updates
+
+If there are new changes to your GitLab repository, you can pull them into OptiDev.
+
+1. Open your project
+2. Click the **GitLab** button
+3. Click **Pull**
+4. Changes from GitLab are merged into your project
+
+<Warning>
+If you have unsaved changes in OptiDev, commit them first to avoid conflicts.
+</Warning>
+
+### Viewing Your Commits
+
+- On **GitLab**: Go to your repository and click "Commits"
+- In **OptiDev**: Open your project and click on the <Icon icon="clock" /> icon (Version History)
+
+## Group Access
+
+GitLab uses groups (and subgroups) to organize repositories. When you connect your GitLab account, OptiDev automatically detects any groups where you have Developer access or higher.
+
+To push a project to a group repository:
+
+1. Click the **GitLab** button in your project
+2. Select your GitLab account
+3. Under owner, choose the group instead of your personal account
+4. Continue with creating or selecting a repository
+
+<Tip>
+If you don't see a group listed, check that your GitLab account has at least Developer access to that group.
+</Tip>
+
+## Disconnecting
+
+### Unlink a Project
+
+1. Open your project
+2. Click the **GitLab** button
+3. Click **Disconnect**
+
+Your project stays in OptiDev, but changes no longer sync to GitLab.
+
+### Remove GitLab Account
+
+1. Go to **Settings** -> **GitLab**
+2. Find the account to remove
+3. Click the trash icon
+4. Confirm removal
+
+All projects linked to that account are unlinked automatically.
+
+## GitHub vs GitLab
+
+Each project can be connected to either GitHub or GitLab, but not both at the same time. If your project is connected to GitHub and you want to switch to GitLab, disconnect from GitHub first.
+
+## Troubleshooting
+
+### "Permission denied" when pushing
+
+Your GitLab token may have expired. Go to Settings -> GitLab, remove the connection, and reconnect.
+
+### Changes not appearing on GitLab
+
+Check that GitLab sync is enabled:
+1. Open your project
+2. Click the **GitLab** button
+3. Ensure the connection is active
+
+### Can't see group repositories
+
+Make sure your GitLab account has at least Developer access to the group. OptiDev only lists groups where you can create and push to repositories.
+
+### Import shows errors but project works
+
+Some warnings during import are normal (like missing optional configs). If your project runs correctly, you can ignore them.
