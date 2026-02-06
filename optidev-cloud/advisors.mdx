@@ -1,0 +1,298 @@
+---
+title: "Advisors"
+description: "Check your database for security vulnerabilities and performance issues"
+---
+
+## What are Advisors
+
+Advisors automatically scan your OptiDev Cloud database to find potential problems before they become critical issues. Think of them as a health check for your database - catching mistakes early and suggesting improvements.
+
+---
+
+## Opening the Advisors Tab
+
+1. Go to your project in OptiDev
+2. Open **OptiDev Cloud**
+3. Click the **Advisors** tab
+
+### Security vs Performance
+
+Use the dropdown at the top-left to switch between:
+
+- **Security** - Access control, authentication, data protection issues
+- **Performance** - Slow queries, missing indexes, inefficient configurations
+
+---
+
+## Understanding the Results
+
+### Severity Levels
+
+Issues are grouped by severity:
+
+- **Errors** (red flag) - Critical issues you should fix immediately
+- **Warnings** (yellow flag) - Problems that could cause issues soon
+- **Info** (green flag) - Suggestions to improve your database
+
+### Filtering by Severity
+
+Click any severity card on the left to see only those issues:
+
+- Click **Errors** to see critical security or performance problems
+- Click **Warnings** to review potential issues
+- Click **Info** to see optimization suggestions
+
+By default, errors are shown first since they need immediate attention.
+
+---
+
+## Common Security Issues
+
+### Missing Row Level Security (RLS)
+
+**What it means:**
+Your tables don't have Row Level Security enabled. This means any user with database access can read or modify all rows.
+
+**Why it matters:**
+Without RLS, users can see other users' data. For example, a customer could see orders from other customers.
+
+**How to fix:**
+OptiDev Agent can enable RLS for you:
+
+> *"Enable Row Level Security on the orders table so users can only see their own orders"*
+
+### RLS Disabled on Public Tables
+
+**What it means:**
+Tables in your `public` schema don't have RLS policies.
+
+**Why it matters:**
+Public tables are accessible by default. Without RLS policies, anyone can query all data.
+
+**How to fix:**
+Click the **Copy SQL** button to get the command, or ask OptiDev Agent:
+
+> *"Add RLS policy to the users table to restrict access by user_id"*
+
+### Insecure View Configurations
+
+**What it means:**
+Database views without `security_invoker=on` don't respect Row Level Security.
+
+**Why it matters:**
+Views might expose data that should be protected by RLS policies.
+
+**How to fix:**
+Recreate the view with the security setting enabled. Copy the remediation SQL from the issue details.
+
+---
+
+## Common Performance Issues
+
+### Unindexed Foreign Keys
+
+**What it means:**
+Foreign key columns don't have indexes. This makes queries that join tables very slow.
+
+**Example:**
+If `orders.customer_id` references `customers.id`, but there's no index on `customer_id`, looking up a customer's orders is slow.
+
+**How to fix:**
+Click the **Copy SQL** button to get the CREATE INDEX command, or tell OptiDev Agent:
+
+> *"Add an index to the customer_id column in the orders table"*
+
+### Inefficient RLS Policies
+
+**What it means:**
+Your Row Level Security policies are poorly written and slow down every query.
+
+**Why it matters:**
+Bad RLS policies can make your entire app slow since they run on every database access.
+
+**How to fix:**
+Review the policy details and optimize the conditions. Ask OptiDev Agent for help:
+
+> *"Optimize the RLS policy on the orders table for better performance"*
+
+### Duplicate Indexes
+
+**What it means:**
+You have multiple indexes that serve the same purpose.
+
+**Why it matters:**
+Extra indexes waste storage space and slow down INSERT/UPDATE operations.
+
+**How to fix:**
+Copy the DROP INDEX command from the remediation section to remove the duplicate index.
+
+---
+
+## How Often to Check Advisors
+
+Check advisors:
+
+- **After creating new tables** - Make sure you didn't miss indexes or security
+- **Weekly for active projects** - Catch issues as your database evolves
+- **Before going live** - Verify everything is secure and optimized
+
+---
+
+## Why This Matters
+
+### Security Issues Can Lead To:
+
+- Data breaches (users seeing each other's data)
+- Compliance violations (GDPR, HIPAA)
+- Reputation damage
+
+### Performance Issues Can Lead To:
+
+- Slow app response times
+- Database crashes under load
+- High infrastructure costs
+
+Fixing these issues early saves time and money.
+
+---
+
+## Reading Issue Details
+
+Click any issue to expand and see:
+
+- **Title** - What the issue is
+- **Description** - Why it's a problem
+- **Details** - Specific information about the issue
+- **Affected Object** - The database object involved (schema, table, view, or function name)
+- **Remediation** - Instructions or commands to fix the issue (click **Copy** to copy the link)
+
+---
+
+## Refreshing the Scan
+
+Click **Refresh** in the top-right to re-scan your database after making changes. This helps verify that:
+
+- Fixed issues no longer appear
+- New changes haven't introduced new issues
+- Your optimizations are working
+
+---
+
+## Fixing Issues with the Agent
+
+The OptiDev Agent can automatically fix most advisor issues for you.
+
+### Using the "Fix with Agent" Button
+
+Each issue has a **Fix with Agent** button. Click it to:
+1. Preview the prompt that will be sent to the agent
+2. Review the issue details and remediation SQL
+3. Click **Send to Agent** to redirect to the agent chat
+4. The agent applies the fix to your database
+
+<Note>
+If the agent is currently processing another request, the button will show **Agent Busy** and be disabled. Wait for the current task to complete before sending a new fix request.
+</Note>
+
+### Manually Asking the Agent
+
+You can also copy the issue title and ask the agent directly:
+
+```
+Fix the advisor issue: [paste issue title here]
+```
+
+For example:
+```
+Fix the advisor issue: Unindexed foreign keys on orders.customer_id
+```
+
+---
+
+## Publish Warning
+
+When you have unresolved advisor issues, a warning appears in the **Publish** dropdown:
+
+- Shows the count of errors, warnings, and info issues
+- Reminds you to review issues before publishing
+
+This helps ensure you don't accidentally deploy with critical security or performance problems.
+
+---
+
+## Tips and Best Practices
+
+### Fix Errors First
+
+Always address red flag errors before warnings. Security vulnerabilities should be your top priority.
+
+### Test Fixes in Development
+
+If you're not sure about a fix, test it in a development project first before applying it to production.
+
+### Document Changes
+
+When OptiDev Agent fixes issues, review what it changed so you understand the security model and performance characteristics.
+
+### Regular Monitoring
+
+Make checking advisors part of your deployment process. Add a reminder to check after major database changes.
+
+---
+
+## For Developers
+
+<Accordion title="Technical Reference">
+
+### API Endpoints
+
+Advisors use the Supabase Management API:
+
+- `GET /v1/projects/{ref}/advisors/security` - Security lints
+- `GET /v1/projects/{ref}/advisors/performance` - Performance lints
+
+### Lint Response Format
+
+```json
+{
+  "lints": [
+    {
+      "name": "unindexed_foreign_keys",
+      "title": "Unindexed Foreign Keys",
+      "level": "ERROR",
+      "categories": ["PERFORMANCE"],
+      "description": "Foreign key columns should be indexed",
+      "detail": "orders.customer_id references customers.id",
+      "remediation": "CREATE INDEX idx_orders_customer_id ON orders(customer_id);",
+      "metadata": {
+        "schema": "public",
+        "name": "orders",
+        "type": "table"
+      }
+    }
+  ]
+}
+```
+
+### Severity Levels
+
+- `ERROR` - Critical issues requiring immediate action
+- `WARN` - Problems that should be addressed soon
+- `INFO` - Suggestions for improvement
+
+### Categories
+
+- `SECURITY` - Access control, authentication, data protection
+- `PERFORMANCE` - Query speed, indexes, configuration
+
+### Filtering
+
+Results can be filtered by:
+- **Advisor type** (security vs performance)
+- **Severity level** (ERROR, WARN, INFO)
+
+### Claude Agent Integration
+
+OptiDev Agent has access to Advisors via MCP tools and can automatically fix issues using the remediation SQL provided in each lint.
+
+</Accordion>

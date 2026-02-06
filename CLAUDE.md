@@ -65,6 +65,29 @@ Push to `main` → auto-deploys to docs.optidev.ai
 | `docs.json` | Navigation structure, colors, navbar links |
 | `index.mdx` | Homepage hero and feature cards |
 
+## Image Components
+
+Use JSX `<img>` with `style` for sized images:
+
+```mdx
+<!-- Small (dropdowns, small UI) -->
+<img
+  src="/images/feature/image-name.png"
+  alt="Descriptive alt text"
+  style={{maxWidth: "260px"}}
+/>
+
+<!-- Medium (modals, dialogs) -->
+<img
+  src="/images/feature/image-name.png"
+  alt="Descriptive alt text"
+  style={{maxWidth: "320px"}}
+/>
+
+<!-- Full width (wide pickers, dashboards) -->
+![Alt text](/images/feature/image-name.png)
+```
+
 ## Reference
 
 - [Mintlify Docs](https://mintlify.com/docs) - Use Context7 MCP for lookup

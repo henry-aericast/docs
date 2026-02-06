@@ -54,25 +54,15 @@ OptiDev Cloud supports three ways for users to sign in:
 
 ### Email & Password
 
-The most common option. Users enter their email and create a password.
+The most common option. Users enter their email and create a password. This is enabled by default when you activate OptiDev Cloud.
 
 **Best for:** Most apps where you want users to have full accounts
-
-**Features:**
-- Email confirmation (optional)
-- Password reset via email
-- Remember me / stay logged in
 
 ### Phone (SMS)
 
 Users enter their phone number and receive a one-time code via text message.
 
 **Best for:** Apps where users prefer not to remember passwords, mobile-first apps
-
-**Features:**
-- No password to remember
-- Quick sign-in with SMS codes
-- Works on any phone
 
 ### Google
 
@@ -99,16 +89,6 @@ Each method shows:
 - **Enabled** badge - Currently active
 - **Disabled** badge - Not available to users
 - Click to configure settings
-
-### With OptiDev Agent
-
-Ask OptiDev Agent to configure authentication:
-
-> *"Enable Google sign-in for my app"*
-
-> *"Turn off phone login, only use email"*
-
-> *"Enable all three sign-in options"*
 
 ---
 
@@ -155,15 +135,7 @@ Toggle Google sign-in on or off.
 
 ### Setting Up Google OAuth
 
-To enable Google sign-in, you'll need Google OAuth credentials. OptiDev Agent can guide you:
-
-> *"Help me set up Google sign-in"*
-
-This involves:
-1. Creating a project in Google Cloud Console
-2. Setting up OAuth consent screen
-3. Getting your Client ID and Client Secret
-4. Adding them to OptiDev Cloud
+To enable Google sign-in, you'll need Google OAuth credentials.
 
 ---
 
@@ -185,20 +157,11 @@ Anonymous users can later convert to full accounts by adding an email or phone.
 
 ---
 
-## Viewing Your Users
+## Managing Your Users
 
-### User List
+View, create, invite, and delete users in the **Users** tab.
 
-The Auth tab shows all registered users with:
-
-- **Email/Phone** - How they signed up
-- **Created** - When they joined
-- **Last Sign In** - Their most recent login
-- **Provider** - How they log in (email, phone, or Google)
-
-### Finding Specific Users
-
-Use the search to find users by email or phone number.
+[Learn more about Users →](/optidev-cloud/users)
 
 ---
 

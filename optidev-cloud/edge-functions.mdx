@@ -140,17 +140,41 @@ The response will show whether the payment would succeed.
 
 Click **View Details** on any deployed function to see:
 
-### Function URL
-
-The web address for calling your function. This is what your app uses to communicate with the function.
-
-Click **Copy URL** to copy it to your clipboard.
-
 ### Execution Information
 
 - **Version** - The current deployed version number
 - **Last updated** - When the function was last deployed
 - **Status** - Whether the function is active
+
+### Monitoring Tabs
+
+The details view includes three tabs for monitoring your function. Use the time filter dropdown to view data from the last 15 minutes, 1 hour, 3 hours, or 1 day.
+
+**Overview** - Key metrics at a glance:
+- Total invocations and logs count
+- Average execution time (ms)
+- Success and error counts
+- Success rate percentage
+
+Monitor success rates and execution times to spot performance issues.
+
+**Invocations** - HTTP request history:
+- Timestamp, method, status code, and path for each request
+- Click any row to see full request/response details
+- Color-coded status (green for success, red for errors)
+
+Check status codes to identify failed requests and debug API issues.
+
+**Console Logs** - Function output:
+- All `console.log()`, `console.error()`, etc. from your function
+- Log level indicators (log, info, warn, error, debug)
+- Expandable rows for full message details
+
+Use `console.log()` in your function code to add debug information.
+
+<Note>
+Metrics and logs are retained for a limited time. Check regularly if you need to debug issues.
+</Note>
 
 ---
 
@@ -233,26 +257,13 @@ OptiDev Agent will create the function, explain the code, and deploy it for you.
 
 Many integrations require API keys (like your Stripe secret key). These should never be in your frontend code.
 
-### Managing Secrets
-
-Go to the **Secrets** tab in OptiDev Cloud:
-
-1. Click **Add Secret**
-2. Enter a name (like `STRIPE_SECRET_KEY`)
-3. Enter the value (your actual API key)
-4. Click **Save**
-
-### Using Secrets in Functions
-
-Ask OptiDev Agent to use your secrets:
+Store your API keys securely in the **Secrets** tab, then ask OptiDev Agent to use them:
 
 > *"Create a Stripe payment function using my STRIPE_SECRET_KEY secret"*
 
-OptiDev Agent will write code that securely accesses your secret.
+OptiDev Agent will write code that securely accesses your secret without exposing it in your frontend.
 
-<Note>
-Secrets are write-only for security. You can create and delete them, but you can't view the values after saving.
-</Note>
+[Learn more about Secrets →](/optidev-cloud/secrets)
 
 ---
 

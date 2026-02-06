@@ -12,56 +12,13 @@ OptiDev Cloud Storage gives you:
 - **Fast global delivery** - Files are served through a CDN, so they load quickly worldwide
 - **Flexible access control** - Make files public for everyone or private for specific users
 - **Organized structure** - Group files into "buckets" for different purposes
-
----
-
-## Setting Up Storage with OptiDev Agent
-
-The easiest way to add file storage to your app is to describe what you need.
-
-### Example: Profile Pictures
-
-> *"Add profile picture upload to my user settings page. Store the images and display them next to usernames"*
-
-OptiDev Agent will:
-1. Create a storage bucket for avatars
-2. Add an upload component to your settings page
-3. Save the image URL to the user's profile
-4. Display the picture throughout your app
-
-### Example: Document Uploads
-
-> *"Let users upload PDF documents to their account. Show a list of their uploaded files"*
-
-OptiDev Agent will:
-1. Set up secure storage for documents
-2. Create an upload interface
-3. Build a file list showing each user's documents
-4. Handle download links
-
-### Example: Product Images
-
-> *"Add image upload for products in my admin panel. Support multiple images per product"*
-
-OptiDev Agent will:
-1. Create storage for product images
-2. Add multi-image upload to your product editor
-3. Display image galleries on product pages
+- **Upload restrictions** - Set file size limits and allowed file types per bucket
 
 ---
 
 ## Understanding Buckets
 
 Files are organized into **buckets** - think of them like folders for different types of content.
-
-### Common Bucket Examples
-
-| Bucket Name | Purpose | Access |
-|-------------|---------|--------|
-| `avatars` | User profile pictures | Public |
-| `documents` | User-uploaded files | Private |
-| `products` | Product images | Public |
-| `invoices` | Generated invoices | Private |
 
 ### Public vs Private Buckets
 
@@ -77,120 +34,156 @@ Files are organized into **buckets** - think of them like folders for different 
 
 ---
 
-## Uploading Files with OptiDev Agent
+## Using Storage with OptiDev Agent
 
-### Adding Upload to Your App
+The easiest way to add file storage to your app is to describe what you need.
 
-Describe the upload experience you want:
+### Example: Profile Pictures
 
-> *"Add a drag-and-drop image uploader to the product form"*
+> *"Add profile picture upload to my user settings page and display them next to usernames"*
 
-> *"Let users select multiple files from their computer to upload"*
+OptiDev Agent will:
+1. Create a storage bucket for avatars
+2. Add an upload component to your settings page
+3. Save the image URL to the user's profile
+4. Display the picture throughout your app
 
-> *"Add a camera button that lets mobile users take a photo to upload"*
+### Example: Document Uploads
 
-OptiDev Agent will create the appropriate upload interface.
+> *"Let users upload PDF documents to their account with a download button for each file"*
 
-### Handling Different File Types
+OptiDev Agent will:
+1. Set up a private storage bucket for documents
+2. Create an upload interface
+3. Build a file list with download buttons
+4. Set up access policies so users only see their own files
 
-OptiDev Agent can set up validation for specific file types:
+### Example: Public Gallery
 
-> *"Only allow PDF and Word documents for the resume upload"*
+> *"Create a public image gallery where anyone can see the images but only authenticated users can upload"*
 
-> *"Accept images only (JPG, PNG, GIF) for the gallery, max 5MB each"*
-
----
-
-## Viewing Files in the Dashboard
-
-### Browsing Buckets
-
-1. Go to the **Storage** section (if available in your dashboard)
-2. See a list of your buckets
-3. Click a bucket to view its contents
-
-### File Information
-
-For each file, you can see:
-
-- **File name** - The original or assigned name
-- **Size** - How large the file is
-- **Upload date** - When it was added
-- **URL** - The web address to access the file
+OptiDev Agent will:
+1. Create a public storage bucket for the gallery
+2. Add an image upload component for logged-in users
+3. Display a gallery view visible to everyone
+4. Set up policies for public read and authenticated upload
 
 ---
 
-## Working with File URLs
+## Managing Buckets in the Dashboard
 
-### Public File URLs
+### Viewing Your Buckets
 
-Public files have permanent URLs that anyone can access:
+1. Go to the **Storage** tab in OptiDev Cloud
+2. You'll see a grid of bucket cards
+3. Each card shows the bucket name and a **Public** or **Private** badge
 
-```
-https://your-project.supabase.co/storage/v1/object/public/avatars/user-123.jpg
-```
+### Creating a New Bucket
 
-Use these directly in your app to display images or link to downloads.
+1. Click the **New bucket** button
+2. Enter a bucket name (this cannot be changed later)
+3. Choose visibility:
+   - **Public** - Anyone can view files
+   - **Private** - Only authorized users can access
+4. Optionally set restrictions (see Bucket Settings below)
+5. Click **Create bucket**
 
-### Private File URLs
+### Bucket Settings
 
-Private files need **signed URLs** - temporary links that expire:
+Click any bucket to open it, then click the **Edit bucket** dropdown and select **Bucket settings** to configure:
 
-> *"When a user clicks download, generate a link to their invoice that expires in 1 hour"*
+**File Size Limit**
+- Toggle on to restrict maximum file size
+- Enter the limit in megabytes (MB)
+- Uploads exceeding this size will be rejected
+- Default is 50 MB if not set
 
-OptiDev Agent will set up secure, time-limited access to private files.
+**Allowed File Types**
+- Toggle on to restrict which file types can be uploaded
+- Enter MIME types separated by commas
+- Examples: `image/png, image/jpeg` or `application/pdf`
+
+<Note>
+Bucket settings help prevent users from uploading inappropriate or oversized files. Set these before adding upload functionality to your app.
+</Note>
+
+### Emptying or Deleting a Bucket
+
+1. Click the bucket you want to modify
+2. Click the **Edit bucket** dropdown
+3. Select **Empty bucket** to delete all files but keep the bucket, or **Delete bucket** to remove everything
+4. Confirm the action
+
+<Warning>
+Both actions are permanent and cannot be undone.
+</Warning>
 
 ---
 
-## Common Storage Tasks
+## Browsing Files in the Dashboard
 
-### Displaying User Uploads
+Click any bucket to view its contents:
 
-> *"Show each user's profile picture next to their comments"*
+- **Breadcrumb navigation** - Shows your current location (e.g., `avatars / users / profile-pics`)
+- **File table** - Lists all files and folders with Name, Size, and Modified date
+- **Folder navigation** - Click any folder to enter it
+- **Back button** - Return to the bucket list
 
-### Building a Gallery
+### Uploading Files
 
-> *"Create an image gallery from all photos in the 'products' bucket"*
-
-### Handling File Downloads
-
-> *"Add a download button for each document in the user's file list"*
+1. Click a bucket to open it
+2. Navigate to the folder where you want to upload (or stay at root)
+3. Click the **Upload** button
+4. Select files from your computer
+5. Files upload directly to storage
 
 ### Deleting Files
 
-> *"Let users delete their own uploaded files"*
-
-### Organizing Files
-
-> *"Put each user's files in their own folder within the documents bucket"*
+1. Find the file you want to delete
+2. Click the **trash icon** next to the file
+3. Confirm the deletion
 
 ---
 
-## File Upload Best Practices
+## Viewing Storage Policies
 
-### Set File Size Limits
+Storage policies (Row Level Security) control who can access files in each bucket.
 
-Prevent huge uploads that slow down your app:
+### Viewing Policies
 
-> *"Limit uploads to 10MB per file"*
+1. Click a bucket to open it
+2. Click the **Policies** button
+3. A modal shows all security rules for this bucket
 
-### Accept Specific File Types
+### Understanding Policies
 
-Only allow the files you actually need:
+Each policy shows:
 
-> *"Only accept images for the avatar upload"*
+- **Policy name** - Descriptive name for the rule
+- **Command** - What action it controls (SELECT, INSERT, DELETE, etc.)
+- **Applies to** - Who the rule affects:
+  - `public` - Anyone, including users who are not logged in
+  - `authenticated` - Only users who are logged in
+  - Other custom roles as defined in your app
+- **Definition** - The actual security condition
 
-### Use Meaningful File Names
+<img
+  src="/images/optidev-cloud/storage/policy.png"
+  alt="Storage policies modal showing RLS policies"
+  style={{maxWidth: "480px"}}
+/>
 
-OptiDev Agent can rename files automatically:
+### Modifying Policies
 
-> *"Name uploaded files with the user ID and timestamp"*
+Policies cannot be edited directly in the dashboard. To create or change policies, describe the access rules you want to OptiDev Agent:
 
-### Compress Images
+> *"Only let authenticated users upload files to the documents bucket"*
 
-For better performance:
+> *"Users should only be able to see and delete their own files"*
 
-> *"Resize uploaded images to max 1200px wide"*
+> *"Make the avatars bucket publicly readable but only allow uploads from logged-in users"*
+
+OptiDev Agent will create the appropriate Row Level Security policies for you.
 
 ---
 
@@ -258,9 +251,50 @@ const { error } = await supabase.storage
   .remove(['user-123.jpg'])
 ```
 
-### Storage Policies
+### Bucket Configuration
 
-Control access with Row Level Security policies on the `storage.objects` table. Ask OptiDev Agent:
+When creating buckets programmatically, you can set:
+
+```typescript
+{
+  name: 'documents',
+  public: false,
+  fileSizeLimit: 10485760,        // 10MB in bytes
+  allowedMimeTypes: ['application/pdf', 'image/png', 'image/jpeg']
+}
+```
+
+### Row Level Security Policies
+
+Control access with RLS policies on the `storage.objects` table. Common patterns:
+
+**Public read access:**
+```sql
+CREATE POLICY "Public read" ON storage.objects
+  FOR SELECT USING (bucket_id = 'avatars');
+```
+
+**Authenticated uploads:**
+```sql
+CREATE POLICY "Auth upload" ON storage.objects
+  FOR INSERT WITH CHECK (
+    bucket_id = 'documents'
+    AND auth.role() = 'authenticated'
+  );
+```
+
+**Per-user isolation:**
+```sql
+CREATE POLICY "User files" ON storage.objects
+  FOR ALL USING (
+    bucket_id = 'documents'
+    AND auth.uid()::text = (storage.foldername(name))[1]
+  );
+```
+
+This requires files to be stored as `{user_id}/filename.ext`.
+
+Ask OptiDev Agent to set up RLS policies:
 
 > *"Only let users access their own files in the documents bucket"*
 
