@@ -90,6 +90,9 @@
       "href": "https://app.optidev.ai"
     }
   },
+  "seo": {
+    "indexing": "all"
+  },
   "contextual": {
     "options": [
      "copy",
