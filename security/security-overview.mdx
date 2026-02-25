@@ -1,0 +1,183 @@
+---
+title: "Security Overview"
+description: "How OptiDev protects your data, code, and credentials"
+---
+
+OptiDev is built for enterprise teams. This page explains the security controls in place across infrastructure, authentication, data handling, and AI.
+
+## Infrastructure & Data Residency
+
+All customer data is stored and processed in the United States.
+
+| Provider | Role | Region |
+|---|---|---|
+| Oracle Cloud Infrastructure | Compute, Kubernetes, object storage, PostgreSQL, Redis | US |
+| Cloudflare | CDN, DDoS protection, TLS, R2 storage | Global edge, US origin |
+| Supabase | Backend-as-a-service for user projects | User-chosen |
+
+### Network Architecture
+
+Customer requests pass through Cloudflare for TLS termination and DDoS protection before reaching the OptiDev API. Development containers run inside Kubernetes and are never directly reachable from the internet — access is issued only after the API has verified your identity and confirmed ownership.
+
+### Network Isolation
+
+Each development container is isolated at the network layer:
+
+- **No inter-container communication** — containers cannot reach each other
+- **Egress restricted** — outbound traffic is limited to necessary external services
+- **No lateral movement** between workspaces at the network layer
+
+---
+
+## Authentication & Access Control
+
+### Identity
+
+OptiDev uses **Firebase Authentication** (Google) as the identity layer. Tokens are verified server-side on every API request — client-supplied tokens are never trusted without server-side verification. Unauthenticated requests are rejected.
+
+### Enterprise SSO (SAML 2.0)
+
+<Note>
+SSO is available on Enterprise plans. See the [Single Sign-On guide](/security/single-sign-on) for setup instructions.
+</Note>
+
+Connect your existing identity provider via SAML 2.0. Supported out of the box:
+
+- Okta
+- Azure Active Directory / Microsoft Entra ID
+- Any SAML 2.0-compliant IdP
+
+SAML features include:
+
+- **Just-in-time provisioning** — accounts created automatically on first login, no manual provisioning needed
+- **Group-based role assignment** — map IdP groups to workspace roles (Admin, User, Viewer)
+- **Configurable attribute mapping** — handles non-standard attribute names across IdPs
+- **Domain verification required** — only verified domain administrators can configure SSO
+- **Sync on login** — optionally keep display name and workspace membership in sync with your IdP
+
+### Multi-Factor Authentication (MFA)
+
+MFA is available through OptiPrime, our identity platform:
+
+- **TOTP** — Google Authenticator, Authy, 1Password, or any TOTP app
+- **SMS** — phone number verification
+- **Backup codes** — securely hashed before storage; single-use with usage tracking
+
+<Tip>
+Sensitive operations like disabling MFA or regenerating backup codes require re-authentication before proceeding.
+</Tip>
+
+### OAuth 2.0 + PKCE
+
+All OAuth flows use **PKCE (Proof Key for Code Exchange)** with SHA-256. Plain PKCE is rejected. Authorization codes are short-lived and single-use.
+
+### Role-Based Access Control (RBAC)
+
+Workspace roles — **Owner**, **Admin**, **User**, and **Viewer** — determine what each member can do. Permissions are enforced server-side on every request, not just at the UI layer.
+
+### Multi-Tenant Data Isolation
+
+Every database query is scoped to your workspace. It is architecturally impossible for a query to return data belonging to another workspace or organization.
+
+---
+
+## Data Security
+
+### Encryption at Rest
+
+All secrets, API keys, and third-party credentials are encrypted before being written to the database using **AES-256-GCM**. The encryption key is derived from a master secret not accessible to application-layer code or OptiDev employees. Decrypted values are never written to logs.
+
+### Encryption in Transit
+
+All traffic is encrypted via **TLS 1.2+** enforced at the Cloudflare edge. Internal service-to-service communication runs over private cluster networking.
+
+### Secret Visibility Tiers
+
+OptiDev gives you fine-grained control over how secrets are handled in the UI:
+
+| Tier | Behavior |
+|---|---|
+| **Visible** | Always shown in plain text — for non-sensitive config values |
+| **Masked** | Hidden by default; user can reveal temporarily with a toggle |
+| **Sensitive** | Write-only — once saved, the value can never be retrieved, only rotated |
+
+### No Secrets in Logs
+
+Decrypted secret values are never written to application logs. Logs contain only IDs, key names, and metadata.
+
+### Presigned URLs for Build Artifacts
+
+Build outputs, deployment packages, and code archives are delivered via time-limited presigned URLs. No cloud credentials are ever injected into container environments.
+
+---
+
+## Development Container Security
+
+Each workspace gets a dedicated container running in full isolation:
+
+- Runs in its own Kubernetes namespace — no shared runtime with other workspaces
+- Network policies deny all ingress between containers
+- Resource quotas are enforced per container
+- Containers run as non-root users
+
+Access to your container is brokered exclusively through the OptiDev API after authentication. There is no path for one user to access another user's container.
+
+---
+
+## AI Security
+
+OptiDev's AI assistant is powered by Anthropic's Claude API.
+
+### What the AI can access
+
+- Files in your current project
+- Project metadata (name, framework type)
+- Your conversation history within the active session
+
+### What the AI cannot access
+
+- Files or data from other workspaces
+- Your secrets or API keys — decrypted values are never passed to the AI
+- Data from other users or tenants
+
+### AI data handling
+
+<Note>
+Per Anthropic's API data usage policy, customer code and conversations submitted via the API are not used to train AI models.
+</Note>
+
+- Claude sessions are scoped to a single workspace — no cross-workspace context leakage
+- API keys for AI calls are injected at runtime — no credentials are embedded in container images
+
+---
+
+## Third-Party Subprocessors
+
+| Subprocessor | Role | Region |
+|---|---|---|
+| Oracle Cloud Infrastructure | Compute, Kubernetes, object storage, PostgreSQL, Redis | US |
+| Cloudflare | CDN, DDoS protection, TLS, R2 storage | US |
+| Google Firebase | User authentication, MFA, SAML federation | US |
+| Anthropic | AI coding assistant (Claude API) | US |
+| Google Gemini | Image generation | US |
+| Stripe | Payment processing, usage-based billing | US |
+| Customer.io | Transactional email, user communications | US |
+| Supabase | Backend-as-a-service provisioning for user projects | US |
+| PostHog | Product analytics | US |
+
+---
+
+<CardGroup cols={2}>
+  <Card title="Single Sign-On" icon="building" href="/security/single-sign-on">
+    Set up SAML SSO with Okta, Azure AD, or any SAML 2.0 provider.
+  </Card>
+  <Card title="Securing Your App" icon="shield" href="/security/securing-your-app">
+    Best practices for securing apps you build and publish on OptiDev.
+  </Card>
+  <Card title="Secrets Manager" icon="key" href="/optidev-cloud/secrets">
+    Store and manage environment variables and credentials securely.
+  </Card>
+  <Card title="Support" icon="envelope" href="mailto:support@optidev.ai">
+    Questions about security? Contact our support team.
+  </Card>
+</CardGroup>

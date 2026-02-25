@@ -58,6 +58,7 @@
           {
             "group": "Security",
             "pages": [
+              "security/security-overview",
               "security/securing-your-app",
               "security/single-sign-on"
             ]
@@ -79,6 +80,10 @@
   },
   "navbar": {
     "links": [
+      {
+        "label": "Security",
+        "href": "/security/security-overview"
+      },
       {
         "label": "Support",
         "href": "mailto:support@optidev.ai"
