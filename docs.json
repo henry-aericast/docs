@@ -15,62 +15,56 @@
   },
   "favicon": "/favicon.svg",
   "navigation": {
-    "tabs": [
+    "groups": [
       {
-        "tab": "Guides",
-        "hidden": true,
-        "groups": [
-          {
-            "group": "Get Started",
-            "pages": [
-              "get-started/quickstart",
-              "get-started/prompt-guide"
-            ]
-          },
-          {
-            "group": "Features",
-            "pages": [
-              "features/agent-mode",
-              "features/visual-editor",
-              "features/code-editor",
-              "features/image-generation",
-              "features/github-integration",
-              "features/gitlab-integration",
-              "features/publish-your-app",
-              "features/custom-domain",
-              "features/publish-to-optisigns",
-              "features/bring-your-own-claude"
-            ]
-          },
-          {
-            "group": "OptiDev Cloud",
-            "pages": [
-              "optidev-cloud/how-to-use",
-              "optidev-cloud/connection-info",
-              "optidev-cloud/database",
-              "optidev-cloud/auth",
-              "optidev-cloud/users",
-              "optidev-cloud/edge-functions",
-              "optidev-cloud/secrets",
-              "optidev-cloud/storage",
-              "optidev-cloud/advisors"
-            ]
-          },
-          {
-            "group": "Security",
-            "pages": [
-              "security/security-overview",
-              "security/securing-your-app",
-              "security/single-sign-on"
-            ]
-          },
-          {
-            "group": "Billing",
-            "pages": [
-              "billing/plans-and-credits",
-              "billing/payment-methods"
-            ]
-          }
+        "group": "Get Started",
+        "pages": [
+          "get-started/quickstart",
+          "get-started/prompt-guide"
+        ]
+      },
+      {
+        "group": "Features",
+        "pages": [
+          "features/agent-mode",
+          "features/visual-editor",
+          "features/code-editor",
+          "features/image-generation",
+          "features/github-integration",
+          "features/gitlab-integration",
+          "features/publish-your-app",
+          "features/custom-domain",
+          "features/publish-to-optisigns",
+          "features/bring-your-own-claude"
+        ]
+      },
+      {
+        "group": "OptiDev Cloud",
+        "pages": [
+          "optidev-cloud/how-to-use",
+          "optidev-cloud/connection-info",
+          "optidev-cloud/database",
+          "optidev-cloud/auth",
+          "optidev-cloud/users",
+          "optidev-cloud/edge-functions",
+          "optidev-cloud/secrets",
+          "optidev-cloud/storage",
+          "optidev-cloud/advisors"
+        ]
+      },
+      {
+        "group": "Security",
+        "pages": [
+          "security/security-overview",
+          "security/securing-your-app",
+          "security/single-sign-on"
+        ]
+      },
+      {
+        "group": "Billing",
+        "pages": [
+          "billing/plans-and-credits",
+          "billing/payment-methods"
         ]
       }
     ]
