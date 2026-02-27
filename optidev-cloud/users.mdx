@@ -150,6 +150,10 @@ The user receives an email with a signup link. When they click it, they can:
 1. Set their own password
 2. Be redirected to your specified URL
 
+<Warning>
+**Email Rate Limit:** OptiDev Cloud uses Supabase's built-in email service, which has a limit of **2 emails per hour**. This applies to invitations, magic links, and password reset emails. Custom SMTP provider support is planned for a future release
+</Warning>
+
 ---
 
 ## Deleting Users
@@ -380,6 +384,9 @@ Be aware of potential rate limits:
 - User creation: ~60 requests per minute
 - User listing: ~100 requests per minute
 - User deletion: ~60 requests per minute
+- **Email sending: 2 emails per hour**
+
+The email rate limit applies to invitations, magic links, and password resets. For production apps with higher email volume, configure a custom SMTP provider (SendGrid, Resend, etc.) in your Supabase project settings.
 
 For bulk operations, consider batching and adding delays between requests.
 

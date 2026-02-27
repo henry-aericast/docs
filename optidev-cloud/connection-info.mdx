@@ -13,9 +13,13 @@ The Connection Info tab shows your OptiDev Cloud API credentials and database co
 
 ### API URL
 
-The web address for your OptiDev Cloud backend. This is used to make API calls to your database, authentication, storage, and edge functions.
+The secure gateway URL for your OptiDev Cloud backend. This is used to make API calls to your database, authentication, storage, and edge functions. All requests are routed through OptiDev's secure gateway with automatic session management and HMAC authentication.
 
-**Example:** `https://abcdefghijklmnop.supabase.co`
+**Example:** `https://a1b2c3d4e5f6g7h8i9j0.sb.optidev.ai`
+
+<Note>
+The API URL uses an encrypted identifier for enhanced security. Your app connects through this gateway, which securely proxies requests to the backend services.
+</Note>
 
 ### Publishable Key
 
@@ -126,8 +130,9 @@ When you activate OptiDev Cloud, these environment variables are automatically a
 ### Frontend Variables
 
 ```bash
-VITE_SUPABASE_URL=https://[project-id].supabase.co
+VITE_SUPABASE_URL=https://[encrypted-id].sb.optidev.ai
 VITE_SUPABASE_PUBLISHABLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+VITE_SUPABASE_GATEWAY_URL=https://[encrypted-id].sb.optidev.ai
 ```
 
 These are safe to use in your frontend code and are included in your client-side bundle.
