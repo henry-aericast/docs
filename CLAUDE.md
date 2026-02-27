@@ -90,5 +90,4 @@ Use JSX `<img>` with `style` for sized images:
 
 ## Reference
 
-- [Mintlify Docs](https://mintlify.com/docs) - Use Context7 MCP for lookup
-- Main product: `~/optisigns/optiedge/optiedge-develop`
+- Main product: the main product repo is `optiedge-kaze`. If you need to reference the main product code, ask the user to provide the path to their local clone.
