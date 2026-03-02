@@ -11,7 +11,7 @@ All customer data is stored and processed in the United States.
 
 | Provider | Role | Region |
 |---|---|---|
-| Oracle Cloud Infrastructure | Compute, Kubernetes, object storage, PostgreSQL, Redis | US |
+| Oracle Cloud Infrastructure | Compute, Database, Redis | US |
 | Cloudflare | CDN, DDoS protection, TLS, R2 storage | Global edge, US origin |
 | Supabase | Backend-as-a-service for user projects | User-chosen |
 
@@ -33,7 +33,7 @@ Each development container is isolated at the network layer:
 
 ### Identity
 
-OptiDev uses **Firebase Authentication** (Google) as the identity layer. Tokens are verified server-side on every API request — client-supplied tokens are never trusted without server-side verification. Unauthenticated requests are rejected.
+OptiDev uses **Google Authentication** as the identity layer. Tokens are verified server-side on every API request — client-supplied tokens are never trusted without server-side verification. Unauthenticated requests are rejected.
 
 ### Enterprise SSO (SAML 2.0)
 
@@ -146,8 +146,14 @@ OptiDev's AI assistant is powered by Anthropic's Claude API.
 Per Anthropic's API data usage policy, customer code and conversations submitted via the API are not used to train AI models.
 </Note>
 
-- Claude sessions are scoped to a single workspace — no cross-workspace context leakage
+- AI sessions are scoped to a single workspace — no cross-workspace context leakage
 - API keys for AI calls are injected at runtime — no credentials are embedded in container images
+
+---
+
+## Compliance
+
+OptiDev is developed by **[OptiSigns](https://www.optisigns.com/security)**, a **SOC 2 Type II certified** company.
 
 ---
 
@@ -155,12 +161,12 @@ Per Anthropic's API data usage policy, customer code and conversations submitted
 
 | Subprocessor | Role | Region |
 |---|---|---|
-| Oracle Cloud Infrastructure | Compute, Kubernetes, object storage, PostgreSQL, Redis | US |
+| Oracle Cloud Infrastructure | Compute, object storage, Database, Redis | US |
 | Cloudflare | CDN, DDoS protection, TLS, R2 storage | US |
 | Google Firebase | User authentication, MFA, SAML federation | US |
-| Anthropic | AI coding assistant (Claude API) | US |
+| Anthropic | AI coding assistant | US |
 | Google Gemini | Image generation | US |
-| Stripe | Payment processing, usage-based billing | US |
+| Stripe | Payment processing | US |
 | Supabase | Backend-as-a-service provisioning for user projects | US |
 
 
