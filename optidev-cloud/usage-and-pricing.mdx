@@ -1,0 +1,135 @@
+---
+title: "Usage & Pricing"
+sidebarTitle: "Usage & Pricing"
+description: "Understand how OptiDev Cloud usage is metered and billed"
+---
+
+## How Cloud Billing Works
+
+OptiDev Cloud uses **usage-based billing**. You get a monthly dollar allowance based on your plan, and usage is charged in tiers as you go.
+
+| Plan | Monthly Cloud Allowance |
+|------|------------------------|
+| **Free** | $0/month |
+| **Standard** | $10/month |
+| **Pro** | $15/month |
+
+<Tip>
+All workspaces get a **$5 starter credit** that never expires. This is added to your balance on top of your plan allowance.
+</Tip>
+
+### Billing Cycle
+
+- **Reset date**: 1st of each month
+- **Charges**: Applied when you cross into a new usage tier
+- Plan allowance resets on the 1st regardless of when you subscribed
+- Top-up balance never resets — carries over month-to-month
+
+---
+
+## Your Cloud Balance
+
+Your total cloud balance combines two parts:
+
+1. **Plan Allowance** — Resets on the 1st of each month
+2. **Top-up Balance** — Never expires, carries over month-to-month
+
+When charges occur, your plan allowance is used first. Once that's depleted, charges come from your top-up balance (including your starter credit).
+
+### Checking Your Balance
+
+1. Go to **Dashboard** → **Settings** → **Cloud Usage**
+2. View your current cloud balance and usage breakdown
+3. See which services are consuming your allowance
+
+---
+
+## Usage Pricing
+
+Usage is billed in tiers. When you cross into a new tier, you're charged for that tier.
+
+| Service | Tier Size | Price per Tier |
+|---------|-----------|----------------|
+| **Edge Functions** | 1M invocations | $2.00 |
+| **App Traffic** | 1M requests | $1.00 |
+| **Realtime Messages** | 1M messages | $1.00 |
+| **Realtime Connections** | 100 peak connections | $1.00 |
+| **Asset Storage** | per GB | $0.015 |
+| **Additional Projects** | per cloud project | $3.00 |
+
+<Note>
+Each plan includes free cloud projects: **Free: 1**, **Standard: 3**, **Pro: 6**. Only projects with OptiDev Cloud activated count toward this limit — regular projects without cloud don't count.
+</Note>
+
+<Info>
+**Example**: If your edge functions hit 1.5M invocations, you've entered the 2nd tier and are charged $4.00 total (2 tiers × $2.00).
+</Info>
+
+---
+
+## Adding Funds
+
+When your balance runs low, you can add funds anytime:
+
+1. Go to **Settings** → **Cloud Usage**
+2. Click **Add Funds**
+3. Choose an amount ($10, $25, $50, or custom)
+4. Complete payment through Stripe
+
+Added funds go to your **top-up balance** and never expire.
+
+### Auto-Replenish
+
+Set up automatic top-ups so you never run out:
+
+1. Go to **Settings** → **Billing**
+2. Enable **Auto-Replenish**
+3. Set your threshold (e.g., when balance drops below $5)
+4. Set your replenish amount (e.g., add $25)
+
+When your balance drops below the threshold, we'll automatically charge your saved payment method.
+
+---
+
+## What Happens When Balance Runs Out
+
+If your cloud balance goes negative:
+- New cloud activations are blocked
+- New publishes are blocked
+- Existing published apps continue working
+
+**After 5 days (grace period):**
+- Published apps show a "Project Paused" page
+
+**When you add funds:**
+- Services resume immediately — no waiting
+
+<Warning>
+Your data is never deleted. Add funds anytime to restore access.
+</Warning>
+
+---
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Does unused allowance roll over?">
+    No. Your plan allowance resets on the 1st of each month. However, your top-up balance (including the $5 starter credit) never expires.
+  </Accordion>
+
+  <Accordion title="How is app traffic measured?">
+    App traffic counts all HTTP requests to your published app and backend APIs.
+  </Accordion>
+
+  <Accordion title="What are realtime peak connections?">
+    The maximum number of simultaneous WebSocket connections at any point during the billing period.
+  </Accordion>
+
+  <Accordion title="Can I set spending limits?">
+    Currently, you can use auto-replenish thresholds to manage spending. Hard spending limits are coming soon.
+  </Accordion>
+
+  <Accordion title="What if I cancel my subscription?">
+    Your plan allowance resets to $0 at the next billing cycle. Your top-up balance (including starter credit) remains available and never expires.
+  </Accordion>
+</AccordionGroup>
