@@ -1,269 +1,109 @@
 ---
 title: "Edge Functions"
-description: "Run server-side code for APIs, integrations, and background tasks"
+description: "Run server-side code and store API keys for your app"
 ---
 
 ## What are Edge Functions
 
-Edge Functions are small pieces of code that run on the server instead of in the browser. They're useful for things you can't (or shouldn't) do in the browser:
+Edge Functions are small pieces of code that run on the server instead of in the browser. Use them for anything you can't (or shouldn't) do client-side:
 
-- **Payment processing** - Connect to Stripe, PayPal, or other payment providers
-- **Sending emails** - Send confirmation emails, notifications, or newsletters
-- **API integrations** - Connect to external services like HubSpot, Zendesk, or custom APIs
-- **Protected operations** - Tasks that need secret API keys you don't want exposed
+- **Payment processing** — Stripe, PayPal, etc.
+- **Sending emails** — confirmations, notifications, newsletters
+- **API integrations** — HubSpot, Zendesk, custom APIs
+- **Protected operations** — anything that needs a secret API key
 
-Edge Functions run globally, close to your users, which means they're fast no matter where your users are located.
+They run globally, close to your users, so they're fast everywhere.
 
 ---
 
 ## Creating Functions with OptiDev Agent
 
-The easiest way to create Edge Functions is to describe what you need to OptiDev Agent.
+Describe what you need and OptiDev Agent writes the function, wires up any required services, and deploys it.
 
-### Example: Stripe Payment
+> *"Create an API endpoint that accepts credit card payments with Stripe and saves the order to the database"*
 
-> *"Create an API endpoint that accepts credit card payments with Stripe. It should take the amount and save the order to the database"*
+> *"Send a welcome email when a new user signs up"*
 
-OptiDev Agent will:
-1. Create the Edge Function with Stripe integration
-2. Handle the payment processing securely
-3. Save order details to your database
-4. Deploy it to OptiDev Cloud
-
-### Example: Email Notifications
-
-> *"Create a function that sends a welcome email when a new user signs up"*
-
-OptiDev Agent will:
-1. Set up email sending (using a service like Resend or SendGrid)
-2. Create a nicely formatted welcome email template
-3. Connect it to your user registration flow
-
-### Example: External API Integration
-
-> *"Create an endpoint that fetches customer data from our HubSpot account when given a customer email"*
-
-OptiDev Agent will:
-1. Create the function with HubSpot API integration
-2. Handle authentication with your HubSpot API key
-3. Return the customer data in a clean format
+> *"Fetch customer data from HubSpot when given an email"*
 
 ---
 
-## Viewing Functions in the Dashboard
+## The Edge Functions Tab
 
-### The Edge Functions Tab
+Split into two panels: **Functions on the left**, **Secrets on the right** (stacked on mobile).
 
-Go to the **Edge Functions** tab in OptiDev Cloud to see:
+The function panel has two sections:
 
-- **Overview card** - Shows how many functions are in your workspace and how many are deployed
-- **Workspace Functions** - Functions in your project files, ready to deploy
-- **Deployed Functions** - Functions currently running on OptiDev Cloud
+- **Workspace Functions** — code in your project files. Each row shows a **Live** badge (green) if deployed, or **Not deployed** (gray).
+- **Deployed Functions** — what's currently running. Each row shows the version, last-updated date, and a copy-able public URL.
 
-### Function Status Indicators
-
-Each function shows its current status:
-
-| Indicator | Meaning |
-|-----------|---------|
-| Green checkmark with "Deployed" | Running on OptiDev Cloud |
-| Orange warning with "Not deployed" | In your workspace but not yet deployed |
-| "Needs deployment" count | Functions that have changed since last deploy |
+If you don't have any functions yet, click **Create Sample** to generate a working "hello world" you can deploy immediately.
 
 ---
 
-## Deploying Functions
+## Deploying a Function
 
-### From the Dashboard
+Click **Deploy** (or **Redeploy** if you've changed the code) next to a workspace function. Takes a few seconds. Or just ask the agent: *"Deploy my payment function."*
 
-1. Go to the **Edge Functions** tab
-2. Find your function under **Workspace Functions**
-3. Click **Deploy** (or **Redeploy** if updating)
-
-Deployment usually takes a few seconds. You'll see a success message when complete.
-
-### With OptiDev Agent
-
-Just ask OptiDev Agent to deploy:
-
-> *"Deploy my payment function"*
-
-Or deploy all functions at once:
-
-> *"Deploy all my Edge Functions"*
-
-### Automatic Deployment
-
-When you ask OptiDev Agent to create a function, it typically deploys automatically after creating the code.
+When OptiDev Agent creates a function, it usually deploys it automatically right after.
 
 ---
 
-## Testing Functions
+## Viewing Logs
 
-Before connecting a function to your app, test it directly from the dashboard.
+Click **Logs** on any deployed function to jump to the **Logs** tab pre-filtered to that function. You can switch between **Invocations** (per-request details — method, status, duration) and **Console logs**.
 
-### Opening the Test Panel
-
-1. Find your function under **Deployed Functions**
-2. Click the **Test** button
-
-### Making a Test Request
-
-The test panel lets you configure:
-
-- **HTTP Method** - GET, POST, PUT, DELETE, or PATCH
-- **Request Body** - JSON data to send (for POST/PUT requests)
-- **Headers** - Any custom headers your function expects
-- **Query Parameters** - URL parameters like `?name=John`
-
-### Running the Test
-
-1. Configure your request
-2. Click **Send Request**
-3. See the response including:
-   - Status code (200 = success, 400/500 = error)
-   - Response data
-   - Response time
-
-### Example Test
-
-For a payment function, you might test with:
-
-- **Method:** POST
-- **Body:** `{ "amount": 2500, "currency": "usd" }`
-
-The response will show whether the payment would succeed.
+See [Logs](/optidev-cloud/logs) for more.
 
 ---
 
-## Viewing Function Details
+## Deleting a Function
 
-Click **View Details** on any deployed function to see:
-
-### Execution Information
-
-- **Version** - The current deployed version number
-- **Last updated** - When the function was last deployed
-- **Status** - Whether the function is active
-
-### Monitoring Tabs
-
-The details view includes three tabs for monitoring your function. Use the time filter dropdown to view data from the last 15 minutes, 1 hour, 3 hours, or 1 day.
-
-**Overview** - Key metrics at a glance:
-- Total invocations and logs count
-- Average execution time (ms)
-- Success and error counts
-- Success rate percentage
-
-Monitor success rates and execution times to spot performance issues.
-
-**Invocations** - HTTP request history:
-- Timestamp, method, status code, and path for each request
-- Click any row to see full request/response details
-- Color-coded status (green for success, red for errors)
-
-Check status codes to identify failed requests and debug API issues.
-
-**Console Logs** - Function output:
-- All `console.log()`, `console.error()`, etc. from your function
-- Log level indicators (log, info, warn, error, debug)
-- Expandable rows for full message details
-
-Use `console.log()` in your function code to add debug information.
-
-<Note>
-Metrics and logs are retained for a limited time. Check regularly if you need to debug issues.
-</Note>
-
----
-
-## Managing Functions
-
-### Updating a Function
-
-When you modify a function's code:
-
-1. The function appears with a "needs deployment" indicator
-2. Click **Redeploy** to push the changes
-3. The new version goes live immediately
-
-### Deleting a Function
-
-1. Click the **trash icon** next to the deployed function
-2. Confirm the deletion
+Click the **trash icon** on a deployed function row and confirm.
 
 <Warning>
-Deleting a deployed function removes it immediately. Any apps calling that function will get errors. Make sure nothing is using the function before deleting.
+Deletion is immediate. Any app or webhook calling the function will start getting errors. Make sure nothing is using it first.
 </Warning>
-
-### Getting the Function URL
-
-Every deployed function has a unique URL. To use it in your app:
-
-1. Find the function under **Deployed Functions**
-2. Click **Copy URL**
-3. Use this URL in your app to call the function
 
 ---
 
-## Creating Your First Function
+## Secrets
 
-If you don't have any functions yet, the dashboard shows a helpful empty state.
+The right panel of the Edge Functions tab is where you store sensitive values your functions need — API keys, third-party tokens, connection strings. Secrets are encrypted at rest and only available to server-side code, never the browser.
 
-### Quick Start with Sample Function
+### Adding secrets
 
-Click **Create Sample Function** to generate a simple "hello world" function. This gives you:
+The **Add new** form is always visible. Type a name (auto-uppercased, e.g. `STRIPE_SECRET_KEY`), paste the value (use the eye icon to peek), click **Add row** to stage more in the same save, then click **Save**. Names must be `UPPERCASE_WITH_UNDERSCORES_AND_DIGITS` and can't be reused.
 
-- A working function you can deploy immediately
-- Example code structure to learn from
-- A starting point to modify for your needs
+### Deleting a secret
 
-### With OptiDev Agent
+Click the **trash icon** next to a secret and confirm.
 
-Describe what you need:
+<Note>
+Secrets are **write-only**. You can see the name and last-updated date, but not the value. To change a value, delete and re-add.
+</Note>
 
-> *"Create a simple API endpoint that returns the current date and time"*
+<Warning>
+Deleting a secret is immediate. Any function reading it will start failing until you add it back.
+</Warning>
 
-OptiDev Agent will create the function, explain the code, and deploy it for you.
+### Auto-available variables
+
+`SUPABASE_URL` and `SUPABASE_ANON_KEY` are always available inside Edge Functions — no need to add them as secrets. For privileged operations (admin DB access, user management), let OptiDev Agent write the code so you never have to handle those credentials yourself.
+
+### Using a secret
+
+Just reference the name when asking the agent: *"Create a Stripe payment function using my STRIPE_SECRET_KEY secret."* The agent reads it via `Deno.env.get('STRIPE_SECRET_KEY')` so the value stays server-side.
 
 ---
 
 ## Common Use Cases
 
-### Webhook Handlers
-
-> *"Create a function that receives webhooks from Stripe and updates order status in the database"*
-
-### Form Submissions
-
-> *"Create an endpoint that receives contact form submissions and sends them to my email"*
-
-### Data Processing
-
-> *"Create a function that takes a CSV file and imports the data into my products table"*
-
-### Scheduled Tasks
-
-> *"Create a function that runs daily to send reminder emails for upcoming appointments"*
-
-### Third-Party Integrations
-
-> *"Create a function that syncs new customers to my Mailchimp mailing list"*
-
----
-
-## Secrets and API Keys
-
-Many integrations require API keys (like your Stripe secret key). These should never be in your frontend code.
-
-Store your API keys securely in the **Secrets** tab, then ask OptiDev Agent to use them:
-
-> *"Create a Stripe payment function using my STRIPE_SECRET_KEY secret"*
-
-OptiDev Agent will write code that securely accesses your secret without exposing it in your frontend.
-
-[Learn more about Secrets →](/optidev-cloud/secrets)
+- **Webhook handlers** — *"Receive Stripe webhooks and update order status."*
+- **Form submissions** — *"Receive contact form submissions and send them to my email."*
+- **Data processing** — *"Take a CSV upload and import it into the products table."*
+- **Scheduled tasks** — *"Run daily to send appointment reminder emails."*
+- **Third-party sync** — *"Sync new customers to my Mailchimp list."*
 
 ---
 
@@ -271,35 +111,21 @@ OptiDev Agent will write code that securely accesses your secret without exposin
 
 <Accordion title="Technical Reference">
 
-### Function Structure
+### Function file structure
 
-Edge Functions are TypeScript/JavaScript files that run on Deno. Each function lives in:
+Edge Functions are TypeScript/JavaScript on Deno. Each lives at:
 
 ```
 supabase/functions/function-name/index.ts
 ```
 
-### Accessing Secrets
-
-In your function code, access secrets with:
-
-```typescript
-const stripeKey = Deno.env.get('STRIPE_SECRET_KEY')
-```
-
-### CORS Handling
-
-Functions need to handle CORS for browser requests. The sample function includes proper CORS headers.
-
-### Function URL Format
+### Function URL
 
 ```
-https://your-project.supabase.co/functions/v1/function-name
+https://your-project.sb.optidev.ai/functions/v1/function-name
 ```
 
-### Invoking from Your App
-
-The Supabase client can call functions directly:
+### Invoking from your app
 
 ```typescript
 const { data, error } = await supabase.functions.invoke('function-name', {
@@ -307,8 +133,24 @@ const { data, error } = await supabase.functions.invoke('function-name', {
 })
 ```
 
+### Accessing secrets
+
+```typescript
+const stripeKey = Deno.env.get('STRIPE_SECRET_KEY')
+```
+
+Secrets are available immediately after saving — no redeploy needed. All values are AES-256-GCM encrypted at rest, scoped per workspace.
+
 ### Logging
 
-Use `console.log()` in your functions. Logs are viewable in the function details panel.
+`console.log()`, `console.error()`, etc. show up in the Logs tab under Console Logs.
+
+### CORS
+
+The sample function template includes CORS headers. Reuse that pattern for any function called from the browser.
+
+### Naming conventions
+
+Use `UPPERCASE_WITH_UNDERSCORES`. Be descriptive (`STRIPE_SECRET_KEY`, not `SK`) and prefix with the service (`HUBSPOT_API_KEY`).
 
 </Accordion>

@@ -1,0 +1,85 @@
+---
+title: "Logs"
+description: "Inspect requests, errors, and console output from your backend services"
+---
+
+## What is the Logs Tab
+
+The Logs tab shows real-time activity across every part of your OptiDev Cloud backend — useful for debugging failed requests, watching Edge Function output, or confirming that your auth flow is working.
+
+---
+
+## Choosing What to Look At
+
+Two dropdowns at the top of the tab control what you see:
+
+**Source** — pick one service to inspect:
+- **Edge Functions** — your serverless function activity
+- **Authentication** — sign-ups, logins, password resets
+- **Storage** — file uploads, downloads, bucket changes
+- **API Gateway** — all HTTP traffic into your project
+- **Postgres** — database server events
+
+**Time range** — Last 15 minutes, 1 hour, 3 hours, or 24 hours.
+
+Click the refresh icon to pull the latest entries.
+
+---
+
+## Edge Functions: Invocations vs Console Logs
+
+When the source is **Edge Functions**, an extra toggle appears:
+
+- **Invocations** — one row per HTTP request: timestamp, function name, method, status code, path, and duration in milliseconds. Color-coded (green for 2xx, red for 4xx/5xx).
+- **Console logs** — anything your function printed with `console.log`, `console.error`, etc., with the log level shown.
+
+You can also filter to a single function using the function picker. (When you click **Logs** from a deployed function row in the Edge Functions tab, this filter is set for you automatically.)
+
+---
+
+## Reading a Log Entry
+
+Click any row to expand it and see the full metadata — headers, payload, error stack, or whatever the underlying service emitted. Click again to collapse.
+
+For Edge Function invocations, the expanded view gives you the full request and response context, which is the fastest way to debug a failing call.
+
+---
+
+## Common Debugging Workflows
+
+**A function is throwing errors** → Source = Edge Functions, view = Invocations, look for red rows; expand to see the response body.
+
+**A user can't sign in** → Source = Authentication, recent time range; expand entries to see the failure reason.
+
+**A file upload failed** → Source = Storage, look for non-2xx status codes.
+
+**The whole app feels slow** → Source = API Gateway, check duration on recent requests.
+
+<Note>
+Logs are retained for a limited time (typically a few days). For long-term audit history you'll need to forward logs to your own storage.
+</Note>
+
+---
+
+## For Developers
+
+<Accordion title="Technical Reference">
+
+### API endpoints
+
+```http
+GET /api/supabase/projects/:projectId/logs/:service?limit=100
+GET /api/supabase/projects/:projectId/functions/:functionId/invocations
+```
+
+`:service` is one of `api`, `postgres`, `edge-function`, `auth`, `storage`, `realtime`.
+
+### Deep-linking from Edge Functions
+
+The Edge Functions tab passes `?functionSlug=<slug>` when navigating to Logs, which pre-selects that function in the picker.
+
+### Log levels
+
+Console logs surface the standard Deno log levels: `log`, `info`, `warn`, `error`, `debug`.
+
+</Accordion>

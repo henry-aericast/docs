@@ -1,6 +1,6 @@
 ---
-title: "Auth"
-description: "Add user accounts and login to your app"
+title: "Authentication"
+description: "Configure sign-in methods and manage users for your app"
 ---
 
 ## What is Auth
@@ -32,206 +32,135 @@ OptiDev Agent will:
 
 > *"Let users sign in with their Google account"*
 
-OptiDev Agent will:
-1. Set up Google OAuth
-2. Add a "Sign in with Google" button
-3. Handle the authentication flow
+OptiDev Agent will set up Google OAuth, add a "Sign in with Google" button, and handle the flow.
 
 ### Example: Phone Login
 
 > *"Add phone number login with SMS verification codes"*
 
-OptiDev Agent will:
-1. Enable phone authentication
-2. Create a phone number input form
-3. Handle SMS code verification
+OptiDev Agent will enable phone authentication, create a phone-number form, and handle SMS code verification.
 
 ---
 
 ## Sign-In Methods
 
-OptiDev Cloud supports three ways for users to sign in:
+OptiDev Cloud supports three sign-in methods. Each one has its own row at the top of the Authentication tab — click a row to expand its settings.
 
-### Email & Password
-
-The most common option. Users enter their email and create a password. This is enabled by default when you activate OptiDev Cloud.
-
-**Best for:** Most apps where you want users to have full accounts
-
-### Phone (SMS)
-
-Users enter their phone number and receive a one-time code via text message.
-
-**Best for:** Apps where users prefer not to remember passwords, mobile-first apps
-
-### Google
-
-Users click "Sign in with Google" and use their existing Google account.
-
-**Best for:** Quick onboarding, users who prefer not to create new accounts
-
-**Features:**
-- One-click sign-in
-- No new password needed
-- Access to user's name and profile picture
-
----
-
-## Configuring Sign-In Methods
-
-### In the Dashboard
-
-1. Go to the **Auth** tab in OptiDev Cloud
-2. You'll see the three sign-in methods: Email, Phone, Google
-3. Click any method to see its settings and status
-
-Each method shows:
-- **Enabled** badge - Currently active
-- **Disabled** badge - Not available to users
-- Click to configure settings
+| Method | Best for |
+|--------|---------|
+| **Email & password** | Most apps; enabled by default |
+| **Phone (SMS)** | Mobile-first apps; users who prefer not to manage passwords |
+| **Google** | Quick onboarding; users who'd rather not create another account |
 
 ---
 
 ## Email Settings
 
-Click on **Email** in the Auth tab to configure:
+Click **Email** to expand the settings panel. The main controls:
 
-### Enable/Disable
-
-Toggle email authentication on or off for your app.
-
-### Email Confirmation
-
-- **On (recommended):** Users must click a link in their email before accessing your app
-- **Off:** Users can log in immediately after signing up
-
-Email confirmation helps verify real email addresses and reduces spam accounts.
+- **Enable email sign-in** — Master toggle for this method.
+- **Confirm email** — When on, users must click a link in their email before they can use your app. Recommended.
+- **Secure email change** — Requires re-authentication before a user can change their email.
+- **Secure password change** — Requires re-authentication before a user can change their password.
+- **Prevent leaked passwords** — Checks passwords against the HaveIBeenPwned database and blocks ones that have appeared in known breaches.
+- **Minimum password length** — Between 6 and 72 characters (default 6).
+- **Password requirements** — None, letters + digits, mixed case + digits, or mixed case + digits + symbols.
+- **OTP expiration** and **OTP length** — Controls one-time codes used for magic links and password resets.
 
 ---
 
 ## Phone Settings
 
-Click on **Phone** in the Auth tab to configure:
-
-### Enable/Disable
-
-Toggle phone authentication on or off.
+Click **Phone** to expand. OptiDev Cloud sends SMS verification codes through a provider of your choice.
 
 ### SMS Provider
 
-Phone authentication requires an SMS provider to send verification codes. OptiDev Agent can help set this up:
+Pick one from the dropdown:
 
-> *"Set up phone authentication with Twilio"*
+- **Twilio** — needs Account SID, Auth Token, Message Service SID
+- **Twilio Verify** — needs Account SID, Auth Token, Verify Service SID (optional Content SID for WhatsApp)
+- **MessageBird** — needs Access Key and Originator
+- **Textlocal** — needs API Key and Sender
+- **Vonage** — needs API Key, API Secret, and From number
+
+You'll need an account with one of these providers before phone login will work. OptiDev Agent can help wire up the credentials:
+
+> *"Set up phone authentication using Twilio"*
+
+### Other phone controls
+
+- **Phone confirmations** — Require users to verify their phone before signing in.
+- **SMS OTP expiry** and **OTP length** — Tune how long codes are valid and how many digits they have.
+- **SMS template** — Customize the message body; use `{{ .Code }}` as the placeholder for the verification code.
+- **Test phone numbers** — Pre-set `phone=otp` pairs for testing without sending real SMS.
 
 ---
 
 ## Google Settings
 
-Click on **Google** in the Auth tab to configure:
+Click **Google** to expand. To enable Google sign-in you need OAuth credentials from Google Cloud Console.
 
-### Enable/Disable
-
-Toggle Google sign-in on or off.
-
-### Setting Up Google OAuth
-
-To enable Google sign-in, you'll need Google OAuth credentials.
+- **Client ID(s)** — Comma-separated. You can list multiple IDs here for Web OAuth, Android, One Tap, and Chrome extensions all at once.
+- **Client Secret** — From your Google Cloud OAuth client.
+- **Skip nonce checks** — Leave off unless you have a specific reason; nonce checks protect against replay attacks.
+- **Callback URL** — Read-only field shown in the panel. Copy this and paste it into your Google OAuth client's "Authorized redirect URIs" list.
 
 ---
 
-## User Signup Settings
+## General Settings
 
-Control how new users can join your app:
+Below the sign-in methods, three toggles control who can join your app:
 
-### Allow New Users to Sign Up
-
-- **On:** Anyone can create an account
-- **Off:** Only existing users can log in (good for invite-only apps)
-
-### Enable Anonymous Users
-
-- **On:** Users can use your app without creating an account
-- **Off:** Users must sign up to access your app
-
-Anonymous users can later convert to full accounts by adding an email or phone.
-
----
-
-## Managing Your Users
-
-View, create, invite, and delete users in the **Users** tab.
-
-[Learn more about Users →](/optidev-cloud/users)
-
----
-
-## Common Authentication Tasks
-
-### Adding Login to Pages
-
-> *"Make the dashboard only accessible to logged-in users"*
-
-### Creating a Login Page
-
-> *"Create a nice login page with email and Google options"*
-
-### Adding Logout
-
-> *"Add a logout button to the navigation menu"*
-
-### Protecting Content
-
-> *"Only show the admin panel to users with an @mycompany.com email"*
-
-### User Profiles
-
-> *"Let users view and edit their profile information"*
-
-### Password Reset
-
-> *"Add a 'forgot password' link to the login page"*
+- **Allow new signups** — When off, only existing users can log in. Good for invite-only apps.
+- **Anonymous sign-in** — Lets people use your app without creating an account. They can convert to a full account later by adding an email or phone.
+- **Require email confirmation** — A general version of the per-provider email confirmation toggle above.
 
 ---
 
 ## Advanced Settings
 
-Click **Advanced** in the Auth tab to configure:
+Click **Advanced** at the bottom of the configuration section to expose:
 
 ### Site URL
 
-The main URL of your app. Used in email templates for links back to your app.
+The main URL of your app. Used in email templates for links back to your app (e.g. password-reset links).
 
-### Allowed URLs
+### Redirect URLs
 
-A list of URLs where users can be redirected after logging in. Important for security - only add URLs you control.
+A list of URLs users may be redirected to after logging in. Each entry is automatically suffixed with `/**` so any path under that domain is allowed. URLs must use `https://`. Only add domains you control.
 
-Click **Add** to add new URLs. Each URL should start with `https://`.
+---
+
+## Managing Users
+
+The right side of the Authentication tab shows everyone who has signed up.
+
+<img
+  src="/images/optidev-cloud/user/auth.png"
+  alt="Authentication tab with sign-in methods on the left and the user list on the right"
+/>
+
+- **Create** a user manually (email + password, optional phone).
+- **Invite** a user by email so they pick their own password.
+- Click the `…` menu on any user row to send them a **Magic link** (passwordless sign-in email) or **Delete** their account.
+- Click a row to see full details (UUID, last sign-in, verification timestamps, enabled login methods).
+- Search by email, phone, or user ID. List shows 10 per page.
+
+<Warning>
+**Email rate limit:** the built-in email service is capped at **2 emails per hour** (invitations, magic links, password resets). Custom SMTP is planned for a future release.
+</Warning>
 
 ---
 
 ## Security Best Practices
 
-### Use Email Confirmation
-
-Require users to verify their email addresses. This:
-- Ensures you can contact users
-- Reduces fake accounts
-- Helps with password recovery
-
-### Keep Sign-In Options Simple
-
-Don't overwhelm users with too many options. Pick 1-2 methods that make sense for your audience:
-- Business apps: Email + Google
-- Mobile apps: Phone + Google
-- General apps: Email only is often enough
-
-### Protect Sensitive Pages
-
-Always check if users are logged in before showing private content:
+- **Require email confirmation** to verify real addresses and reduce fake accounts.
+- **Keep sign-in options simple.** Pick one or two methods that fit your audience instead of enabling everything.
+- **Use Row Level Security** to make sure users can only access their own data:
 
 > *"Make sure users can only see their own orders"*
 
-OptiDev Agent will set up proper access controls.
+OptiDev Agent will set up the right policies for you.
 
 ---
 
@@ -241,67 +170,29 @@ OptiDev Agent will set up proper access controls.
 
 ### Supabase Auth Client
 
-Check authentication state:
-
 ```typescript
+// Check who's logged in
 const { data: { user } } = await supabase.auth.getUser()
 
-if (user) {
-  console.log('Logged in as:', user.email)
-} else {
-  console.log('Not logged in')
-}
-```
+// Sign up
+await supabase.auth.signUp({ email, password })
 
-### Sign Up
+// Sign in
+await supabase.auth.signInWithPassword({ email, password })
 
-```typescript
-const { data, error } = await supabase.auth.signUp({
-  email: 'user@example.com',
-  password: 'secure-password'
-})
-```
+// Sign in with Google
+await supabase.auth.signInWithOAuth({ provider: 'google' })
 
-### Sign In
+// Sign out
+await supabase.auth.signOut()
 
-```typescript
-const { data, error } = await supabase.auth.signInWithPassword({
-  email: 'user@example.com',
-  password: 'secure-password'
-})
-```
-
-### Sign In with Google
-
-```typescript
-const { data, error } = await supabase.auth.signInWithOAuth({
-  provider: 'google'
-})
-```
-
-### Sign Out
-
-```typescript
-const { error } = await supabase.auth.signOut()
-```
-
-### Auth State Listener
-
-React to login/logout events:
-
-```typescript
+// React to auth changes
 supabase.auth.onAuthStateChange((event, session) => {
-  if (event === 'SIGNED_IN') {
-    console.log('User signed in:', session.user)
-  } else if (event === 'SIGNED_OUT') {
-    console.log('User signed out')
-  }
+  // event: 'SIGNED_IN' | 'SIGNED_OUT' | 'TOKEN_REFRESHED' | ...
 })
 ```
 
 ### Row Level Security
-
-Protect database rows by user:
 
 ```sql
 -- Users can only see their own orders
@@ -309,8 +200,49 @@ CREATE POLICY "Users see own orders" ON orders
   FOR SELECT USING (auth.uid() = user_id);
 ```
 
-Ask OptiDev Agent to set up RLS policies:
+### User management API
 
-> *"Make sure users can only access their own data in the orders table"*
+```http
+GET    /api/supabase/projects/:projectId/auth/users?page=1&perPage=10
+POST   /api/supabase/projects/:projectId/auth/users
+POST   /api/supabase/projects/:projectId/auth/users/invite
+DELETE /api/supabase/projects/:projectId/auth/users/:userId
+```
+
+All endpoints require a Firebase Bearer token.
+
+### User object shape
+
+```typescript
+interface User {
+  id: string;                    // UUID
+  email?: string;
+  phone?: string;
+  created_at: string;            // ISO 8601
+  updated_at: string;
+  last_sign_in_at?: string;
+  email_confirmed_at?: string;
+  phone_confirmed_at?: string;
+  invited_at?: string;
+  app_metadata: { provider: string };  // 'email' | 'phone' | 'google'
+  user_metadata: Record<string, any>;  // Custom fields
+}
+```
+
+### Admin SDK
+
+OptiDev Cloud calls the Supabase JS admin client under the hood:
+
+```typescript
+await supabase.auth.admin.listUsers({ page: 1, perPage: 10 })
+await supabase.auth.admin.createUser({ email, password, email_confirm: true })
+await supabase.auth.admin.deleteUser(userId)
+await supabase.auth.admin.inviteUserByEmail(email, { redirectTo })
+```
+
+### Rate limits
+
+- User listing / creation / deletion: ~60-100 requests per minute
+- **Email sending: 2 per hour** (invites, magic links, password resets) — bring your own SMTP for production volume
 
 </Accordion>

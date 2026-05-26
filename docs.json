@@ -45,10 +45,9 @@
           "optidev-cloud/connection-info",
           "optidev-cloud/database",
           "optidev-cloud/auth",
-          "optidev-cloud/users",
           "optidev-cloud/edge-functions",
-          "optidev-cloud/secrets",
           "optidev-cloud/storage",
+          "optidev-cloud/logs",
           "optidev-cloud/advisors"
         ]
       },
