@@ -131,6 +131,41 @@ A list of URLs users may be redirected to after logging in. Each entry is automa
 
 ---
 
+## Custom SMTP
+
+By default, OptiDev Cloud sends auth emails (invitations, magic links, password resets) through a built-in service capped at **2 emails per hour**. To send more — and from your own branded address — connect your own email provider with **Custom SMTP**.
+
+<Info>
+**You need a domain you own.** Auth emails must be sent from an address on a domain you control (e.g. `noreply@yourcompany.com`). You can't send from your app's default `.optiedge.cc` URL, because you don't control its DNS. If you don't have a domain, the built-in sender (2/hour) is your only option.
+</Info>
+
+### Setting it up (example: Resend)
+
+1. **Verify your domain** with your email provider. In [Resend](https://resend.com), add your domain — it will show you a few **DNS records** to copy into your domain's DNS settings (wherever your domain is registered). Once added, Resend marks the domain **Verified**, usually within a few minutes.
+2. **Create an API key** in the provider.
+3. In the **Authentication** tab, scroll to **Custom SMTP**, turn on **Enable custom SMTP**, and fill in:
+
+| Field | Value (Resend) |
+|-------|----------------|
+| Host | `smtp.resend.com` |
+| Port | `465` |
+| Username | `resend` |
+| Password | your API key |
+| Sender email (From) | `noreply@yourdomain.com` — must be on your **verified** domain |
+| Sender name | Your app or company name |
+| Emails per hour | Raise above the built-in 2 (e.g. 100) |
+| Minimum interval per user | Seconds before another email can go to the same user (default 60) |
+
+4. Click **Save changes**, then send a test invite. Emails now come from your domain.
+
+<Warning>
+The **Sender email must match the domain you verified** with your provider. A mismatch — for example sending from `noreply@send.yourdomain.com` when only `yourdomain.com` is verified — is rejected with a "domain is not verified" error.
+</Warning>
+
+Other providers (SendGrid, Amazon SES, Mailgun, Postmark) work the same way — only the **Host** and **Username** differ. To turn it off, toggle **Enable custom SMTP** off; auth emails revert to the built-in sender.
+
+---
+
 ## Managing Users
 
 The right side of the Authentication tab shows everyone who has signed up.
@@ -147,7 +182,7 @@ The right side of the Authentication tab shows everyone who has signed up.
 - Search by email, phone, or user ID. List shows 10 per page.
 
 <Warning>
-**Email rate limit:** the built-in email service is capped at **2 emails per hour** (invitations, magic links, password resets). Custom SMTP is planned for a future release.
+**Email rate limit:** the built-in email service is capped at **2 emails per hour** (invitations, magic links, password resets). To send more — and from your own branded address — set up [Custom SMTP](#custom-smtp).
 </Warning>
 
 ---
@@ -243,6 +278,6 @@ await supabase.auth.admin.inviteUserByEmail(email, { redirectTo })
 ### Rate limits
 
 - User listing / creation / deletion: ~60-100 requests per minute
-- **Email sending: 2 per hour** (invites, magic links, password resets) — bring your own SMTP for production volume
+- **Email sending: 2 per hour** on the built-in service (invites, magic links, password resets). [Custom SMTP](#custom-smtp) lifts this — set your own **Emails per hour**.
 
 </Accordion>
